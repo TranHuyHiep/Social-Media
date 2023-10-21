@@ -1,8 +1,8 @@
 <?php
     header('Access-Control-Allow-Origin:*');
     header('Content-Type: application/json');
-    include_once('../config/DataBase.php');
-    include_once('../model/Users.php');
+    include_once('../../config/DataBase.php');
+    include_once('../../model/Users.php');
 
     $db = new DataBase();
     $connect = $db->connect();
