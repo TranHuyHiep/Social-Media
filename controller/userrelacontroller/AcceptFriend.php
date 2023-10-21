@@ -13,10 +13,10 @@
 
     $data = json_decode(file_get_contents("php://input"));
 
-    $read = $userRela->addFriend($data->follower, $data->following);
+    $read = $userRela->acceptFriend($data->follower, $data->following);
 
     if($read == true) {
-        print_r('Friend request sent');
+        print_r('Friend Accpet');
     } else {
         print_r('Fail!');
     }

@@ -2,22 +2,22 @@
     header('Access-Control-Allow-Origin:*');
     header('Content-Type: application/json');
     header('Access-Control-Allow-Methods: POST');
-
     include_once('../../config/DataBase.php');
-    include_once('../../model/UserRela.php');
+    include_once('../../model/Messengers.php');
 
     $db = new DataBase();
     $connect = $db->connect();
 
-    $userRela = new UserRela($connect);
+    $message = new Messengers($connect);
 
     $data = json_decode(file_get_contents("php://input"));
 
-    $read = $userRela->addFriend($data->follower, $data->following);
+    $read = $message->sendMessage($data->from, $data->to, $data->content);
 
-    if($read == true) {
-        print_r('Friend request sent');
+    if($read) {
+        print_r("Message Sent");
     } else {
-        print_r('Fail!');
+        print_r("Fail!");
     }
+
 ?>
