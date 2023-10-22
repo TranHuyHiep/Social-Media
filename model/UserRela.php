@@ -59,8 +59,9 @@
         }
 
         public function getById($id) {
-            $query = "SELECT full_name, email, avatar_url
-                        FROM userrelas JOIN users ON users.id = userrelas.follower
+            $query = "SELECT full_name, email, avatar_url, date_of_birth
+                        FROM userrelas JOIN users ON users.id = userrelas.follwing
+                            JOIN userinfo ON userinfo.id = users.id
                         WHERE follower = ? AND status = 2;";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(1, $id, PDO::PARAM_INT); // Assuming id is an integer

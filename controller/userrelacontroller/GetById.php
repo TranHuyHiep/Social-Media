@@ -26,6 +26,7 @@
                 'full_name' => $full_name,
                 'email' => $email,
                 'avatar_url' => $avatar_url,
+                'date_of_birth' => $date_of_birth
             );
             array_push($list['data'], $users);
         }
