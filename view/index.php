@@ -106,7 +106,7 @@
 						<li><a href="timeline-videos.html" title="">Timeline Videos</a></li>
 						<li><a href="timeline-groups.html" title="">Timeline Groups</a></li>
 						<li><a href="timeline-friends.html" title="">Timeline Friends</a></li>
-						<li><a href="timeline-friends2.html" title="">Timeline Friends-2</a></li>
+						<li><a href="timeline-friends2.php" title="">Timeline Friends-2</a></li>
 						<li><a href="about.html" title="">Timeline About</a></li>
 						<li><a href="blog-posts.html" title="">Timeline Blog</a></li>
 						<li><a href="friends-birthday.html" title="">Friends' Birthday</a></li>
@@ -838,7 +838,7 @@
 						<li><a href="timeline-videos.html" title="">Timeline Videos</a></li>
 						<li><a href="timeline-groups.html" title="">Timeline Groups</a></li>
 						<li><a href="timeline-friends.html" title="">Timeline Friends</a></li>
-						<li><a href="timeline-friends2.html" title="">Timeline Friends-2</a></li>
+						<li><a href="timeline-friends2.php" title="">Timeline Friends-2</a></li>
 						<li><a href="about.html" title="">Timeline About</a></li>
 						<li><a href="blog-posts.html" title="">Timeline Blog</a></li>
 						<li><a href="friends-birthday.html" title="">Friends' Birthday</a></li>
@@ -1167,7 +1167,7 @@
 						<li><a href="timeline-videos.html" title="">Timeline Videos</a></li>
 						<li><a href="timeline-groups.html" title="">Timeline Groups</a></li>
 						<li><a href="timeline-friends.html" title="">Timeline Friends</a></li>
-						<li><a href="timeline-friends2.html" title="">Timeline Friends-2</a></li>
+						<li><a href="timeline-friends2.php" title="">Timeline Friends-2</a></li>
 						<li><a href="about.html" title="">Timeline About</a></li>
 						<li><a href="blog-posts.html" title="">Timeline Blog</a></li>
 						<li><a href="friends-birthday.html" title="">Friends' Birthday</a></li>
