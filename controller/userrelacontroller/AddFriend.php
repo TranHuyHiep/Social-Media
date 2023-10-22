@@ -16,8 +16,8 @@
     $read = $userRela->addFriend($data->follower, $data->following);
 
     if($read == true) {
-        print_r('Friend request sent');
+        print_r('Đã gửi lời mời kết bạn');
     } else {
-        print_r('Fail!');
+        print_r('Gửi lời mời kết bạn không thành công');
     }
 ?>

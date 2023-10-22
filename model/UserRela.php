@@ -80,28 +80,4 @@
                 return false;
             }
         }
-
-        public function acceptFriend($follower, $following) {
-            $query = "UPDATE userrelas SET status = 2 WHERE follower = ? and follwing = ?;";
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(1, $follower, PDO::PARAM_INT); // Assuming id is an integer
-            $stmt->bindParam(2, $following, PDO::PARAM_INT); // Assuming id is an integer
-            if($stmt->execute()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        public function deleteFriend($follower, $following) {
-            $query = "DELETE FROM userrelas WHERE follower = ? AND follwing = ?";
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(1, $follower, PDO::PARAM_INT); // Assuming id is an integer
-            $stmt->bindParam(2, $following, PDO::PARAM_INT); // Assuming id is an integer
-            if($stmt->execute()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
     }
