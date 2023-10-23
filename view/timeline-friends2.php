@@ -1625,7 +1625,7 @@
                         <div class="frnd-meta">
                             <div class="frnd-name">
                                 <a href="#" title="">${user.full_name}</a>
-                                <span>Los Angeles, CA</span>
+                                <span>${user.date_of_birth}</span>
                             </div>
                             <a class="send-mesg" href="#" title="">Message</a>
                         </div>
