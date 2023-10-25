@@ -24,7 +24,7 @@
                 'full_name' => $full_name,
                 'email' => $email,
                 'avatar_url' => $avatar_url,
-                'password' => $password
+                // 'password' => $password
             );
             array_push($list['data'], $users);
         }
