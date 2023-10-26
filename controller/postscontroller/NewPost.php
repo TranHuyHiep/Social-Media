@@ -1,14 +1,15 @@
 <?php
     header('Access-Control-Allow-Origin:*');
     header('Content-Type: application/json');
+
     include_once('../../config/DataBase.php');
-    include_once('../../model/Users.php');
+    include_once('../../model/Post.php');
 
     $db = new DataBase();
     $connect = $db->connect();
 
-    $user = new Users($connect);
-    $read = $user->read();
+    $posts = new Posts($connect);
+    $read = $posts->read();
 
     $num = $read->rowCount();
 
@@ -20,14 +21,18 @@
 
             extract($row);
 
-            $users = array(
-                'full_name' => $full_name,
-                'email' => $email,
-                'avatar_url' => $avatar_url,
-                // 'password' => $password
+            $posts = array(
+                'id' => $id,
+                'user_id' => $user_id,
+                'like_count' => $like_count,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at,
+                'content' => $content
+               
             );
-            array_push($list['data'], $users);
+            array_push($list['data'], $posts);
         }
         echo json_encode($list);
     }
+
 ?>
