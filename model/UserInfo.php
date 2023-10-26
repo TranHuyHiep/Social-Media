@@ -73,5 +73,42 @@
         public function setCreatedAt($create_at) {
             $this->create_at = $create_at;
         }
+        public function getUserInfoByUserId($user_id) {
+            $query = "SELECT * FROM UserInfo WHERE id = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+        
+            if ($stmt->rowCount() > 0) {
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            } else {
+                return null; // Trả về null nếu không tìm thấy UserInfo
+            }
+        }
+        public function updateUserInfo($user_id, $study_at, $working_at, $favorites, $other_info, $date_of_birth) {
+            $query = "UPDATE UserInfo
+                      SET study_at = :study_at, working_at = :working_at,
+                          favorites = :favorites, other_info = :other_info, date_of_birth = :date_of_birth
+                      WHERE id = :user_id";
+            
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+           // $stmt->bindParam(':is_active', $is_active, PDO::PARAM_INT);
+            $stmt->bindParam(':study_at', $study_at, PDO::PARAM_STR);
+            $stmt->bindParam(':working_at', $working_at, PDO::PARAM_STR);
+            $stmt->bindParam(':favorites', $favorites, PDO::PARAM_STR);
+            $stmt->bindParam(':other_info', $other_info, PDO::PARAM_STR);
+            $stmt->bindParam(':date_of_birth', $date_of_birth, PDO::PARAM_STR);
+        
+            if ($stmt->execute()) {
+                // Cập nhật thành công
+                return true;
+            } else {
+                // Cập nhật thất bại
+                return false;
+            }
+        }
+        
+        
     }
 ?>

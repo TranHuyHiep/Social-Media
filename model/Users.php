@@ -1,6 +1,5 @@
 <?php
-
-class users {
+class users{
     private $conn;
 
     private $id;
@@ -117,4 +116,63 @@ class users {
         $this->avatar_url = $row['avatar_url'];
         $this->password = $row['password'];
     }
+    private static $user_id;
+
+    public static function setUserId($user_id) {
+        self::$user_id = $user_id;
+    }
+
+    public static function getUserId() {
+        return self::$user_id;
+    }
+
+    public function login($email,$password){
+        $query = "SELECT * FROM users WHERE email = ? AND password = ? LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $email, PDO::PARAM_STR);
+        $stmt->bindParam(2, $password, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt;
+        
+        
+    }
+
+    public function register($full_name, $email, $password, $avatar_url, $date_of_birth)
+{
+    // Check if the email already exists
+    $check_query = "SELECT * FROM Users WHERE email = ?";
+    $stmt_check = $this->conn->prepare($check_query);
+    $stmt_check->bindParam(1, $email, PDO::PARAM_STR);
+    $stmt_check->execute();
+
+    if ($stmt_check->rowCount() > 0) {
+        // Email already exists; handle this case, for example, by returning an error response.
+        $response = array("status" => "error", "message" => "Email already exists.");
+        echo json_encode($response);
+    } else {
+        // Email doesn't exist; proceed with registration
+
+        $query = "INSERT INTO Users (full_name, email, password, avatar_url) VALUES (?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $full_name, PDO::PARAM_STR);
+        $stmt->bindParam(2, $email, PDO::PARAM_STR);
+        $stmt->bindParam(3, $password, PDO::PARAM_STR);
+        $stmt->bindParam(4, $avatar_url, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $user_id = $this->conn->lastInsertId();
+
+        // Insert additional user information into the UserInfo table
+        $insert_userinfo_query = "INSERT INTO UserInfo (id, is_active, study_at, working_at, favorites, other_info, date_of_birth, created_at) VALUES (?, 1, NULL, NULL, NULL, NULL, ?, NOW())";
+        $stmt = $this->conn->prepare($insert_userinfo_query);
+        $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(2, $date_of_birth, PDO::PARAM_STR);
+        $stmt->execute();
+
+        // Registration successful
+        $response = array("status" => "success", "message" => "Registration successful.");
+        echo json_encode($response);
+    }
+}
+
 }
