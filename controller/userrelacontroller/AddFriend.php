@@ -1,7 +1,8 @@
 <?php
     header('Access-Control-Allow-Origin:*');
     header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: POST');
+    header("Access-Control-Allow-Methods: POST");
+    header("Access-Control-Allow-Headers: Content-Type");
 
     include_once('../../config/DataBase.php');
     include_once('../../model/UserRela.php');
@@ -13,11 +14,16 @@
 
     $data = json_decode(file_get_contents("php://input"));
 
-    $read = $userRela->addFriend($data->follower, $data->following);
+    $follower = $data->follower; 
+    $following = $data->following;
+    $read = $userRela->addFriend($follower, $following);
 
-    if($read == true) {
-        print_r('Đã gửi lời mời kết bạn');
+    $list = [];
+    if($read) {
+        $list['message'] = "Sent friend request";
     } else {
-        print_r('Gửi lời mời kết bạn không thành công');
+        $list['message'] = "Failed send friend request";
     }
+
+    echo json_encode($list);
 ?>
