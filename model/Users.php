@@ -117,4 +117,25 @@ class users {
         $this->avatar_url = $row['avatar_url'];
         $this->password = $row['password'];
     }
+
+    public function recommenFriend($id)
+    {
+        $query = "SELECT id, full_name, email, avatar_url
+                    FROM users
+                    WHERE id NOT IN (
+                        SELECT follwing
+                        FROM userrelas
+                        WHERE follower = :id
+                        UNION
+                        SELECT follower
+                        FROM userrelas
+                        WHERE follwing = :id
+                        UNION SELECT :id)
+                        LIMIT 10;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT); // Assuming id is an integer
+        $stmt->execute();
+
+        return $stmt;
+    }
 }
