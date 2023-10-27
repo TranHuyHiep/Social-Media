@@ -1,4 +1,8 @@
-window.onload = getRecommenFriend();
+window.onload = loadData()
+function loadData() {
+    listFriendRequest(1)
+    getRecommenFriend()
+}
 function getRecommenFriend() {
     $.ajax({
         type: 'GET',
@@ -70,8 +74,6 @@ function getRecommenFriend() {
 }
 
 function addFriend(follower, following) {
-    console.log(follower, following);
-   
     var settings = {
         "url": API + "/social-media/controller/userrelacontroller/addfriend.php",
         "method": "POST",
@@ -92,4 +94,35 @@ function addFriend(follower, following) {
         .fail(function (errorThrown) {
             console.error("Lỗi: ", errorThrown);
         });
+}
+
+function listFriendRequest(id) {
+    console.log(id);
+    var settings = {
+        "url": API + "/social-media/controller/userrelacontroller/listfriendrequest.php?id=" + id,
+        "method": "GET"
+    };
+
+    $.ajax(settings)
+        .done(function (response) {
+            let str = response.data.map(function (user) {
+                return `
+                    <li>
+                        <figure><img src="${user.avatar_url}" alt="">
+                        </figure>
+                        <div class="friend-meta">
+                            <h4><a href="time-line.html" title="">${user.full_name}</a></h4>
+                            <a href="#" title="" class="underline">Accept</a>
+                        </div>
+                    </li>
+                `
+            }).join('');
+
+            const targetDiv = document.querySelector('#friend-requests');
+            targetDiv.innerHTML = str;
+        })
+        .fail(function (errorThrown) {
+            console.error("Lỗi: ", errorThrown);
+        });
+    
 }
