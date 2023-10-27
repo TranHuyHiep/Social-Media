@@ -21,9 +21,9 @@ function getRecommenFriend() {
                             <span>1 mutual friend</span>
                             <ul class="add-remove-frnd">
                                 <li class="add-tofrndlist">
-                                    <button onclick="addFriend(1, ${user.id})">Add Friend
+                                    <a onclick="addFriend(1, ${user.id})" title="Add Friend">
                                         <i class="fa fa-user-plus"></i></a>
-                                    </button>
+                                    </a>
                                 </li>
                                 <li class="remove-frnd"><a href="#" title="remove friend"><i
                                             class="fa fa-user-times"></i></a></li>
@@ -73,7 +73,7 @@ function addFriend(follower, following) {
     console.log(follower, following);
    
     var settings = {
-        "url": "http://localhost/social-media/controller/userrelacontroller/addfriend.php",
+        "url": API + "/social-media/controller/userrelacontroller/addfriend.php",
         "method": "POST",
         "headers": {
             "Content-Type": "application/json"
