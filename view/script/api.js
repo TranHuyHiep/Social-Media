@@ -1,1 +1,1 @@
-const API = "http://localhost:1337";
+const API = "http://localhost";
