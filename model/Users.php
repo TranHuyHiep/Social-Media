@@ -196,4 +196,16 @@ class users{
 
         return $stmt;
     }
+
+    public function friendRequest($id)
+    {
+        $query = "SELECT users.id, full_name, email, avatar_url
+                    FROM userrelas JOIN users ON users.id = userrelas.follower
+                    WHERE follwing = :id AND STATUS = 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT); // Assuming id is an integer
+        $stmt->execute();
+
+        return $stmt;
+    }
 }
