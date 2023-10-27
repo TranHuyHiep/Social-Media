@@ -189,6 +189,17 @@
         }
         return false;
     }
+	//update
+	public function updateComments(){
+		$query = "UPDATE comments SET content = :content, created_at = now(), updated_at = now() WHERE id = :id";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindParam(':content', $this->content);
+		$stmt->bindParam(':id', $this->id);
+		if($stmt->execute()) {
+            return true;
+        }
+        return false;
+	}
     //Delete comments post.
     public function removeCommentsPost($id){
         $query = "DELETE FROM comments WHERE id = ?";
@@ -199,6 +210,21 @@
         }
         return false;
     }
+	// Add comments vao comments
+	public function AddNewCommentsInCommnets(){
+		$query = "INSERT INTO comments(user_id,post_id,parent_comment_id,content,created_at,like_count) VALUES (:user_id,:post_id,:parent_comment_id,:content,now(),0)";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindParam(':user_id', $this->user_id);
+		$stmt->bindParam(':post_id', $this->post_id);
+		$stmt->bindParam(':parent_comment_id', $this->parent_comment_id);
+		$stmt->bindParam(':content', $this->content);
+		if($stmt->execute()) {
+            return true;
+        }
+        return false;
+	}
+	// Update Comments.
+
 
 }
 
