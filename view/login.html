@@ -77,19 +77,60 @@
                                     <i class="fa fa-key"></i>login
                                     <span>sign in now and meet the awesome Friends around the world.</span>
                                 </div>
-                                <form class="we-form" method="post" action="../controller/usercontroller/login_api.php?action=login">
-                                    <input type="text" placeholder="Email" name="email">
-                                    <input type="password" placeholder="Password" name="password">
+                                <form class="we-form">
+                                    <input type="text" placeholder="Email" name="email" id="email">
+                                    <input type="password" placeholder="Password" name="password" id="password">
                                     <input type="checkbox"><label>remember me</label>
-                                    <button type="submit" data-ripple="">sign in</button>
+                                    <button type="submit" data-ripple="" onclick="login()">sign in</button>
                                     <a class="forgot underline" href="#" title="">forgot password?</a>
                                 </form>
+                                <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+    function login() {
+      var data = {
+        email: $("#email").val(),
+        password: $("#password").val()
+      };
+
+      $.ajax({
+        type: "POST",
+        url: "http://localhost:81/Social-Media/controller/loginscontroller/Login.php?email=" + data.email + "&password=" + data.password,
+        
+
+        
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            if (response.status === "success") {
+                    // Đăng nhập thành công, bạn có thể thực hiện hành động phù hợp ở đây
+                    console.log("Đăng nhập thành công.");
+                    window.location.href = "../view/index.html"
+                } else {
+                    // Đăng nhập không thành công, hiển thị thông báo lỗi
+                    console.log("Đăng nhập không thành công: " + response.message);
+                }
+        },
+        error: function (error) {
+          alert("ko")
+          console.log(error);
+        }
+      });
+    }
+  </script>
                                 
+
                                 <a class="with-smedia facebook" href="#" title="" data-ripple=""><i class="fa fa-facebook"></i></a>
                                 <a class="with-smedia twitter" href="#" title="" data-ripple=""><i class="fa fa-twitter"></i></a>
 								<a class="with-smedia instagram" href="#" title="" data-ripple=""><i class="fa fa-instagram"></i></a>
 								<a class="with-smedia google" href="#" title="" data-ripple=""><i class="fa fa-google-plus"></i></a>
-                                <span>don't have an account? <a class="we-account underline" href="register.php" title="">register now</a></span>
+                                <span>don't have an account? <a class="we-account underline" href="register.html" title="">register now</a></span>
                             </div>
                         </div>
                         
