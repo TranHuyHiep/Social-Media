@@ -1,4 +1,8 @@
-window.onload = getRecommenFriend();
+window.onload = loadData()
+function loadData() {
+    listFriendRequest(1)
+    getRecommenFriend()
+}
 function getRecommenFriend() {
     $.ajax({
         type: 'GET',
@@ -9,7 +13,8 @@ function getRecommenFriend() {
         success: function (response) {
             var numFriend = 0;
             if (response.data == null) {
-
+                const targetDiv = document.querySelector('#recomment-friends');
+                targetDiv.innerHTML = "No recommend friends";
             } else {
                 numFriend = response.data.length;
                 let str = response.data.map(function (user) {
@@ -21,9 +26,9 @@ function getRecommenFriend() {
                             <span>1 mutual friend</span>
                             <ul class="add-remove-frnd">
                                 <li class="add-tofrndlist">
-                                    <button onclick="addFriend(1, ${user.id})">Add Friend
+                                    <a onclick="addFriend(1, ${user.id})" title="Add Friend">
                                         <i class="fa fa-user-plus"></i></a>
-                                    </button>
+                                    </a>
                                 </li>
                                 <li class="remove-frnd"><a href="#" title="remove friend"><i
                                             class="fa fa-user-times"></i></a></li>
@@ -65,15 +70,18 @@ function getRecommenFriend() {
                     }
                 });
             }
+        },
+        error: function (errorThrown) {
+            console.error("Lỗi getRecommenFriend: ", errorThrown);
+            const targetDiv = document.querySelector('#recomment-friends');
+            targetDiv.innerHTML = "No recommend friends";
         }
     });
 }
 
 function addFriend(follower, following) {
-    console.log(follower, following);
-   
     var settings = {
-        "url": "http://localhost/social-media/controller/userrelacontroller/addfriend.php",
+        "url": API + "/social-media/controller/userrelacontroller/addfriend.php",
         "method": "POST",
         "headers": {
             "Content-Type": "application/json"
@@ -90,6 +98,93 @@ function addFriend(follower, following) {
             getRecommenFriend();
         })
         .fail(function (errorThrown) {
+            console.error("Lỗi addFriend: ", errorThrown);
+            getRecommenFriend();
+        });
+}
+
+function listFriendRequest(id) {
+    var settings = {
+        "url": API + "/social-media/controller/userrelacontroller/listfriendrequest.php?id=" + id,
+        "method": "GET"
+    };
+    const targetDiv = document.querySelector('#friend-requests');
+
+    $.ajax(settings)
+        .done(function (response) {
+            if(response.data == null) {
+                targetDiv.innerHTML = "No Friend request";
+            } else {
+                let str = response.data.map(function (user) {
+                    return `
+                        <li>
+                            <figure><img src="${user.avatar_url}" alt="">
+                            </figure>
+                            <div class="friend-meta">
+                                <h4><a href="time-line.html" title="">${user.full_name}</a></h4>
+                                <a href="#" title="" class="underline" onclick="acceptFriend(${user.id}, 1)">Accept</a>
+                                <a href="#" title="" class="underline" onclick="rejectFriend(${user.id}, 1)">Reject</a>
+                            </div>
+                        </li>
+                    `
+                }).join('');
+                targetDiv.innerHTML = str;
+            }
+        })
+        .fail(function (errorThrown) {
+            console.error("Lỗi: listFriendRequest", errorThrown);
+            targetDiv.innerHTML = "No Friend request";
+        });
+}
+
+function acceptFriend(follower, following) {
+    event.preventDefault();
+
+    var settings = {
+        "url": API + "/social-media/controller/userrelacontroller/acceptfriend.php",
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+            "follower": follower,
+            "following": following
+        }),
+    };
+
+    $.ajax(settings)
+        .done(function (response) {
+            alert("Accept Friend");
+            loadData();
+        })
+        .fail(function (errorThrown) {
             console.error("Lỗi: ", errorThrown);
+            loadData();
+        });
+}
+
+function rejectFriend(follower, following) {
+    event.preventDefault();
+
+    var settings = {
+        "url": API + "/social-media/controller/userrelacontroller/rejectfriend.php",
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+            "follower": follower,
+            "following": following
+        }),
+    };
+
+    $.ajax(settings)
+        .done(function (response) {
+            alert("Reject friend request");
+            loadData();
+        })
+        .fail(function (errorThrown) {
+            console.error("Lỗi: rejectFriend", errorThrown);
+            loadData();
         });
 }

@@ -4,19 +4,19 @@
     header('Access-Control-Allow-Methods: POST');
 
     include_once('../../config/DataBase.php');
-    include_once('../../model/UserRela.php');
+    include_once('../../model/Likes.php');
 
     $db = new DataBase();
     $connect = $db->connect();
 
-    $userRela = new UserRela($connect);
+    $likes = new Likes($connect);
 
     $data = json_decode(file_get_contents("php://input"));
 
-    $read = $userRela->deleteFriend($data->follower, $data->following);
+    $read = $likes->addMewLikeByComments($data->user_id, $data->comments_id);
 
     if($read == true) {
-        print_r('Successful delete friend');
+        print_r('Add new likes comment ');
     } else {
         print_r('Fail!');
     }

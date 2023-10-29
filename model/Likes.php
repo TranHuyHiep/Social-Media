@@ -45,7 +45,26 @@
         }
         return false;
     }
-
+	// add new like comments
+	public function addMewLikeByComments($id_users,$comments_id){
+		$query = "INSERT INTO likes(user_id, comment_id) VALUE(:id_users,:comments_id)";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindParam(":id_users", $id_users, PDO::PARAM_INT); // Assuming id is an integer
+        $stmt->bindParam(":comments_id", $comments_id, PDO::PARAM_INT); // Assuming id is an integer
+		if($stmt->execute()) {
+            return true;
+        }
+        return false;
+	}
+	public function removeLikeComment($id_users, $comment_id){
+		$query = "DELETE FROM likes WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $id_users, PDO::PARAM_INT);
+        if($stmt->execute()) {
+            return true;
+        }
+        return false;
+	}
     //delete likes
     public function removeNewLikes($id){
         $query = "DELETE FROM likes WHERE id = ?";
