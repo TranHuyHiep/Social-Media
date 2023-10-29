@@ -116,10 +116,6 @@ class users{
         $this->avatar_url = $row['avatar_url'];
         $this->password = $row['password'];
     }
-<<<<<<< HEAD
-//<<<<<<< HEAD
-    
-=======
     private static $user_id;
 
     public static function setUserId($user_id) {
@@ -130,7 +126,6 @@ class users{
         return self::$user_id;
     }
 
->>>>>>> ae7b296e21b1f479d0026690d29e2d1bbd829a01
     public function login($email,$password){
         $query = "SELECT * FROM users WHERE email = ? AND password = ? LIMIT 1";
         $stmt = $this->conn->prepare($query);
