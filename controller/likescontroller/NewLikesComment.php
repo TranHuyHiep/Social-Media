@@ -15,9 +15,11 @@
 
     $read = $likes->addMewLikeByComments($data->user_id, $data->comments_id);
 
-    if($read == true) {
-        print_r('Add new likes comment ');
+    $list = [];
+    if($read) {
+        $list['message'] = "Add new Like comment";
     } else {
-        print_r('Fail!');
+        $list['message'] = "Failed ";
     }
+    echo json_encode($list);
 ?>

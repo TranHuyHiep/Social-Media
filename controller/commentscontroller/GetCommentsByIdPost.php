@@ -26,6 +26,7 @@
                 'full_name' => $full_name,
                 'content' => $content,
                 'post_id' => $post_id,
+                'like_count' =>$like_count
                 
             );
             array_push($list['data'], $mess);
