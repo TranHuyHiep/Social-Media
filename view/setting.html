@@ -1283,7 +1283,7 @@
 										<div class="col-lg-2 col-md-3">
 											<div class="profile-author">
 												<div class="profile-author-thumb">
-													<img alt="author" src="images/resources/author.jpg">
+													<img alt="author" src="images/anhnen.jpg" id="avatar">
 													<div class="edit-dp">
 														<label class="fileContainer">
 															<i class="fa fa-camera"></i>
@@ -1291,11 +1291,35 @@
 														</label>
 													</div>
 												</div>
-													
 												<div class="author-content">
-													<a class="h4 author-name" href="about.html">Jack Carter</a>
-													<div class="country">Ontario, CA</div>
+													<h4 class="author-name" id="full_name"><a href="about.html">Jack Carter</a></h4>
 												</div>
+												
+												<script>
+													$(document).ready(function () {
+														// Gọi API để lấy thông tin người dùng
+														$.ajax({
+															type: "GET",
+															url: "http://localhost:81/Social-Media/controller/usercontroller/GetUserByID.php", // Thay thế bằng URL API thực tế
+															dataType: "json",
+															success: function (response) {
+																if (response.status === "success") {
+																	// Cập nhật thông tin người dùng trên trang web
+																	var userInfo = response;
+																	$("#full_name").text(userInfo.full_name);
+																	$("#avatar").attr("src", "images/"+userInfo.avatar_url);
+																} else {
+																	alert("Không tìm thấy thông tin người dùng");
+																}
+															},
+															error: function (error) {
+																console.log("Lỗi: " + JSON.stringify(error));
+																alert("Đã xảy ra lỗi khi gọi API");
+															}
+														});
+													});
+												</script>
+												
 											</div>
 										</div>
 										<div class="col-lg-10 col-md-9">

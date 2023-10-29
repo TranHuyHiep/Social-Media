@@ -116,16 +116,8 @@ class users{
         $this->avatar_url = $row['avatar_url'];
         $this->password = $row['password'];
     }
-    private static $user_id;
-
-    public static function setUserId($user_id) {
-        self::$user_id = $user_id;
-    }
-
-    public static function getUserId() {
-        return self::$user_id;
-    }
-
+//<<<<<<< HEAD
+    
     public function login($email,$password){
         $query = "SELECT * FROM users WHERE email = ? AND password = ? LIMIT 1";
         $stmt = $this->conn->prepare($query);
@@ -138,7 +130,7 @@ class users{
     }
 
     public function register($full_name, $email, $password, $avatar_url, $date_of_birth)
-{
+    {
     // Check if the email already exists
     $check_query = "SELECT * FROM Users WHERE email = ?";
     $stmt_check = $this->conn->prepare($check_query);
@@ -174,5 +166,40 @@ class users{
         echo json_encode($response);
     }
 }
+public function getUserByUserId($user_id) {
+    $query = "SELECT * FROM Users WHERE id = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt;
+    // if ($stmt->rowCount() > 0) {
+    //     return $stmt->fetch(PDO::FETCH_ASSOC);
+    // } else {
+    //     return null; // Trả về null nếu không tìm thấy UserInfo
+    // }
+}
 
+//=======
+
+    public function recommenFriend($id)
+    {
+        $query = "SELECT id, full_name, email, avatar_url
+                    FROM users
+                    WHERE id NOT IN (
+                        SELECT follwing
+                        FROM userrelas
+                        WHERE follower = :id
+                        UNION
+                        SELECT follower
+                        FROM userrelas
+                        WHERE follwing = :id
+                        UNION SELECT :id)
+                        LIMIT 10;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT); // Assuming id is an integer
+        $stmt->execute();
+
+        return $stmt;
+    }
+//>>>>>>> origin/develop
 }
