@@ -138,7 +138,7 @@ class users{
     }
 
     public function register($full_name, $email, $password, $avatar_url, $date_of_birth)
-{
+    {
     // Check if the email already exists
     $check_query = "SELECT * FROM Users WHERE email = ?";
     $stmt_check = $this->conn->prepare($check_query);
@@ -173,6 +173,18 @@ class users{
         $response = array("status" => "success", "message" => "Registration successful.");
         echo json_encode($response);
     }
+}
+public function getUserByUserId($user_id) {
+    $query = "SELECT * FROM Users WHERE id = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt;
+    // if ($stmt->rowCount() > 0) {
+    //     return $stmt->fetch(PDO::FETCH_ASSOC);
+    // } else {
+    //     return null; // Trả về null nếu không tìm thấy UserInfo
+    // }
 }
 
 

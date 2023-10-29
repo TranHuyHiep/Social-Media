@@ -16,7 +16,13 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/color.css">
     <link rel="stylesheet" href="css/responsive.css">
-
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<style>
+		#avatar {
+			width: 80px;
+			height: auto;
+		}
+	</style>
 </head>
 <body>
 <div class="wavy-wraper">
@@ -764,8 +770,8 @@
 				</li>
 			</ul>
 			<div class="user-img">
-				<h5>Jack Carter</h5>
-				<img src="images/resources/admin.jpg" alt="">
+				<h5 id="full_name">Jack Carter</h5>
+				<img src="images/resources/admin.jpg" alt="" id="avatar">
 				<span class="status f-online"></span>
 				<div class="user-setting">
 					<span class="seting-title">Chat setting <a href="#" title="">see all</a></span>
@@ -784,6 +790,30 @@
 					</ul>
 				</div>
 			</div>
+			<script>
+				$(document).ready(function () {
+					// Gọi API để lấy thông tin người dùng
+					$.ajax({
+						type: "GET",
+						url: "http://localhost:81/Social-Media/controller/usercontroller/GetUserByID.php", // Thay thế bằng URL API thực tế
+						dataType: "json",
+						success: function (response) {
+							if (response.status === "success") {
+								// Cập nhật thông tin người dùng trên trang web
+								var userInfo = response;
+								$("#full_name").text(userInfo.full_name);
+								$("#avatar").attr("src", "images/"+userInfo.avatar_url);
+							} else {
+								alert("Không tìm thấy thông tin người dùng");
+							}
+						},
+						error: function (error) {
+							console.log("Lỗi: " + JSON.stringify(error));
+							alert("Đã xảy ra lỗi khi gọi API");
+						}
+					});
+				});
+			</script>
 			<span class="ti-settings main-menu" data-ripple=""></span>
 		</div>
 		<nav>

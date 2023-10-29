@@ -18,26 +18,44 @@ $users = new Users($conn);
 $data = json_decode(file_get_contents("php://input"));
 
 // Đảm bảo bạn nhận đủ dữ liệu cần thiết
-
-    // Lấy dữ liệu từ yêu cầu POST
-    $full_name = isset($_POST['full_name']) ? $_POST['full_name'] : die();
+$full_name = isset($_POST['full_name']) ? $_POST['full_name'] : die();
 $email = isset($_POST['email']) ? $_POST['email'] : die();
 $password = isset($_POST['password']) ? $_POST['password'] : die();
-$avatar_url = isset($_POST['avatar_url']) ? $_POST['avatar_url'] : null;
 $date_of_birth = isset($_POST['date_of_birth']) ? $_POST['date_of_birth'] : null;
 
-        $read = $users->register($full_name, $email, $password, $avatar_url, $date_of_birth);
+// Xử lý tệp hình ảnh
+$target_directory = "../../view/images/"; // Thư mục lưu trữ hình ảnh
+$avatar_url = null;
 
-        if ($read) {
-          
-            $response = array(
-                "status" => "success",
-                "user_id" => $row["id"],
-                "full_name" => $row["full_name"],
-                "avatar_url" => $row["avatar_url"]
-            );
-            echo json_encode($response);
-        }
+if (isset($_FILES['avatar_url'])) {
+    $target_file = $target_directory . basename($_FILES["avatar_url"]["name"]);
+
+    if (move_uploaded_file($_FILES["avatar_url"]["tmp_name"], $target_file)) {
+       $avatar_url = $_FILES["avatar_url"]["name"];
        
+    }
+}
 
+// Kiểm tra xem có di chuyển tệp thành công hay không
+if ($avatar_url !== null) {
+    // Gọi hàm đăng ký và truyền đường dẫn hình ảnh vào
+    $result = $users->register($full_name, $email, $password, $avatar_url, $date_of_birth);
+
+    if ($result) {
+        $response = array(
+            "status" => "success",
+            "message" => "Đăng ký thành công"
+        );
+        echo json_encode($response);
+    }
+} 
+// else {
+//     $response = array(
+//         "status" => "error",
+//         "message" => "Lỗi khi tải lên hình ảnh"
+//     );
+//     echo json_encode($response);
+// }
 ?>
+
+
