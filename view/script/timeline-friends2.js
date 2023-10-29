@@ -24,7 +24,7 @@ function loadData() {
                                 </ul>
                             </div>
                             <figure>
-                                <img src="${user.avatar_url}" alt="">
+                                <img src="${user.avatar_url}" alt="" style="height: 84px; width: 84px;">
                             </figure>
 
                             <div class="frnd-meta">
