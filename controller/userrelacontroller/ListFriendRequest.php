@@ -1,6 +1,7 @@
 <?php
     header('Access-Control-Allow-Origin:*');
     header('Content-Type: application/json');
+    header("Access-Control-Allow-Headers: Content-Type");
     include_once('../../config/DataBase.php');
     include_once('../../model/Users.php');
 
@@ -13,8 +14,8 @@
 
     $num = $read->rowCount();
 
+    $list = [];
     if($num > 0) {
-        $list = [];
         $list['data'] = [];
 
         while($row = $read->fetch(PDO::FETCH_ASSOC)) {
@@ -29,6 +30,9 @@
             );
             array_push($list['data'], $users);
         }
-        echo json_encode($list);
+        $list['message'] = "You have $num friend request";
+    } else {
+        $list['message'] = "You don't have friend request";
     }
+    echo json_encode($list);
 ?>

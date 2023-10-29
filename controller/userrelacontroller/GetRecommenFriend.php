@@ -30,5 +30,8 @@
             array_push($list['data'], $users);
         }
         echo json_encode($list);
+    } else {
+        $list['data'] = [];
+        echo json_encode($list);
     }
 ?>
