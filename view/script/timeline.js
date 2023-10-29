@@ -13,7 +13,8 @@ function getRecommenFriend() {
         success: function (response) {
             var numFriend = 0;
             if (response.data == null) {
-
+                const targetDiv = document.querySelector('#recomment-friends');
+                targetDiv.innerHTML = "No recommend friends";
             } else {
                 numFriend = response.data.length;
                 let str = response.data.map(function (user) {
@@ -69,6 +70,11 @@ function getRecommenFriend() {
                     }
                 });
             }
+        },
+        error: function (errorThrown) {
+            console.error("Lỗi getRecommenFriend: ", errorThrown);
+            const targetDiv = document.querySelector('#recomment-friends');
+            targetDiv.innerHTML = "No recommend friends";
         }
     });
 }
@@ -92,37 +98,93 @@ function addFriend(follower, following) {
             getRecommenFriend();
         })
         .fail(function (errorThrown) {
-            console.error("Lỗi: ", errorThrown);
+            console.error("Lỗi addFriend: ", errorThrown);
+            getRecommenFriend();
         });
 }
 
 function listFriendRequest(id) {
-    console.log(id);
     var settings = {
         "url": API + "/social-media/controller/userrelacontroller/listfriendrequest.php?id=" + id,
         "method": "GET"
     };
+    const targetDiv = document.querySelector('#friend-requests');
 
     $.ajax(settings)
         .done(function (response) {
-            let str = response.data.map(function (user) {
-                return `
-                    <li>
-                        <figure><img src="${user.avatar_url}" alt="">
-                        </figure>
-                        <div class="friend-meta">
-                            <h4><a href="time-line.html" title="">${user.full_name}</a></h4>
-                            <a href="#" title="" class="underline">Accept</a>
-                        </div>
-                    </li>
-                `
-            }).join('');
+            if(response.data == null) {
+                targetDiv.innerHTML = "No Friend request";
+            } else {
+                let str = response.data.map(function (user) {
+                    return `
+                        <li>
+                            <figure><img src="${user.avatar_url}" alt="">
+                            </figure>
+                            <div class="friend-meta">
+                                <h4><a href="time-line.html" title="">${user.full_name}</a></h4>
+                                <a href="#" title="" class="underline" onclick="acceptFriend(${user.id}, 1)">Accept</a>
+                                <a href="#" title="" class="underline" onclick="rejectFriend(${user.id}, 1)">Reject</a>
+                            </div>
+                        </li>
+                    `
+                }).join('');
+                targetDiv.innerHTML = str;
+            }
+        })
+        .fail(function (errorThrown) {
+            console.error("Lỗi: listFriendRequest", errorThrown);
+            targetDiv.innerHTML = "No Friend request";
+        });
+}
 
-            const targetDiv = document.querySelector('#friend-requests');
-            targetDiv.innerHTML = str;
+function acceptFriend(follower, following) {
+    event.preventDefault();
+
+    var settings = {
+        "url": API + "/social-media/controller/userrelacontroller/acceptfriend.php",
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+            "follower": follower,
+            "following": following
+        }),
+    };
+
+    $.ajax(settings)
+        .done(function (response) {
+            alert("Accept Friend");
+            loadData();
         })
         .fail(function (errorThrown) {
             console.error("Lỗi: ", errorThrown);
+            loadData();
         });
-    
+}
+
+function rejectFriend(follower, following) {
+    event.preventDefault();
+
+    var settings = {
+        "url": API + "/social-media/controller/userrelacontroller/rejectfriend.php",
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+            "follower": follower,
+            "following": following
+        }),
+    };
+
+    $.ajax(settings)
+        .done(function (response) {
+            alert("Reject friend request");
+            loadData();
+        })
+        .fail(function (errorThrown) {
+            console.error("Lỗi: rejectFriend", errorThrown);
+            loadData();
+        });
 }
