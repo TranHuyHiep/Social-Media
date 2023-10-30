@@ -1,23 +1,27 @@
 <?php
     header('Access-Control-Allow-Origin:*');
     header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: POST');
+    header("Access-Control-Allow-Methods: POST");
+    header("Access-Control-Allow-Headers: Content-Type");
 
     include_once('../../config/DataBase.php');
     include_once('../../model/UserRela.php');
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $db = new DataBase();
+        $connect = $db->connect();
 
-    $db = new DataBase();
-    $connect = $db->connect();
+        $userRela = new UserRela($connect);
 
-    $userRela = new UserRela($connect);
+        $data = json_decode(file_get_contents("php://input"));
 
-    $data = json_decode(file_get_contents("php://input"));
+        $read = $userRela->acceptFriend($data->follower, $data->following);
 
-    $read = $userRela->acceptFriend($data->follower, $data->following);
-
-    if($read == true) {
-        print_r('Friend Accpet');
-    } else {
-        print_r('Fail!');
+        $list['message'] = [];
+        if($read == true) {
+            $list['message'] = 'Friend Accpet';
+        } else {
+            $list['message'] = 'Fail!';
+        }
+        echo json_encode($list);
     }
 ?>

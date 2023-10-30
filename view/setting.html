@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/color.css">
     <link rel="stylesheet" href="css/responsive.css">
-
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div class="wavy-wraper">
@@ -1283,7 +1283,7 @@
 										<div class="col-lg-2 col-md-3">
 											<div class="profile-author">
 												<div class="profile-author-thumb">
-													<img alt="author" src="images/resources/author.jpg">
+													<img alt="author" src="images/anhnen.jpg" id="avatar">
 													<div class="edit-dp">
 														<label class="fileContainer">
 															<i class="fa fa-camera"></i>
@@ -1291,11 +1291,35 @@
 														</label>
 													</div>
 												</div>
-													
 												<div class="author-content">
-													<a class="h4 author-name" href="about.html">Jack Carter</a>
-													<div class="country">Ontario, CA</div>
+													<h4 class="author-name" id="full_name"><a href="about.html">Jack Carter</a></h4>
 												</div>
+												
+												<script>
+													$(document).ready(function () {
+														// Gọi API để lấy thông tin người dùng
+														$.ajax({
+															type: "GET",
+															url: "http://localhost:81/Social-Media/controller/usercontroller/GetUserByID.php", // Thay thế bằng URL API thực tế
+															dataType: "json",
+															success: function (response) {
+																if (response.status === "success") {
+																	// Cập nhật thông tin người dùng trên trang web
+																	var userInfo = response;
+																	$("#full_name").text(userInfo.full_name);
+																	$("#avatar").attr("src", "images/"+userInfo.avatar_url);
+																} else {
+																	alert("Không tìm thấy thông tin người dùng");
+																}
+															},
+															error: function (error) {
+																console.log("Lỗi: " + JSON.stringify(error));
+																alert("Đã xảy ra lỗi khi gọi API");
+															}
+														});
+													});
+												</script>
+												
 											</div>
 										</div>
 										<div class="col-lg-10 col-md-9">
@@ -1454,34 +1478,128 @@
 															</div>
 														</div>
 													</div>
-													<div class="stg-form-area">
-														<form method="post" class="c-form" action="../controller/usercontroller/login_api.php?action=updateuserinfo">
-															<div>
+													<div class="stg-form-area" id="userProfileFormContainer">
+														<form method="post" class="c-form" >
+															<!-- <div>
 																<label>FullName</label>
 																<input type="text"  name="full_name">
-															</div>
+															</div> -->
 															<div>
 																<label>Trường học</label>
-																<input type="text"  name="study_at">
+																<input type="text"  name="study_at" id ="study_at">
 															</div>
 															<div>
 																<label>Làm việc tại</label>
-																<input type="text"  name="working_at">
+																<input type="text"  name="working_at" id ="working_at">
 															</div>
 															<div>
 																<label>Sở thích</label>
-																<input type="text"  name="favorites">
+																<input type="text"  name="favorites" id ="favorites">
+															</div>
+															<div>
+																<label>khác</label>
+																<input type="text"  name="other_info" id ="other_info">
 															</div>
 															<div>
 																<label>Ngày sinh</label>
-																<input type="date"  name="date_of_birth">
+																<input type="date"  name="date_of_birth" id ="date_of_birth">
 															</div>
 															<div>
 																<button type="submit" data-ripple="">Cancel</button>
-																<button type="submit" data-ripple="">Save</button>
+																<button type="submit" data-ripple="" id="saveButton">Save</button>
 															</div>
 														</form>
 													</div>
+													<script>
+
+$(document).ready(function() {
+    // Sử dụng Ajax để gửi yêu cầu để lấy thông tin người dùng từ API
+    $.ajax({
+        url: 'http://localhost:81/Social-Media/controller/usercontroller/GetUserInfoByUserId.php',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            // Kiểm tra xem yêu cầu Ajax đã thành công hay không
+            if (data.status === "error") {
+                console.log("Không thể lấy thông tin người dùng.");
+            } else {
+                // Điền dữ liệu từ API vào các trường form
+                $("#study_at").val(data.study_at);
+                $("#working_at").val(data.working_at);
+                $("#favorites").val(data.favorites);
+                $("#other_info").val(data.other_info);
+                $("#date_of_birth").val(data.date_of_birth);
+            }
+        },
+        error: function() {
+            console.log("Lỗi trong quá trình gửi yêu cầu Ajax.");
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+													</script>
+
+
+<script>
+$(document).ready(function() {
+    // Gán sự kiện click vào nút "Save"
+    $("#saveButton").click(function() {
+        // Lấy dữ liệu từ các trường input
+        var study_at = $("#study_at").val();
+        var working_at = $("#working_at").val();
+        var favorites = $("#favorites").val();
+        var other_info = $("#other_info").val();
+        var date_of_birth = $("#date_of_birth").val();
+
+        // Gửi yêu cầu AJAX để cập nhật thông tin người dùng
+        $.ajax({
+            url: 'http://localhost:81/Social-Media/controller/usercontroller/UpdateUserInfo.php', // Thay thế URL_API_CUA_BAN bằng URL của API cập nhật thông tin
+            method: 'POST',
+            data: {
+                study_at: study_at,
+                working_at: working_at,
+                favorites: favorites,
+                other_info: other_info,
+                date_of_birth: date_of_birth
+            },
+            dataType: 'json',
+            success: function(data) {
+                if (data.status === "success") {
+                    alert("Thông tin đã được cập nhật thành công.");
+                } else {
+                    alert("Có lỗi xảy ra khi cập nhật thông tin.");
+                }
+            },
+            error: function() {
+                alert("Lỗi trong quá trình gửi yêu cầu AJAX.");
+            }
+        });
+    });
+});
+</script>
 												</div><!-- edit profile -->
 												<div class="tab-pane fade" id="notifi" role="tabpanel">
 													<div class="set-title">

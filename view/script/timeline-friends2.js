@@ -1,14 +1,13 @@
-	import { API } from './api.js';
-
+function loadData() {
     $.ajax({
         type: 'GET',
         url: API + '/social-media/controller/userrelacontroller/getbyid.php?id=1',
-        headers:{
+        headers: {
             // 'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBWZXIiOiIwLjAuMCIsImV4cCI6NDcyNjM4OTEyMiwibG9jYWxlIjoiIiwibWFzdGVyVmVyIjoiIiwicGxhdGZvcm0iOiIiLCJwbGF0Zm9ybVZlciI6IiIsInVzZXJJZCI6IiJ9.QIZbmB5_9Xlap_gDhjETfMI6EAmR15yBtIQkWFWJkrg',
         },
         success: function (response) {
             var numFriend = 0;
-            if(response.data == null) {
+            if (response.data == null) {
 
             } else {
                 numFriend = response.data.length;
@@ -25,7 +24,7 @@
                                 </ul>
                             </div>
                             <figure>
-                                <img src="${user.avatar_url}" alt="">
+                                <img src="${user.avatar_url}" alt="" style="height: 84px; width: 84px;">
                             </figure>
 
                             <div class="frnd-meta">
@@ -44,3 +43,9 @@
             $('#num-friend').html(numFriend);
         }
     });
+}
+    
+
+
+
+window.onload = loadData;
