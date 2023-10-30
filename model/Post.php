@@ -17,7 +17,7 @@ class Posts{
     // doc DL
     public function read()
     {
-        $query = "SELECT * FROM Posts";
+        $query = "SELECT * FROM Posts ORDER BY id DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
