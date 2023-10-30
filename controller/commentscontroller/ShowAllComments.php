@@ -2,13 +2,13 @@
     header('Access-Control-Allow-Origin:*');
     header('Content-Type: application/json');
     include_once('../../config/DataBase.php');
-    include_once('../../model/Users.php');
+    include_once('../../model/Comments.php');
 
     $db = new DataBase();
     $connect = $db->connect();
 
-    $user = new Users($connect);
-    $read = $user->read();
+    $comments = new Comments($connect);
+    $read = $comments->read();
 
     $num = $read->rowCount();
 
@@ -21,10 +21,14 @@
             extract($row);
 
             $users = array(
-                'full_name' => $full_name,
-                'email' => $email,
-                'avatar_url' => $avatar_url,
-                // 'password' => $password
+                'id' => $id,
+                'user_id' => $user_id,
+                'post_id' => $post_id,
+                'parent_comment_id' => $parent_comment_id,
+                'content' => $content,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at,
+                'like_count' => $like_count
             );
             array_push($list['data'], $users);
         }
