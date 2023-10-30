@@ -34,6 +34,18 @@
         $stmt->execute();
         return $stmt;
     }
+	//check like comment
+	public function checkLikeComment($user_id, $comment_id){
+		$query = "SELECT likes.id, likes.user_id, likes.comment_id
+        FROM likes INNER JOIN users ON likes.user_id = users.id
+        INNER JOIN comments ON likes.comment_id = comments.id
+        WHERE likes.user_id = :user_id AND likes.comment_id = :comment_id ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':user_id',$user_id, PDO::PARAM_INT); // Assuming id is an integer
+		$stmt->bindParam(':comment_id',$comment_id, PDO::PARAM_INT); // Assuming id is an integer
+        $stmt->execute();
+        return $stmt;
+	}
     // add new Like post
     public function addNewLikes($id_users,$id_post){
         $query = "INSERT INTO likes(user_id, post_id) VALUES (:id_users, :id_post)";
@@ -57,9 +69,10 @@
         return false;
 	}
 	public function removeLikeComment($id_users, $comment_id){
-		$query = "DELETE FROM likes WHERE id = ?";
+		$query = "DELETE FROM likes WHERE likes.user_id = :user_id AND likes.comment_id =:comment_id ";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $id_users, PDO::PARAM_INT);
+        $stmt->bindParam(':user_id', $id_users, PDO::PARAM_INT);
+		$stmt->bindParam(':comment_id', $comment_id, PDO::PARAM_INT);
         if($stmt->execute()) {
             return true;
         }

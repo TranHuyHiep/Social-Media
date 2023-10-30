@@ -15,9 +15,11 @@
     $ID = isset($_GET["id"]) ? ($_GET["id"]) :die();
     $read = $likes->removeNewLikes($ID);
 
-    if($read == true) {
-        print_r('Successful delete like post');
+    $list = [];
+    if($read) {
+        $list['message'] = "Delete Like Comment";
     } else {
-        print_r('Fail!');
+        $list['message'] = "Failed ";
     }
+    echo json_encode($list);
 ?>

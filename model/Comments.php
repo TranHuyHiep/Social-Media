@@ -176,6 +176,19 @@
         $stmt->execute();
         return $stmt;
     }
+
+	public function checkCommentsByIdUser($id, $user_id){
+        $query = "SELECT comments.id
+        FROM users JOIN comments ON users.id = comments.user_id
+        JOIN posts ON comments.post_id = posts.id
+        WHERE comments.id = :id AND comments.user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id',$id, PDO::PARAM_INT); // Assuming id is an integer
+		$stmt->bindParam(':user_id',$user_id, PDO::PARAM_INT); // Assuming id is an integer
+        $stmt->execute();
+        return $stmt;
+    }
+
     //add new comments post
     public function addNewComments($id_users,$id_post, $content){
         $query = "INSERT INTO comments(user_id, post_id, content, created_at,like_count ) VALUES (:id_users,:id_post,:content, now(),0)";

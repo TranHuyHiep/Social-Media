@@ -4,20 +4,20 @@
     header('Access-Control-Allow-Methods: POST');
 
     include_once('../../config/DataBase.php');
-    include_once('../../model/Comments.php');
+    include_once('../../model/Likes.php');
 
     $db = new DataBase();
     $connect = $db->connect();
 
-    $comments = new Comments($connect);
+    $likes = new Likes($connect);
 
     $data = json_decode(file_get_contents("php://input"));
-
-    $read = $comments->addNewComments($data->user_id, $data->post_id,$data->content);
+    //$ID = isset($_GET["id"]) ? ($_GET["id"]) :die();
+    $read = $likes->removeLikeComment($data->user_id, $data->comments_id);
 
     $list = [];
     if($read) {
-        $list['message'] = "New Comment Post";
+        $list['message'] = "Delete Like Comment";
     } else {
         $list['message'] = "Failed ";
     }
