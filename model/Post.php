@@ -41,5 +41,48 @@ class Posts{
         $this->created_at = $row['created_at'];
         $this->like_count = $row['like_count'];
     }
+    public function create(){
+        $query = "INSERT INTO Posts SET content=:content";
+        $stmt = $this->conn->prepare($query);
+        
+        //bind data
+        $stmt->bindParam(':content', $this->content);
+        
+        if($stmt->execute()){
+            return true;
+        }
+        printf("Error %s.\n" ,$stmt->Error);
+        return false; 
+        
+    }
+    public function update(){
+        $query = "UPDATE Posts SET content=:content WHERE id=:id";
+        $stmt = $this->conn->prepare($query);
+        
+        //bind data
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':content', $this->content);
+        
+        if($stmt->execute()){
+            return true;
+        }
+        printf("Error %s.\n" ,$stmt->Error);
+        return false; 
+        
+    }
+    public function delete(){
+        $query = "DELETE FROM Posts WHERE id=:id";
+        $stmt = $this->conn->prepare($query);
+        
+        //bind data
+        $stmt->bindParam(':id', $this->id);
+
+        if($stmt->execute()){
+            return true;
+        }
+        printf("Error %s.\n" ,$stmt->Error);
+        return false; 
+        
+    }
 }
 ?>
