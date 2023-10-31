@@ -17,7 +17,7 @@ class Posts{
     // doc DL
     public function read()
     {
-        $query = "SELECT * FROM Posts ORDER BY id DESC";
+        $query = "SELECT Posts.id, content, Posts.user_id, full_name, avatar_url, created_at, updated_at  FROM Users JOIN Posts ON Users.id=Posts.user_id ORDER BY id DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -42,11 +42,13 @@ class Posts{
         $this->like_count = $row['like_count'];
     }
     public function create(){
-        $query = "INSERT INTO Posts SET content=:content";
+        $query = "INSERT INTO Posts SET content=:content, Posts.user_id=:id, like_count=0, created_at=now(), access_modifier='public'";
         $stmt = $this->conn->prepare($query);
         
         //bind data
         $stmt->bindParam(':content', $this->content);
+        $stmt->bindParam(':id', $this->id);
+
         
         if($stmt->execute()){
             return true;

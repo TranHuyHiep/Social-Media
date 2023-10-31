@@ -24,7 +24,8 @@
             $posts = array(
                 'id' => $id,
                 'user_id' => $user_id,
-                'like_count' => $like_count,
+                'full_name' => $full_name,
+                'avatar_url'=> $avatar_url,
                 'created_at' => $created_at,
                 'updated_at' => $updated_at,
                 'content' => $content

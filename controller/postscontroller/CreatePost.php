@@ -16,6 +16,7 @@
     $data = json_decode(file_get_contents("php://input"));
     
     $posts->content = $data->content;
+    $posts->id = $data->id;
 
     if($posts->create()){
         echo json_encode(array('message', 'Post Created'));
