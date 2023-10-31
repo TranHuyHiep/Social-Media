@@ -58,10 +58,11 @@
         return false;
     }
 	// add new like comments
-	public function addMewLikeByComments($id_users,$comments_id){
-		$query = "INSERT INTO likes(user_id, comment_id) VALUE(:id_users,:comments_id)";
+	public function addMewLikeByComments($id_users,$post_id,$comments_id){
+		$query = "INSERT INTO likes(user_id,post_id, comment_id) VALUE(:id_users,:post_id,:comments_id)";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(":id_users", $id_users, PDO::PARAM_INT); // Assuming id is an integer
+		$stmt->bindParam(":post_id", $post_id, PDO::PARAM_INT); // Assuming id is an integer
         $stmt->bindParam(":comments_id", $comments_id, PDO::PARAM_INT); // Assuming id is an integer
 		if($stmt->execute()) {
             return true;

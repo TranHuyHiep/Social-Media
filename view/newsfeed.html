@@ -1671,8 +1671,8 @@
 										</div>
 									</div>
 								</div><!-- top stories -->
-								<div id ="list-post" class="loadMore" >
-									<div class="coment-area" style="display: block;">
+								<div id ="postedContent" class="loadMore" >
+									<!-- <div class="coment-area" style="display: block;">
 										<ul class="we-comet" id = "list-comments">
 											
 										</ul>
@@ -1689,8 +1689,9 @@
 												</div>
 											</li>
 										</ul>
-									</div>
+									</div> -->
 							    </div>
+								<div id="postedContent"></div>
 							</div><!-- centerl meta -->
 							<div class="col-lg-3">
 								<aside class="sidebar static right">
@@ -2143,34 +2144,7 @@
 		});	
 </script>
 <script>
-	$(document).on('submit', "#save_comment",function(e){
-		e.preventDefault();
-		var content = document.getElementById("myInput").value;
-		console.log(content);
-		var requests = {
-        "url":'http://localhost/socical-media/controller/commentscontroller/NewCommentsPost.php',
-        "method": "POST",
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "data": JSON.stringify({
-            "user_id": 1,
-            "post_id": 1,
-			"content" : content
-        })
-    }
-	$.ajax(requests).done(function (response) {
-		//alert()
-		console.log('ok');
-        $("#list-comments").load(location.href + " #list-comments");
-        //getRecommenFriend();
-    })
-    .fail(function (errorThrown) {
-        //console.log("Lỗi");
-        console.error("Lỗi: ", errorThrown);
-    });
 	
-	});
 
 </script>
 <script src="./script/api.js"></script>

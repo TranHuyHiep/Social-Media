@@ -13,7 +13,7 @@
 
     $data = json_decode(file_get_contents("php://input"));
 
-    $read = $likes->addMewLikeByComments($data->user_id, $data->comments_id);
+    $read = $likes->addMewLikeByComments($data->user_id, $data->post_id, $data->comments_id);
 
     $list = [];
     if($read) {
