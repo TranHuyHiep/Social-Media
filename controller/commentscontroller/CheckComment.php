@@ -1,6 +1,8 @@
 <?php
     header('Access-Control-Allow-Origin:*');
     header('Content-Type: application/json');
+    header("Access-Control-Allow-Methods: POST");
+    //header("Access-Control-Allow-Headers: Content-Type");
     include_once('../../config/DataBase.php');
     include_once('../../model/Comments.php');
 
@@ -9,8 +11,8 @@
 
     $comments = new Comments($connect);
     $data = json_decode(file_get_contents("php://input"));
-    $ID = isset($_GET["id"]) ? ($_GET["id"]) :die();
-    $read = $comments->getCommentsByIdPost($ID);
+    
+    $read = $comments->checkCommentsByIdUser($data->id, $data->user_id);
 
     $num = $read->rowCount();
     $list = [];
@@ -20,20 +22,12 @@
 
             extract($row);
 
-            $mess = array(
+            $comms = array(
                 'id' => $id,
-                'user_id' => $user_id,
-                'full_name' => $full_name,
-                'content' => $content,
-                'post_id' => $post_id,
-                'like_count' =>$like_count
-                
             );
-            array_push($list['data'], $mess);
+            array_push($list['data'], $comms);
         }
-        $list['message'] = "You have $num comments";
-    } else {
-        $list['message'] = "0 comments";
+        //$list['message'] = "You have $num likes";
     }
     echo json_encode($list);
 ?>

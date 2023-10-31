@@ -15,9 +15,11 @@
     $ID = isset($_GET["id"]) ? ($_GET["id"]) :die();
     $read = $comments->removeCommentsPost($ID);
 
-    if($read == true) {
-        print_r('Successful delete comments post');
+    $list = [];
+    if($read) {
+        $list['message'] = "Delete Comment post";
     } else {
-        print_r('Fail!');
+        $list['message'] = "Failed ";
     }
+    echo json_encode($list);
 ?>
