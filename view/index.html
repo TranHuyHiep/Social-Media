@@ -16,7 +16,12 @@
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/color.css">
 	<link rel="stylesheet" href="css/responsive.css">
-
+	<style>
+		#avatar{
+			width: 50px;
+			height: 50px;
+		}
+	</style>
 </head>
 
 <body>
@@ -149,7 +154,7 @@
 					</li>
 					<li><span>Account Setting</span>
 						<ul>
-							<li><a href="setting.php" title="">Setting</a></li>
+							<li><a href="setting.html" title="">Setting</a></li>
 							<li><a href="privacy.html" title="">Privacy</a></li>
 							<li><a href="support-and-help.html" title="">Support & Help</a></li>
 							<li><a href="support-and-help-detail.html" title="">Support Detail</a></li>
@@ -812,9 +817,10 @@
 					</li>
 				</ul>
 				<div class="user-img">
-					<h5>Jack Carter</h5>
-					<img src="images/resources/admin.jpg" alt="">
+					<h5 id="full_name">Jack Carter</h5>
+					<img src="images/resources/admin.jpg" alt="" id="avatar">
 					<span class="status f-online"></span>
+					
 					<div class="user-setting">
 						<span class="seting-title">Chat setting <a href="#" title="">see all</a></span>
 						<ul class="chat-setting">
@@ -825,9 +831,9 @@
 						<span class="seting-title">User setting <a href="#" title="">see all</a></span>
 						<ul class="log-out">
 							<li><a href="about.html" title=""><i class="ti-user"></i> view profile</a></li>
-							<li><a href="setting.php" title=""><i class="ti-pencil-alt"></i>edit profile</a></li>
+							<li><a href="setting.html" title=""><i class="ti-pencil-alt"></i>edit profile</a></li>
 							<li><a href="#" title=""><i class="ti-target"></i>activity log</a></li>
-							<li><a href="setting.php" title=""><i class="ti-settings"></i>account setting</a></li>
+							<li><a href="setting.html" title=""><i class="ti-settings"></i>account setting</a></li>
 							<li><a href="logout.html" title=""><i class="ti-power-off"></i>log out</a></li>
 						</ul>
 					</div>
@@ -928,7 +934,7 @@
 					</li>
 					<li><a class="" href="#" title=""><i class="fa fa-gears"></i> Account Setting</a>
 						<ul>
-							<li><a href="setting.php" title="">Setting</a></li>
+							<li><a href="setting.html" title="">Setting</a></li>
 							<li><a href="privacy.html" title="">Privacy</a></li>
 							<li><a href="support-and-help.html" title="">Support & Help</a></li>
 							<li><a href="support-and-help-detail.html" title="">Support Detail</a></li>
@@ -1271,7 +1277,7 @@
 					<li class="menu-item-has-children"><a class="" href="#" title=""><i class="fa fa-gears"></i>Account
 							Setting</a>
 						<ul class="submenu">
-							<li><a href="setting.php" title="">Setting</a></li>
+							<li><a href="setting.html" title="">Setting</a></li>
 							<li><a href="privacy.html" title="">Privacy</a></li>
 							<li><a href="support-and-help.html" title="">Support & Help</a></li>
 							<li><a href="support-and-help-detail.html" title="">Support Detail</a></li>
@@ -1567,7 +1573,7 @@
 										<span class="create-post">Create post</span>
 										<div class="new-postbox">
 											<figure>
-												<img src="images/resources/admin.jpg" alt="">
+												<img src="images/resources/admin.jpg" alt="" ">
 											</figure>
 											<div class="newpst-input">
 												<form id="postForm" method="post">
@@ -2089,7 +2095,7 @@
 					<figure><img src="images/resources/share-post.jpg" alt=""></figure>
 					<div class="friend-info">
 						<figure>
-							<img alt="" src="images/resources/admin.jpg">
+							<img alt="" src="images/abc.jpg" id="avatar">
 						</figure>
 						<div class="friend-name">
 							<ins><a title="" href="time-line.html">Jack Carter</a> share <a title=""
@@ -2467,7 +2473,9 @@
 
 		});	
 	</script>
+	<script src="./script/api.js"></script>
 	<script src="./script/post-create.js"></script>
+	<script src="./script/UserInfo.js"></script>
 </body>
 
 
