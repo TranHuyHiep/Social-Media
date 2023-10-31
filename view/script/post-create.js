@@ -1,22 +1,26 @@
 
 function submitPost() {
+    var userId = 1;
     var postContent = document.getElementById("postContent").value;
+    alert(postContent);
     var settings = {
-        "url": "http://localhost/social-media/controller/postscontroller/CreatePost.php",
+        "url": API + "/postscontroller/CreatePost.php",
         "method": "POST",
         "timeout": 0,
         "headers": {
-            "Content-Transfer-Encoding": "application/json",
-            "Content-Type": "application/json"
         },
         "data": JSON.stringify({
-            "content": postContent
+            "content": postContent,
+            "id": userId
         }),
     };
 
     $.ajax(settings).done(function (response) {
-        console.log(response);
+        console.log("submitPost: ", response);
         loadData();
+    }).fail(function (errorThrown) {
+        console.error("Lỗi submitPost: ", errorThrown);
+        getRecommenFriend();
     });
 }
 
@@ -24,14 +28,14 @@ loadData();
 
 function loadData() {
     var settings = {
-        "url": "http://localhost/social-Media/controller/postscontroller/ViewPost.php",
+        "url": API + "/postscontroller/ViewPost.php",
         "method": "GET",
         "timeout": 0,
     };
 
     $.ajax(settings).done(function (response) {
         const targetDiv = document.querySelector('#postedContent');
-        var str = response.data.map(function (posts) {
+        var str = response.data.map(function (posts, users) {
             return `
             <div class="central-meta item" style="display: inline-block;">
                 <div class="user-post">
@@ -39,13 +43,13 @@ function loadData() {
                         <figure>
                             <img src="images/resources/nearly1.jpg" alt="">
                         </figure>
-                        <div class="friend-name">
+                        <div class="friend-name"> 
                             <div class="more">
                                 <div class="more-post-optns"><i class="ti-more-alt"></i>
                                     <ul>
                                         <li><i class="fa fa-pencil-square-o"></i>Edit Post
                                         </li>
-                                        <li><i class="fa fa-trash-o"></i>Delete Post</li>
+                                        <li onclick="deletePost(${posts.id})"><i class="fa fa-trash-o"> Delete Post </i></li>
                                         <li class="bad-report"><i class="fa fa-flag"></i>Report Post</li>
                                         <li><i class="fa fa-address-card-o"></i>Boost This
                                             Post</li>
@@ -57,7 +61,7 @@ function loadData() {
                                     </ul>
                                 </div>
                             </div>
-                            <ins><a href="time-line.html" title="">Jack Carter</a> Post
+                            <ins><a href="time-line.html" title="">${posts.full_name}</a> Post
                                 Album</ins>
                             <span><i class="fa fa-globe"></i> published: September,15 2020
                                 19:PM </span>
@@ -84,7 +88,7 @@ function loadData() {
                                     </li>
                                     <li>
                                         <div class="likes heart" title="Like/Dislike">❤
-                                            <span>2K</span>
+                                            <span>${posts.like_count}</span>
                                         </div>
                                     </li>
                                     <li>
@@ -215,3 +219,22 @@ function loadData() {
 }
 
 
+function deletePost(id) {
+
+    var settings = {
+        "url": API + "/postscontroller/DeletePost.php",
+        "method": "POST",
+        "headers": {
+        },
+        "data": JSON.stringify({
+            "id": id
+        }),
+    };
+
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+        loadData();
+        alert("Bạn đã xóa bài viết!");
+    });
+
+}
