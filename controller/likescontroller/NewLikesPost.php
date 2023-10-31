@@ -15,9 +15,11 @@
 
     $read = $likes->addNewLikes($data->user_id, $data->post_id);
 
-    if($read == true) {
-        print_r('Add new likes ');
+    $list = [];
+    if($read) {
+        $list['message'] = "Add new Like post";
     } else {
-        print_r('Fail!');
+        $list['message'] = "Failed ";
     }
+    echo json_encode($list);
 ?>
