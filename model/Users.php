@@ -186,7 +186,13 @@ public function getUserByUserId($user_id) {
     //     return null; // Trả về null nếu không tìm thấy UserInfo
     // }
 }
-
+public function find_user($name){
+    $query = "SELECT * FROM Users WHERE full_name LIKE '%?%'";      
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $name, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt;
+}
 
     public function recommenFriend($id)
     {
