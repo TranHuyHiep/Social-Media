@@ -25,7 +25,170 @@ function submitPost() {
 }
 
 loadData();
+function newLikeComment(user_id, post_id, comment_id) {
+    var check1 = 1;
+    //var checked = false;
+    //alert(post_id)
+    $.ajax({
+        type: "POST",
+        url: API + "/likescontroller/GetLikeCommentById.php",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify({
+            user_id: user_id,
 
+            comments_id: comment_id
+        }),
+        success: function (response) {
+            //console.log(response);
+            // Kiểm tra xem dữ liệu phản hồi có phải là null không
+            if (response.data == null) {
+                //var s = ""+comment_id;
+                var requests = {
+                    "url": API + '/likescontroller/NewLikesComment.php',
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "user_id": user_id,
+                        "post_id": post_id,
+                        "comments_id": comment_id
+                    })
+                }
+                $.ajax(requests).done(function (response) {
+                    console.log("Them like thanh cong");
+
+                    //$("#list-comments").load(location.href + " #list-comments"); 
+                    getlike(post_id);
+
+                }).fail(function (errorThrown) {
+                    console.error("Lỗi: ", errorThrown);
+                    getlike(post_id);
+                });
+            } else {
+                var requests = {
+                    "url": API + '/likescontroller/DeleteLikesComment.php',
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "user_id": user_id,
+                        "comments_id": comment_id
+                    })
+                }
+                $.ajax(requests).done(function (response) {
+                    console.log("Xoa thanh cong");
+                    getlike(post_id);
+                }).fail(function (errorThrown) {
+                    //console.log("Lỗi");
+                    console.error("Lỗi: ", errorThrown);
+                    getlike(post_id);
+                });
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        },
+
+    });
+}
+function deleteLikeComment(comment_id) {
+    console.log(window.globalVar);
+    $.ajax({
+        type: "POST",
+        url: API + "/commentscontroller/CheckComment.php",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify({
+            id: comment_id,
+            user_id: window.globalVar
+        }),
+        success: function (response) {
+            console.log(response);
+            // Kiểm tra xem dữ liệu phản hồi có phải là null không
+            if (response.data != null) {
+                var requests = {
+                    "url": API + '/commentscontroller/DeleteCommentPost.php?id=' + comment_id,
+                    "method": "POST",
+                }
+                $.ajax(requests).done(function (response) {
+                    //alert("Sent friend request");
+                    console.log("Xoa comment thanh cong");
+                    //getRecommenFriend();
+                })
+                    .fail(function (errorThrown) {
+                        //console.log("Lỗi");
+                        console.error("Lỗi: ", errorThrown);
+                    });
+            } else {
+                alert("Ban khong the xoa comment cua nguoi khac");
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        },
+
+    });
+}
+
+function getlike(id) {
+    var id_post = id;
+
+    $.ajax({
+        type: "GET",
+        url: API + '/commentscontroller/GetCommentsByIdPost.php?id=' + id_post,
+        headers: {
+            // 'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBWZXIiOiIwLjAuMCIsImV4cCI6NDcyNjM4OTEyMiwibG9jYWxlIjoiIiwibWFzdGVyVmVyIjoiIiwicGxhdGZvcm0iOiIiLCJwbGF0Zm9ybVZlciI6IiIsInVzZXJJZCI6IiJ9.QIZbmB5_9Xlap_gDhjETfMI6EAmR15yBtIQkWFWJkrg',
+        },
+        success: function (response) {
+            //var numFriend = 0;
+            if (response.data == null) {
+                console.log("no");
+            } else {
+                let $str = response.data.map(function (comment) {
+                    return `
+                  <li>
+                    <div class="comet-avatar">
+                        <img src="images/resources/nearly3.jpg" alt="">
+                    </div>
+                    <div class="we-comment">
+                        <h5><a href="time-line.html" title="">${comment.full_name}</a></h5>
+                        <p>${comment.content}</p>
+                        <div class="inline-itms">
+                            <span>1 year ago</span>
+                            <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                            <a id ="${comment.id}" style="border: 0; "  onclick = "newLikeComment(1,${comment.post_id}, ${comment.id})">
+                                <i class="fa fa-heart " ></i><span> ${comment.like_count}</span>
+                            </a>
+                            <div class="more">
+                                <div class="more-post-optns"><i class="ti-more-alt"></i>
+                                    <ul>
+                                        <li ><i class="fa fa-pencil-square-o"></i>Edit Comment</li>
+                                        <li onclick = "deleteLikeComment(${comment.id})"><i class="fa fa-trash-o"></i>Delete Comment</li>
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </li>
+                `;
+                });
+                $("#list-comments" + "" + id_post).html($str);
+            }
+        },
+    });
+}
+function showcomment(id) {
+    //console.log(id);
+    getlike(id);
+
+}
 function loadData() {
     var settings = {
         "url": API + "/postscontroller/ViewPost.php",
@@ -90,12 +253,12 @@ function loadData() {
                                         </span>
                                     </li>
                                     <li>
-                                        <div class="likes heart" title="Like/Dislike">❤
+                                        <div class="likes heart" title="Like/Dislike" onclick = "likePost(1,${posts.id})">❤
                                             <span>${posts.like_count}</span>
                                         </div>
                                     </li>
                                     <li>
-                                        <span class="comment" title="Comments">
+                                        <span id = "${posts.id}" class="comment" onclick = "showcomment(${posts.id})" title="Comments">
                                             <i class="fa fa-commenting"></i>
                                             <ins>52</ins>
                                         </span>
@@ -131,47 +294,9 @@ function loadData() {
                             </div>
                         </div>
                         <div class="coment-area" style="display: block;">
+                            <ul class="we-comet" id="list-comments${posts.id}">
+                            </ul>
                             <ul class="we-comet">
-                                <li>
-                                    <div class="comet-avatar">
-                                        <img src="images/resources/nearly3.jpg" alt="">
-                                    </div>
-                                    <div class="we-comment">
-                                        <h5><a href="time-line.html" title="">Jason
-                                                borne</a></h5>
-                                        <p>we are working for the dance and sing songs. this
-                                            video is very awesome for the youngster. please
-                                            vote this video and like our channel</p>
-                                        <div class="inline-itms">
-                                            <span>1 year ago</span>
-                                            <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-                                            <a href="#" title=""><i class="fa fa-heart"></i><span>20</span></a>
-                                        </div>
-                                    </div>
-
-                                </li>
-                                <li>
-                                    <div class="comet-avatar">
-                                        <img src="images/resources/comet-4.jpg" alt="">
-                                    </div>
-                                    <div class="we-comment">
-                                        <h5><a href="time-line.html" title="">Sophia</a>
-                                        </h5>
-                                        <p>we are working for the dance and sing songs. this
-                                            video is very awesome for the youngster.
-                                            <i class="em em-smiley"></i>
-                                        </p>
-                                        <div class="inline-itms">
-                                            <span>1 year ago</span>
-                                            <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-                                            <a href="#" title=""><i class="fa fa-heart"></i><span>20</span></a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <a href="#" title="" class="showmore underline">more
-                                        comments+</a>
-                                </li>
                                 <li class="post-comment">
                                     <div class="comet-avatar">
                                         <img src="images/resources/nearly1.jpg" alt="">

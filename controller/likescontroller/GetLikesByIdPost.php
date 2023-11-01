@@ -3,7 +3,7 @@
     header('Content-Type: application/json');
     include_once('../../config/DataBase.php');
     include_once('../../model/Likes.php');
-
+    header('Access-Control-Allow-Headers:Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-Width');
     $db = new DataBase();
     $connect = $db->connect();
 
