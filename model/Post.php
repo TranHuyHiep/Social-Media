@@ -17,7 +17,7 @@ class Posts{
     // doc DL
     public function read()
     {
-        $query = "SELECT Posts.id, content, Posts.user_id, full_name, avatar_url, created_at, updated_at  FROM Users JOIN Posts ON Users.id=Posts.user_id ORDER BY id DESC";
+        $query = "SELECT Posts.id, content, Posts.user_id, full_name, avatar_url,like_count, created_at, updated_at  FROM Users JOIN Posts ON Users.id=Posts.user_id ORDER BY id DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
