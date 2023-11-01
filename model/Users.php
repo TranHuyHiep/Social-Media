@@ -187,9 +187,9 @@ public function getUserByUserId($user_id) {
     // }
 }
 public function find_user($name){
-    $query = "SELECT * FROM Users WHERE full_name LIKE '%?%'";      
+    $query = "SELECT * FROM Users WHERE full_name LIKE ?";      
     $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(1, $name, PDO::PARAM_INT);
+    $stmt->bindParam(1, $name, PDO::PARAM_STR);
     $stmt->execute();
     return $stmt;
 }
