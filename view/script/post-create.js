@@ -35,7 +35,7 @@ function loadData() {
 
     $.ajax(settings).done(function (response) {
         const targetDiv = document.querySelector('#postedContent');
-        var str = response.data.map(function (posts, users) {
+        var str = response.data.map(function (posts) {
             return `
             <div class="central-meta item" style="display: inline-block;">
                 <div class="user-post">
@@ -47,7 +47,7 @@ function loadData() {
                             <div class="more">
                                 <div class="more-post-optns"><i class="ti-more-alt"></i>
                                     <ul>
-                                        <li><i class="fa fa-pencil-square-o"></i>Edit Post
+                                        <li onclick="updatePost()"><i class="fa fa-pencil-square-o"></i>Edit Post
                                         </li>
                                         <li onclick="deletePost(${posts.id})"><i class="fa fa-trash-o"> Delete Post </i></li>
                                         <li class="bad-report"><i class="fa fa-flag"></i>Report Post</li>
@@ -67,10 +67,13 @@ function loadData() {
                                 19:PM </span>
                         </div>
                         <div class="post-meta">
-                            <div id="">
+                            <div id="currentcontent">
                                 ${posts.content}
                             </div>
-
+                            <div id="editForm" style="display: none;">
+                            <textarea id="editedContent"></textarea>
+                            <button onclick="saveEditedPost(${posts.id})">Lưu</button>
+                            </div>
                             <figure>
                                 <ul class="like-dislike">
                                     <li><a class="bg-purple" href="#" title="Save to Pin Post"><i class="fa fa-thumb-tack"></i></a></li>
@@ -235,6 +238,42 @@ function deletePost(id) {
         console.log(response);
         loadData();
         alert("Bạn đã xóa bài viết!");
+    });
+
+}
+
+function updatePost() {
+    document.getElementById('currentcontent').style.display = 'none';
+    document.getElementById('editForm').style.display = 'block';
+    const currentContent = document.getElementById('currentcontent').innerText;
+    document.getElementById('editedContent').value = currentContent;
+
+}
+function saveEditedPost(id) {
+
+    var editedContent = document.getElementById('editedContent').value;
+    alert(editedContent);
+
+
+    var settings = {
+        "url": API + "/postscontroller/UpdatePost.php",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+            "content": editedContent,
+            "id": id
+        }),
+    };
+
+    $.ajax(settings).done(function (response) {
+        console.log("editPost: ", response);
+        loadData();
+    }).fail(function (errorThrown) {
+        console.error("Lỗi editPost: ", errorThrown);
+
     });
 
 }

@@ -17,7 +17,7 @@
 	<link rel="stylesheet" href="css/color.css">
 	<link rel="stylesheet" href="css/responsive.css">
 	<style>
-		#avatar{
+		#avatar {
 			width: 50px;
 			height: 50px;
 		}
@@ -820,7 +820,7 @@
 					<h5 id="full_name">Jack Carter</h5>
 					<img src="images/resources/admin.jpg" alt="" id="avatar">
 					<span class="status f-online"></span>
-					
+
 					<div class="user-setting">
 						<span class="seting-title">Chat setting <a href="#" title="">see all</a></span>
 						<ul class="chat-setting">
@@ -1575,411 +1575,408 @@
 											<figure>
 												<img src="images/resources/admin.jpg" alt="" ">
 											</figure>
-											<div class="newpst-input">
+											<div class=" newpst-input">
 												<form id="postForm" method="post">
 													<textarea id="postContent" rows="2"
 														placeholder="Share some what you are thinking?"></textarea>
 												</form>
-											</div>
-											<div class="attachments">
-												<ul>
-													<li>
-														<span class="add-loc">
-															<i class="fa fa-map-marker"></i>
-														</span>
-													</li>
-													<li>
-														<i class="fa fa-music"></i>
-														<label class="fileContainer">
-															<input type="file">
-														</label>
-													</li>
-													<li>
-														<i class="fa fa-image"></i>
-														<label class="fileContainer">
-															<input type="file">
-														</label>
-													</li>
-													<li>
-														<i class="fa fa-video-camera"></i>
-														<label class="fileContainer">
-															<input type="file">
-														</label>
-													</li>
-													<li>
-														<i class="fa fa-camera"></i>
-														<label class="fileContainer">
-															<input type="file">
-														</label>
-													</li>
-													<li class="preview-btn">
-														<button class="post-btn-preview" type="submit"
-															data-ripple="">Preview</button>
-													</li>
-												</ul>
-												<button class="post-btn" type="submitPost" data-ripple=""
-													onclick="submitPost()">Post</button>
-
-											</div>
-											<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-											<!-- ajax post -->
-
-											<div class="add-location-post">
-												<span>Drag map point to selected area</span>
-												<div class="row">
-
-													<div class="col-lg-6">
-														<label class="control-label">Lat :</label>
-														<input type="text" class="" id="us3-lat" />
-													</div>
-													<div class="col-lg-6">
-														<label>Long :</label>
-														<input type="text" class="" id="us3-lon" />
-													</div>
-												</div>
-												<!-- map -->
-												<div id="us3"></div>
-											</div>
 										</div>
-									</div><!-- add post new box -->
-									<div class="central-meta">
-										<span class="create-post">Recent Stories <a href="#" title="">See All</a></span>
-										<div class="story-postbox">
+										<div class="attachments">
+											<ul>
+												<li>
+													<span class="add-loc">
+														<i class="fa fa-map-marker"></i>
+													</span>
+												</li>
+												<li>
+													<i class="fa fa-music"></i>
+													<label class="fileContainer">
+														<input type="file">
+													</label>
+												</li>
+												<li>
+													<i class="fa fa-image"></i>
+													<label class="fileContainer">
+														<input type="file">
+													</label>
+												</li>
+												<li>
+													<i class="fa fa-video-camera"></i>
+													<label class="fileContainer">
+														<input type="file">
+													</label>
+												</li>
+												<li>
+													<i class="fa fa-camera"></i>
+													<label class="fileContainer">
+														<input type="file">
+													</label>
+												</li>
+												<li class="preview-btn">
+													<button class="post-btn-preview" type="submit"
+														data-ripple="">Preview</button>
+												</li>
+											</ul>
+											<button class="post-btn" type="submitPost" data-ripple=""
+												onclick="submitPost()">Post</button>
+
+										</div>
+										<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+										<!-- ajax post -->
+
+										<div class="add-location-post">
+											<span>Drag map point to selected area</span>
 											<div class="row">
-												<div class="col-lg-3 col-md-3 col-sm-3">
-													<div class="story-box">
-														<figure>
-															<img src="images/resources/story-1.jpg" alt="">
-															<span>Add Your Story</span>
-														</figure>
-														<div class="story-thumb" data-toggle="tooltip"
-															title="Add Your Story">
-															<i class="fa fa-plus"></i>
-														</div>
-													</div>
+
+												<div class="col-lg-6">
+													<label class="control-label">Lat :</label>
+													<input type="text" class="" id="us3-lat" />
 												</div>
-												<div class="col-lg-3 col-md-3 col-sm-3">
-													<div class="story-box">
-														<figure>
-															<img src="images/resources/story-2.jpg" alt="">
-															<span>Adam James</span>
-														</figure>
-														<div class="story-thumb" data-toggle="tooltip"
-															title="Adam James">
-															<img src="images/resources/thumb-2.jpg" alt="">
-														</div>
-													</div>
+												<div class="col-lg-6">
+													<label>Long :</label>
+													<input type="text" class="" id="us3-lon" />
 												</div>
-												<div class="col-lg-3 col-md-3 col-sm-3">
-													<div class="story-box">
-														<figure>
-															<img src="images/resources/story-3.jpg" alt="">
-															<span>Emily grey</span>
-														</figure>
-														<div class="story-thumb" data-toggle="tooltip"
-															title="Emily grey">
-															<img src="images/resources/thumb-3.jpg" alt="">
-														</div>
-													</div>
-												</div>
-												<div class="col-lg-3 col-md-3 col-sm-3">
-													<div class="story-box">
-														<figure>
-															<img src="images/resources/story-4.jpg" alt="">
-															<span>Jhon Deo</span>
-														</figure>
-														<div class="story-thumb" data-toggle="tooltip" title="Jhon Deo">
-															<img src="images/resources/thumb-4.jpg" alt="">
-														</div>
+											</div>
+											<!-- map -->
+											<div id="us3"></div>
+										</div>
+									</div>
+								</div><!-- add post new box -->
+								<div class="central-meta">
+									<span class="create-post">Recent Stories <a href="#" title="">See All</a></span>
+									<div class="story-postbox">
+										<div class="row">
+											<div class="col-lg-3 col-md-3 col-sm-3">
+												<div class="story-box">
+													<figure>
+														<img src="images/resources/story-1.jpg" alt="">
+														<span>Add Your Story</span>
+													</figure>
+													<div class="story-thumb" data-toggle="tooltip"
+														title="Add Your Story">
+														<i class="fa fa-plus"></i>
 													</div>
 												</div>
 											</div>
-											<div class="stories-wraper">
-												<div class="status-story">
-													<span class="close-story"><i class="ti-close"></i></span>
-													<div class="row">
-														<div class="col-lg-4">
-															<div class="stories-users">
-																<h5>Stories</h5>
-																<div class="my-status">
-																	<figure><img
-																			src="images/resources/friend-avatar10.jpg"
-																			alt=""></figure>
-																	<a href="#" title="" class="main-btn">Add New</a>
-																	<div class="story-user">
-																		<span>My Story</span>
-																		<ins>No updates</ins>
-																	</div>
+											<div class="col-lg-3 col-md-3 col-sm-3">
+												<div class="story-box">
+													<figure>
+														<img src="images/resources/story-2.jpg" alt="">
+														<span>Adam James</span>
+													</figure>
+													<div class="story-thumb" data-toggle="tooltip" title="Adam James">
+														<img src="images/resources/thumb-2.jpg" alt="">
+													</div>
+												</div>
+											</div>
+											<div class="col-lg-3 col-md-3 col-sm-3">
+												<div class="story-box">
+													<figure>
+														<img src="images/resources/story-3.jpg" alt="">
+														<span>Emily grey</span>
+													</figure>
+													<div class="story-thumb" data-toggle="tooltip" title="Emily grey">
+														<img src="images/resources/thumb-3.jpg" alt="">
+													</div>
+												</div>
+											</div>
+											<div class="col-lg-3 col-md-3 col-sm-3">
+												<div class="story-box">
+													<figure>
+														<img src="images/resources/story-4.jpg" alt="">
+														<span>Jhon Deo</span>
+													</figure>
+													<div class="story-thumb" data-toggle="tooltip" title="Jhon Deo">
+														<img src="images/resources/thumb-4.jpg" alt="">
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="stories-wraper">
+											<div class="status-story">
+												<span class="close-story"><i class="ti-close"></i></span>
+												<div class="row">
+													<div class="col-lg-4">
+														<div class="stories-users">
+															<h5>Stories</h5>
+															<div class="my-status">
+																<figure><img src="images/resources/friend-avatar10.jpg"
+																		alt=""></figure>
+																<a href="#" title="" class="main-btn">Add New</a>
+																<div class="story-user">
+																	<span>My Story</span>
+																	<ins>No updates</ins>
 																</div>
-																<ul class="frnds-stories">
-																	<li>
-																		<figure><img
-																				src="images/resources/friend-avatar11.jpg"
-																				alt=""></figure>
-																		<div class="story-user">
-																			<span>Emily doll</span>
-																			<ins>yesterday</ins>
-																		</div>
-																	</li>
-																	<li>
-																		<figure><img
-																				src="images/resources/friend-avatar15.jpg"
-																				alt=""></figure>
-																		<div class="story-user">
-																			<span>Jhon Borny</span>
-																			<ins>3 days ago</ins>
-																		</div>
-																	</li>
-																	<li>
-																		<figure><img
-																				src="images/resources/friend-avatar12.jpg"
-																				alt=""></figure>
-																		<div class="story-user">
-																			<span>Sarah Khan</span>
-																			<ins>2 days ago</ins>
-																		</div>
-																	</li>
-																	<li>
-																		<figure><img
-																				src="images/resources/friend-avatar13.jpg"
-																				alt=""></figure>
-																		<div class="story-user">
-																			<span>Zara Hayat</span>
-																			<ins>1 day ago</ins>
-																		</div>
-																	</li>
-																	<li>
-																		<figure><img
-																				src="images/resources/friend-avatar14.jpg"
-																				alt=""></figure>
-																		<div class="story-user">
-																			<span>Zing Jang</span>
-																			<ins>2 days ago</ins>
-																		</div>
-																	</li>
+															</div>
+															<ul class="frnds-stories">
+																<li>
+																	<figure><img
+																			src="images/resources/friend-avatar11.jpg"
+																			alt=""></figure>
+																	<div class="story-user">
+																		<span>Emily doll</span>
+																		<ins>yesterday</ins>
+																	</div>
+																</li>
+																<li>
+																	<figure><img
+																			src="images/resources/friend-avatar15.jpg"
+																			alt=""></figure>
+																	<div class="story-user">
+																		<span>Jhon Borny</span>
+																		<ins>3 days ago</ins>
+																	</div>
+																</li>
+																<li>
+																	<figure><img
+																			src="images/resources/friend-avatar12.jpg"
+																			alt=""></figure>
+																	<div class="story-user">
+																		<span>Sarah Khan</span>
+																		<ins>2 days ago</ins>
+																	</div>
+																</li>
+																<li>
+																	<figure><img
+																			src="images/resources/friend-avatar13.jpg"
+																			alt=""></figure>
+																	<div class="story-user">
+																		<span>Zara Hayat</span>
+																		<ins>1 day ago</ins>
+																	</div>
+																</li>
+																<li>
+																	<figure><img
+																			src="images/resources/friend-avatar14.jpg"
+																			alt=""></figure>
+																	<div class="story-user">
+																		<span>Zing Jang</span>
+																		<ins>2 days ago</ins>
+																	</div>
+																</li>
 
-																	<li>
-																		<figure><img
-																				src="images/resources/friend-avatar16.jpg"
-																				alt=""></figure>
-																		<div class="story-user">
-																			<span>Emma watson</span>
-																			<ins>jan,12 2020</ins>
-																		</div>
-																	</li>
-																</ul>
-															</div>
+																<li>
+																	<figure><img
+																			src="images/resources/friend-avatar16.jpg"
+																			alt=""></figure>
+																	<div class="story-user">
+																		<span>Emma watson</span>
+																		<ins>jan,12 2020</ins>
+																	</div>
+																</li>
+															</ul>
 														</div>
-														<div class="col-lg-8">
-															<div id="btns-wrapper"></div>
-															<div id="slideshow">
-																<img class="slide"
-																	src="https://placehold.it/856x380/FF6347/FFFFFF&amp;text=1"
-																	alt="11" />
-																<img class="slide"
-																	src="https://placehold.it/856x380/6FC6F7/FFFFFF&amp;text=2"
-																	alt="2" />
-																<img class="slide"
-																	src="https://placehold.it/856x380/f3e686/FFFFFF&amp;text=3"
-																	alt="3" />
-																<img class="slide"
-																	src="https://placehold.it/856x380/71eea3/FFFFFF&amp;text=4"
-																	alt="4" />
-															</div>
+													</div>
+													<div class="col-lg-8">
+														<div id="btns-wrapper"></div>
+														<div id="slideshow">
+															<img class="slide"
+																src="https://placehold.it/856x380/FF6347/FFFFFF&amp;text=1"
+																alt="11" />
+															<img class="slide"
+																src="https://placehold.it/856x380/6FC6F7/FFFFFF&amp;text=2"
+																alt="2" />
+															<img class="slide"
+																src="https://placehold.it/856x380/f3e686/FFFFFF&amp;text=3"
+																alt="3" />
+															<img class="slide"
+																src="https://placehold.it/856x380/71eea3/FFFFFF&amp;text=4"
+																alt="4" />
 														</div>
 													</div>
 												</div>
 											</div>
 										</div>
-									</div><!-- top stories -->
-									<div class="loadMore" id="postedContent">
-
 									</div>
-								</div><!-- centerl meta -->
-								<div class="col-lg-3">
-									<aside class="sidebar static right">
-										<div class="widget">
-											<h4 class="widget-title">Your page</h4>
-											<div class="your-page">
-												<figure>
-													<a href="#" title=""><img src="images/resources/friend-avatar9.jpg"
-															alt=""></a>
-												</figure>
-												<div class="page-meta">
-													<a href="#" title="" class="underline">My Creative Page</a>
-													<span><i class="ti-comment"></i><a href="insight.html"
-															title="">Messages <em>9</em></a></span>
-													<span><i class="ti-bell"></i><a href="insight.html"
-															title="">Notifications <em>2</em></a></span>
-												</div>
-												<ul class="page-publishes">
-													<li>
-														<span><i class="ti-pencil-alt"></i>Publish</span>
-													</li>
-													<li>
-														<span><i class="ti-camera"></i>Photo</span>
-													</li>
-													<li>
-														<span><i class="ti-video-camera"></i>Live</span>
-													</li>
-													<li>
-														<span><i class="fa fa-user-plus"></i>Invite</span>
-													</li>
+								</div><!-- top stories -->
+								<div class="loadMore" id="postedContent">
+
+								</div>
+							</div><!-- centerl meta -->
+							<div class="col-lg-3">
+								<aside class="sidebar static right">
+									<div class="widget">
+										<h4 class="widget-title">Your page</h4>
+										<div class="your-page">
+											<figure>
+												<a href="#" title=""><img src="images/resources/friend-avatar9.jpg"
+														alt=""></a>
+											</figure>
+											<div class="page-meta">
+												<a href="#" title="" class="underline">My Creative Page</a>
+												<span><i class="ti-comment"></i><a href="insight.html" title="">Messages
+														<em>9</em></a></span>
+												<span><i class="ti-bell"></i><a href="insight.html"
+														title="">Notifications <em>2</em></a></span>
+											</div>
+											<ul class="page-publishes">
+												<li>
+													<span><i class="ti-pencil-alt"></i>Publish</span>
+												</li>
+												<li>
+													<span><i class="ti-camera"></i>Photo</span>
+												</li>
+												<li>
+													<span><i class="ti-video-camera"></i>Live</span>
+												</li>
+												<li>
+													<span><i class="fa fa-user-plus"></i>Invite</span>
+												</li>
+											</ul>
+											<div class="page-likes">
+												<ul class="nav nav-tabs likes-btn">
+													<li class="nav-item"><a class="active" href="#link1"
+															data-toggle="tab" data-ripple="">likes</a></li>
+													<li class="nav-item"><a class="" href="#link2" data-toggle="tab"
+															data-ripple="">views</a></li>
 												</ul>
-												<div class="page-likes">
-													<ul class="nav nav-tabs likes-btn">
-														<li class="nav-item"><a class="active" href="#link1"
-																data-toggle="tab" data-ripple="">likes</a></li>
-														<li class="nav-item"><a class="" href="#link2" data-toggle="tab"
-																data-ripple="">views</a></li>
-													</ul>
-													<!-- Tab panes -->
-													<div class="tab-content">
-														<div class="tab-pane active fade show " id="link1">
-															<span><i class="ti-heart"></i>884</span>
-															<a href="#" title="weekly-likes">35 new likes this week</a>
-															<div class="users-thumb-list">
-																<a href="#" title="Anderw" data-toggle="tooltip">
-																	<img src="images/resources/userlist-1.jpg" alt="">
-																</a>
-																<a href="#" title="frank" data-toggle="tooltip">
-																	<img src="images/resources/userlist-2.jpg" alt="">
-																</a>
-																<a href="#" title="Sara" data-toggle="tooltip">
-																	<img src="images/resources/userlist-3.jpg" alt="">
-																</a>
-																<a href="#" title="Amy" data-toggle="tooltip">
-																	<img src="images/resources/userlist-4.jpg" alt="">
-																</a>
-																<a href="#" title="Ema" data-toggle="tooltip">
-																	<img src="images/resources/userlist-5.jpg" alt="">
-																</a>
-																<a href="#" title="Sophie" data-toggle="tooltip">
-																	<img src="images/resources/userlist-6.jpg" alt="">
-																</a>
-																<a href="#" title="Maria" data-toggle="tooltip">
-																	<img src="images/resources/userlist-7.jpg" alt="">
-																</a>
-															</div>
+												<!-- Tab panes -->
+												<div class="tab-content">
+													<div class="tab-pane active fade show " id="link1">
+														<span><i class="ti-heart"></i>884</span>
+														<a href="#" title="weekly-likes">35 new likes this week</a>
+														<div class="users-thumb-list">
+															<a href="#" title="Anderw" data-toggle="tooltip">
+																<img src="images/resources/userlist-1.jpg" alt="">
+															</a>
+															<a href="#" title="frank" data-toggle="tooltip">
+																<img src="images/resources/userlist-2.jpg" alt="">
+															</a>
+															<a href="#" title="Sara" data-toggle="tooltip">
+																<img src="images/resources/userlist-3.jpg" alt="">
+															</a>
+															<a href="#" title="Amy" data-toggle="tooltip">
+																<img src="images/resources/userlist-4.jpg" alt="">
+															</a>
+															<a href="#" title="Ema" data-toggle="tooltip">
+																<img src="images/resources/userlist-5.jpg" alt="">
+															</a>
+															<a href="#" title="Sophie" data-toggle="tooltip">
+																<img src="images/resources/userlist-6.jpg" alt="">
+															</a>
+															<a href="#" title="Maria" data-toggle="tooltip">
+																<img src="images/resources/userlist-7.jpg" alt="">
+															</a>
 														</div>
-														<div class="tab-pane fade" id="link2">
-															<span><i class="fa fa-eye"></i>440</span>
-															<a href="#" title="weekly-likes">440 new views this week</a>
-															<div class="users-thumb-list">
-																<a href="#" title="Anderw" data-toggle="tooltip">
-																	<img src="images/resources/userlist-1.jpg" alt="">
-																</a>
-																<a href="#" title="frank" data-toggle="tooltip">
-																	<img src="images/resources/userlist-2.jpg" alt="">
-																</a>
-																<a href="#" title="Sara" data-toggle="tooltip">
-																	<img src="images/resources/userlist-3.jpg" alt="">
-																</a>
-																<a href="#" title="Amy" data-toggle="tooltip">
-																	<img src="images/resources/userlist-4.jpg" alt="">
-																</a>
-																<a href="#" title="Ema" data-toggle="tooltip">
-																	<img src="images/resources/userlist-5.jpg" alt="">
-																</a>
-																<a href="#" title="Sophie" data-toggle="tooltip">
-																	<img src="images/resources/userlist-6.jpg" alt="">
-																</a>
-																<a href="#" title="Maria" data-toggle="tooltip">
-																	<img src="images/resources/userlist-7.jpg" alt="">
-																</a>
-															</div>
+													</div>
+													<div class="tab-pane fade" id="link2">
+														<span><i class="fa fa-eye"></i>440</span>
+														<a href="#" title="weekly-likes">440 new views this week</a>
+														<div class="users-thumb-list">
+															<a href="#" title="Anderw" data-toggle="tooltip">
+																<img src="images/resources/userlist-1.jpg" alt="">
+															</a>
+															<a href="#" title="frank" data-toggle="tooltip">
+																<img src="images/resources/userlist-2.jpg" alt="">
+															</a>
+															<a href="#" title="Sara" data-toggle="tooltip">
+																<img src="images/resources/userlist-3.jpg" alt="">
+															</a>
+															<a href="#" title="Amy" data-toggle="tooltip">
+																<img src="images/resources/userlist-4.jpg" alt="">
+															</a>
+															<a href="#" title="Ema" data-toggle="tooltip">
+																<img src="images/resources/userlist-5.jpg" alt="">
+															</a>
+															<a href="#" title="Sophie" data-toggle="tooltip">
+																<img src="images/resources/userlist-6.jpg" alt="">
+															</a>
+															<a href="#" title="Maria" data-toggle="tooltip">
+																<img src="images/resources/userlist-7.jpg" alt="">
+															</a>
 														</div>
 													</div>
 												</div>
 											</div>
-										</div><!-- page like widget -->
-										<div class="widget">
-											<h4 class="widget-title">Explor Events <a title="" href="#"
-													class="see-all">See All</a></h4>
-											<div class="rec-events bg-purple">
-												<i class="ti-gift"></i>
-												<h6><a href="#" title="">Ocean Motel good night event in columbia</a>
-												</h6>
-												<img src="images/clock.png" alt="">
-											</div>
-											<div class="rec-events bg-blue">
-												<i class="ti-microphone"></i>
-												<h6><a href="#" title="">2016 The 3rd International Conference</a></h6>
-												<img src="images/clock.png" alt="">
-											</div>
-										</div><!-- explore events -->
-										<div class="widget">
-											<h4 class="widget-title">Profile intro</h4>
-											<ul class="short-profile">
-												<li>
-													<span>about</span>
-													<p>Hi, i am jhon kates, i am 32 years old and worked as a web
-														developer in microsoft </p>
-												</li>
-												<li>
-													<span>fav tv show</span>
-													<p>Sacred Games, Spartcus Blood, Games of Theron </p>
-												</li>
-												<li>
-													<span>favourit music</span>
-													<p>Justin Biber, Shakira, Nati Natasah</p>
-												</li>
-											</ul>
-										</div><!-- profile intro widget -->
-										<div class="widget stick-widget">
-											<h4 class="widget-title">Recent Links <a title="" href="#"
-													class="see-all">See All</a></h4>
-											<ul class="recent-links">
-												<li>
-													<figure><img src="images/resources/recentlink-1.jpg" alt="">
-													</figure>
-													<div class="re-links-meta">
-														<h6><a href="#" title="">moira's fade reaches much farther than
-																you think.</a></h6>
-														<span>2 weeks ago </span>
-													</div>
-												</li>
-												<li>
-													<figure><img src="images/resources/recentlink-2.jpg" alt="">
-													</figure>
-													<div class="re-links-meta">
-														<h6><a href="#" title="">daniel asks if we want him to do the
-																voice of doomfist</a></h6>
-														<span>3 months ago </span>
-													</div>
-												</li>
-												<li>
-													<figure><img src="images/resources/recentlink-3.jpg" alt="">
-													</figure>
-													<div class="re-links-meta">
-														<h6><a href="#" title="">the pitnik overwatch scandals.</a></h6>
-														<span>1 day before</span>
-													</div>
-												</li>
-											</ul>
-										</div><!-- recent links -->
-									</aside>
-								</div><!-- sidebar -->
-							</div>
+										</div>
+									</div><!-- page like widget -->
+									<div class="widget">
+										<h4 class="widget-title">Explor Events <a title="" href="#" class="see-all">See
+												All</a></h4>
+										<div class="rec-events bg-purple">
+											<i class="ti-gift"></i>
+											<h6><a href="#" title="">Ocean Motel good night event in columbia</a>
+											</h6>
+											<img src="images/clock.png" alt="">
+										</div>
+										<div class="rec-events bg-blue">
+											<i class="ti-microphone"></i>
+											<h6><a href="#" title="">2016 The 3rd International Conference</a></h6>
+											<img src="images/clock.png" alt="">
+										</div>
+									</div><!-- explore events -->
+									<div class="widget">
+										<h4 class="widget-title">Profile intro</h4>
+										<ul class="short-profile">
+											<li>
+												<span>about</span>
+												<p>Hi, i am jhon kates, i am 32 years old and worked as a web
+													developer in microsoft </p>
+											</li>
+											<li>
+												<span>fav tv show</span>
+												<p>Sacred Games, Spartcus Blood, Games of Theron </p>
+											</li>
+											<li>
+												<span>favourit music</span>
+												<p>Justin Biber, Shakira, Nati Natasah</p>
+											</li>
+										</ul>
+									</div><!-- profile intro widget -->
+									<div class="widget stick-widget">
+										<h4 class="widget-title">Recent Links <a title="" href="#" class="see-all">See
+												All</a></h4>
+										<ul class="recent-links">
+											<li>
+												<figure><img src="images/resources/recentlink-1.jpg" alt="">
+												</figure>
+												<div class="re-links-meta">
+													<h6><a href="#" title="">moira's fade reaches much farther than
+															you think.</a></h6>
+													<span>2 weeks ago </span>
+												</div>
+											</li>
+											<li>
+												<figure><img src="images/resources/recentlink-2.jpg" alt="">
+												</figure>
+												<div class="re-links-meta">
+													<h6><a href="#" title="">daniel asks if we want him to do the
+															voice of doomfist</a></h6>
+													<span>3 months ago </span>
+												</div>
+											</li>
+											<li>
+												<figure><img src="images/resources/recentlink-3.jpg" alt="">
+												</figure>
+												<div class="re-links-meta">
+													<h6><a href="#" title="">the pitnik overwatch scandals.</a></h6>
+													<span>1 day before</span>
+												</div>
+											</li>
+										</ul>
+									</div><!-- recent links -->
+								</aside>
+							</div><!-- sidebar -->
 						</div>
 					</div>
 				</div>
 			</div>
-		</section>
+	</div>
+	</section>
 
-		<a title="Your Cart Items" href="shop-cart.html" class="shopping-cart" data-toggle="tooltip">Cart <i
-				class="fa fa-shopping-bag"></i><span>02</span></a>
+	<a title="Your Cart Items" href="shop-cart.html" class="shopping-cart" data-toggle="tooltip">Cart <i
+			class="fa fa-shopping-bag"></i><span>02</span></a>
 
-		<div class="bottombar">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<span class="copyright">© Pitnik 2020. All rights reserved.</span>
-						<i><img src="images/credit-cards.png" alt=""></i>
-					</div>
+	<div class="bottombar">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<span class="copyright">© Pitnik 2020. All rights reserved.</span>
+					<i><img src="images/credit-cards.png" alt=""></i>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	<div class="side-panel">
 		<h4 class="panel-title">General Setting</h4>
@@ -2417,7 +2414,7 @@
 	<script src="js/page-tourintro.js"></script>
 	<script src="js/page-tour-init.js"></script>
 	<script src="js/script.js"></script>
-
+	<script src="./css/UPdatePost.css"></script>
 	<script>
 		jQuery(document).ready(function ($) {
 
