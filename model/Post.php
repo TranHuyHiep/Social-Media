@@ -23,6 +23,16 @@ class Posts{
 
         return $stmt;
     }
+    public function timeline(){
+        $query = "SELECT Posts.id, content, Posts.user_id, full_name, avatar_url,like_count, created_at, updated_at  
+                    FROM Users JOIN Posts ON Users.id=Posts.user_id 
+                    WHERE Posts.user_id=:id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $this->user_id);
+        $stmt->execute();
+
+        return $stmt;
+    }
 
     //show DL
     public function show(){
@@ -86,5 +96,6 @@ class Posts{
         return false; 
         
     }
+    
 }
 ?>

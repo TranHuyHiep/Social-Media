@@ -81,7 +81,7 @@ function getRecommenFriend() {
 
 function addFriend(follower, following) {
     var settings = {
-        "url": API + "/social-media/controller/userrelacontroller/addfriend.php",
+        "url": API + "/userrelacontroller/addfriend.php",
         "method": "POST",
         "headers": {
             "Content-Type": "application/json"
@@ -112,7 +112,7 @@ function listFriendRequest(id) {
 
     $.ajax(settings)
         .done(function (response) {
-            if(response.data == null) {
+            if (response.data == null) {
                 targetDiv.innerHTML = "No Friend request";
             } else {
                 let str = response.data.map(function (user) {
