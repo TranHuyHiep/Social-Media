@@ -6,14 +6,13 @@ header('Access-Control-Allow-Methods: GET');
 include_once('../../config/DataBase.php');
 include_once('../../model/UserInfo.php');
 include_once('../../model/Users.php');
-//include_once('../loginscontroller/Login.php');
 $db = new DataBase();
 $connect = $db->connect();
 $user = new users($connect);
 
 $name = isset($_GET['name']) ? $_GET['name'] : die();
 
-$read = $user->find_user($name);
+$read = $user->find_user('%' . $name . '%');
 $num = $read->rowCount();
     if($num>0)
     {
