@@ -1,38 +1,38 @@
 function login() {
     var data = {
-      email: $("#email").val(),
-      password: $("#password").val()
+        email: $("#email").val(),
+        password: $("#password").val()
     };
 
     $.ajax({
-      type: "POST",
-      url: API + "/loginscontroller/Login.php?email=" + data.email + "&password=" + data.password,
-      
+        type: "POST",
+        url: API + "/loginscontroller/Login.php?email=" + data.email + "&password=" + data.password,
 
-      
-      data: JSON.stringify(data),
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function (response) {
-          if (response.status === "success") {
-                  // Đăng nhập thành công, bạn có thể thực hiện hành động phù hợp ở đây
-                  console.log("Đăng nhập thành công.");
-                  localStorage.setItem('user_id', response.user_id);
-                  window.location.href = "../view/index.html"
-              } else {
-                  // Đăng nhập không thành công, hiển thị thông báo lỗi
-                  console.log("Đăng nhập không thành công: " + response.message);
-              }
-      },
-      error: function (error) {
-        alert("ko")
-        console.log(error);
-      }
+
+
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            if (response.status === "success") {
+                // Đăng nhập thành công, bạn có thể thực hiện hành động phù hợp ở đây
+                console.log("Đăng nhập thành công.");
+                localStorage.setItem('user_id', response.user_id);
+                window.location.href = "../view/index.html"
+            } else {
+                // Đăng nhập không thành công, hiển thị thông báo lỗi
+                console.log("Đăng nhập không thành công: " + response.message);
+            }
+        },
+        error: function (error) {
+            alert("ko")
+            console.log(error);
+        }
     });
-  }
+}
 
 
-  $(document).ready(function () {
+$(document).ready(function () {
     $("#register-button").click(function () {
         var full_name = $("#full_name").val();
         var email = $("#email").val();
@@ -58,7 +58,7 @@ function login() {
 
         $.ajax({
             type: "POST",
-            url:API + "/loginscontroller/register.php",
+            url: API + "/loginscontroller/register.php",
             data: formData,
             contentType: false, // Không sử dụng contentType và processData để cho phép dữ liệu gửi dưới dạng FormData
             processData: false,

@@ -226,8 +226,7 @@ function loadData() {
                             </div>
                             <ins><a href="time-line.html" title="">${posts.full_name}</a> Post
                                 Album</ins>
-                            <span><i class="fa fa-globe"></i> published: September,15 2020
-                                19:PM </span>
+                            <span><i class="fa fa-globe"></i> published: ${posts.created_at} </span>
                         </div>
                         <div class="post-meta">
                             <div id="currentcontent">
