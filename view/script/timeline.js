@@ -6,7 +6,7 @@ function loadData() {
 function getRecommenFriend() {
     $.ajax({
         type: 'GET',
-        url: API + '/social-media/controller/userrelacontroller/getrecommenfriend.php?id=1',
+        url: API + '/userrelacontroller/getrecommenfriend.php?id=1',
         headers: {
             // 'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBWZXIiOiIwLjAuMCIsImV4cCI6NDcyNjM4OTEyMiwibG9jYWxlIjoiIiwibWFzdGVyVmVyIjoiIiwicGxhdGZvcm0iOiIiLCJwbGF0Zm9ybVZlciI6IiIsInVzZXJJZCI6IiJ9.QIZbmB5_9Xlap_gDhjETfMI6EAmR15yBtIQkWFWJkrg',
         },
@@ -105,7 +105,7 @@ function addFriend(follower, following) {
 
 function listFriendRequest(id) {
     var settings = {
-        "url": API + "/social-media/controller/userrelacontroller/listfriendrequest.php?id=" + id,
+        "url": API + "/userrelacontroller/listfriendrequest.php?id=" + id,
         "method": "GET"
     };
     const targetDiv = document.querySelector('#friend-requests');
@@ -141,7 +141,7 @@ function acceptFriend(follower, following) {
     event.preventDefault();
 
     var settings = {
-        "url": API + "/social-media/controller/userrelacontroller/acceptfriend.php",
+        "url": API + "/userrelacontroller/acceptfriend.php",
         "method": "POST",
         "headers": {
             "Content-Type": "application/json"
@@ -167,7 +167,7 @@ function rejectFriend(follower, following) {
     event.preventDefault();
 
     var settings = {
-        "url": API + "/social-media/controller/userrelacontroller/rejectfriend.php",
+        "url": API + "/userrelacontroller/rejectfriend.php",
         "method": "POST",
         "headers": {
             "Content-Type": "application/json"
