@@ -263,8 +263,8 @@
 					</span>
 				</div>
 				<div class="top-search">
-					<form method="post" class="">
-						<input type="text" placeholder="Search People, Pages, Groups etc">
+					<form method="post" class="" id="search-form">
+						<input type="text" placeholder="Search People, Pages, Groups etc" id="search-input" >
 						<button data-ripple><i class="ti-search"></i></button>
 					</form>
 				</div>
@@ -1568,12 +1568,12 @@
 										</div><!-- who's following -->
 									</aside>
 								</div><!-- sidebar -->
-								<div class="col-lg-6">
+								<div class="col-lg-6" id="search-results-sidebar">
 									<div class="central-meta postbox">
 										<span class="create-post">Create post</span>
 										<div class="new-postbox">
 											<figure>
-												<img src="images/resources/admin.jpg" alt="" ">
+												<img src="images/resources/admin.jpg" alt="">
 											</figure>
 											<div class=" newpst-input">
 												<form id="postForm" method="post">
@@ -2473,6 +2473,7 @@
 	<script src="./script/api.js"></script>
 	<script src="./script/post-create.js"></script>
 	<script src="./script/UserInfo.js"></script>
+	<script src="./script/find-user.js"></script>
 </body>
 
 

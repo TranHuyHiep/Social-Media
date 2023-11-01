@@ -6,7 +6,7 @@ function login() {
 
     $.ajax({
       type: "POST",
-      url: API + "loginscontroller/Login.php?email=" + data.email + "&password=" + data.password,
+      url: API + "/loginscontroller/Login.php?email=" + data.email + "&password=" + data.password,
       
 
       
@@ -58,7 +58,7 @@ function login() {
 
         $.ajax({
             type: "POST",
-            url:API + "loginscontroller/register.php",
+            url:API + "/loginscontroller/register.php",
             data: formData,
             contentType: false, // Không sử dụng contentType và processData để cho phép dữ liệu gửi dưới dạng FormData
             processData: false,
