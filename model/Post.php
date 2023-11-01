@@ -68,7 +68,7 @@ class Posts{
         
     }
     public function update(){
-        $query = "UPDATE Posts SET content=:content WHERE id=:id";
+        $query = "UPDATE Posts SET content=:content, updated_at=now() WHERE id=:id";
         $stmt = $this->conn->prepare($query);
         
         //bind data
