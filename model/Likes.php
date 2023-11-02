@@ -46,6 +46,17 @@
         $stmt->execute();
         return $stmt;
 	}
+	public function checkLikedPost($user_id, $post_id){
+		$query = "SELECT likes.id, likes.user_id, likes.post_id
+        FROM likes INNER JOIN users ON likes.user_id = users.id
+		INNER JOIN posts on likes.post_id = posts.id
+        WHERE likes.user_id = :user_id AND likes.post_id = :post_id ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':user_id',$user_id, PDO::PARAM_INT); // Assuming id is an integer
+		$stmt->bindParam(':post_id',$post_id, PDO::PARAM_INT); // Assuming id is an integer
+        $stmt->execute();
+        return $stmt;
+	}
     // add new Like post
     public function addNewLikes($id_users,$id_post){
         $query = "INSERT INTO likes(user_id, post_id) VALUES (:id_users, :id_post)";
@@ -80,10 +91,11 @@
         return false;
 	}
     //delete likes
-    public function removeNewLikes($id){
-        $query = "DELETE FROM likes WHERE id = ?";
+    public function removeNewLikes($user_id, $post_id){
+        $query = "DELETE FROM likes WHERE likes.user_id = :user_id AND likes.post_id =:post_id ";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+		$stmt->bindParam(':post_id', $post_id, PDO::PARAM_INT);
         if($stmt->execute()) {
             return true;
         }

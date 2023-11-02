@@ -401,3 +401,77 @@ function saveEditedPost(id) {
     });
 
 }
+//vanh code :))
+function likePost(user_id, post_id){
+    // check xem nguoi dung da like bai post hay chua
+    // neu chua thi thuc hien them moi like post
+    // neu roi thi thuc hien xoa like post
+    $.ajax({
+        type: "POST",
+        url: API + "/likescontroller/CheckLikedPost.php",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify({
+            user_id: user_id,
+            post_id: post_id
+        }),
+        success: function (response) {
+            //console.log(response);
+            // Kiểm tra xem dữ liệu phản hồi có phải là null không
+            if (response.data == null) {
+                //var s = ""+comment_id;
+                var requests = {
+                    "url": API + '/likescontroller/NewLikesPost.php',
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "user_id": user_id,
+                        "post_id": post_id,
+                        
+                    })
+                }
+                $.ajax(requests).done(function (response) {
+                    console.log("Them like post thanh cong");
+
+                    //$("#list-comments").load(location.href + " #list-comments"); 
+                    //getlike(post_id);
+                    loadData();
+
+                }).fail(function (errorThrown) {
+                    console.error("Lỗi: ", errorThrown);
+                    loadData();
+                    //getlike(post_id);
+                });
+            } else {
+                var requests = {
+                    "url": API + '/likescontroller/DeleteLikesPost.php',
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "user_id": user_id,
+                        "post_id": post_id
+                    })
+                }
+                $.ajax(requests).done(function (response) {
+                    console.log("Xoa thanh cong");
+                    //getlike(post_id);
+                    loadData();
+                }).fail(function (errorThrown) {
+                    //console.log("Lỗi");
+                    console.error("Lỗi: ", errorThrown);
+                    loadData();
+                    //getlike(post_id);
+                });
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        },
+
+    });
+}
