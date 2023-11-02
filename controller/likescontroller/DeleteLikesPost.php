@@ -12,8 +12,8 @@
     $likes = new Likes($connect);
 
     $data = json_decode(file_get_contents("php://input"));
-    $ID = isset($_GET["id"]) ? ($_GET["id"]) :die();
-    $read = $likes->removeNewLikes($ID);
+    //$ID = isset($_GET["id"]) ? ($_GET["id"]) :die();
+    $read = $likes->removeNewLikes($data->user_id, $data->post_id);
 
     $list = [];
     if($read) {
