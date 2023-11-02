@@ -52,6 +52,8 @@ function getMessageToUser(user_id) {
 
     loadUserDetail(user_id)
     characterInfor(user_id)
+    messageBox(user_id)
+
     // TODO update id
     var id = 1;
     var settings = {
@@ -106,8 +108,8 @@ function loadUserDetail(user_id) {
     const targetDiv = document.querySelector('#mesg-area-head');
 
     $.ajax(settings).done(function (response) {
-        let str = 
-        `
+        let str =
+            `
         <div class="active-user">
             <figure><img src="${response.avatar_url}" alt="">
                 <span class="status f-away"></span>
@@ -153,8 +155,8 @@ function characterInfor(user_id) {
     const targetDiv = document.querySelector('#charter-info');
 
     $.ajax(settings).done(function (response) {
-        let str = 
-        `
+        let str =
+            `
         <figure><img src="${response.avatar_url}" alt=""></figure>
         <h6>${response.full_name}</h6>
         <span>Online</span>
@@ -186,8 +188,99 @@ function characterInfor(user_id) {
         `
         targetDiv.innerHTML = str;
     });
+}
 
-    
+function messageBox(user_id) {
+    const targetDiv = document.querySelector('#message-writing-box');
+
+    var str =
+        `
+        <form method="post">
+        <div class="text-area">
+            <input type="text" placeholder="write your message here.." id="content">
+                <button type="submit" onclick="sendMessage(${user_id})"><i class="fa fa-paper-plane-o"></i></button>
+        </div>
+        <div class="emojies">
+            <i><img src="images/smiles/happy-3.png" alt=""></i>
+            <ul class="emojies-list">
+                <li><a href="#" title=""><img src="images/smiles/unhappy.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/tongue-out-1.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/suspicious.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/smiling.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/wink.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/bored.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/angry-1.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/angry.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/bored-1.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/bored-2.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/confused-1.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/confused.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/crying-1.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/crying.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/embarrassed.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/emoticons.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/happy-1.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/happy-2.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/happy-3.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/happy-4.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/ill.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/in-love.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/kissing.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/mad.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/nerd.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/ninja.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/quiet.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/sad.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/secret.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/smile.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/surprised-1.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/tongue-out.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/unhappy.png" alt=""></a></li>
+                <li><a href="#" title=""><img src="images/smiles/suspicious.png" alt=""></a></li>
+            </ul>
+        </div>
+        <div class="attach-file">
+            <label class="fileContainer">
+                <i class="ti-clip"></i>
+                <input type="file">
+            </label>
+        </div>
+        </form>
+        `
+    targetDiv.innerHTML = str;
+}
+
+function sendMessage(user_id) {
+    event.preventDefault()
+    // TODO update id
+    var id = 1;
+    var content = document.getElementById("content").value;
+
+    if(content == "") {
+        return;
+    }
+
+    var settings = {
+        "url": API + "/messengercontroller/sendmessage.php",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+            "from": id,
+            "to": user_id,
+            "content": content
+        }),
+    };
+
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+        getMessageToUser(user_id)
+    }).fail(function (response) {
+        getMessageToUser(user_id)
+        console.error("sendMessage: ", response);
+    })
 }
 
 function countTime(created_at_string) {
