@@ -12,7 +12,7 @@ $connect = $db->connect();
 $user = new users($connect);
 
 session_start();
-$user_id = $_SESSION['user_id'];
+$user_id = isset($_GET['id']) ? $_GET['id'] : die();
 
 $read = $user->getUserByUserId($user_id);
 $num = $read->rowCount();

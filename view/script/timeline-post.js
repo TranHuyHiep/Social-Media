@@ -190,8 +190,9 @@ function showcomment(id) {
 
 }
 function loadData() {
+    var user_id = 1;
     var settings = {
-        "url": API + "/postscontroller/ViewPost.php",
+        "url": API + "/postscontroller/ListTimelinePost.php?user_id=" + user_id,
         "method": "GET",
         "timeout": 0,
     };
@@ -226,9 +227,9 @@ function loadData() {
                             </div>
                             <ins><a href="time-line.html" title="">${posts.full_name}</a> Post
                                 Album</ins>
-                            <span><i class="fa fa-globe"></i> published: September,15 2020
-                                19:PM </span>
-                        </div>
+                            <span><i class="fa fa-globe"></i> published: ${posts.updated_at ? `updated ${posts.updated_at}` : `created ${posts.created_at}`}
+                            </span >
+                        </div >
                         <div class="post-meta">
                             <div id="currentcontent">
                                 ${posts.content}
@@ -334,10 +335,10 @@ function loadData() {
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div >
 
-                </div>
-            </div>
+                </div >
+            </div >
             `
         }).join('');
 
