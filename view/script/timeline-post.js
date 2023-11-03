@@ -227,7 +227,12 @@ function loadData() {
                             </div>
                             <ins><a href="time-line.html" title="">${posts.full_name}</a> Post
                                 Album</ins>
-                            <span><i class="fa fa-globe"></i> published: ${posts.updated_at ? `updated ${posts.updated_at}` : `created ${posts.created_at}`}
+                            <span><select id="myComboBox" onchange="showSelected()">
+                                        <option onclick="loadData(${posts.access_modifier} = "Public")>Public</option>
+                                        <option onclick="loadData(${posts.access_modifier} = "Friend")>Friend</option>
+                                        <option onclick="loadData(${posts.access_modifier} = "Private")>Private</option>
+                                        </select>
+                            published: ${posts.updated_at ? `updated ${posts.updated_at}` : `created ${posts.created_at}`}
                             </span >
                         </div >
                         <div class="post-meta">
@@ -236,7 +241,7 @@ function loadData() {
                             </div>
                             <div id="editForm" style="display: none;">
                             <textarea id="editedContent"></textarea>
-                            <button onclick="saveEditedPost(${posts.id})">Lưu</button>
+                            <button id="saveButton" onclick="saveEditedPost(${posts.id})" >Lưu</button>
                             </div>
                             <figure>
                                 <ul class="like-dislike">
@@ -403,3 +408,4 @@ function saveEditedPost(id) {
     });
 
 }
+

@@ -14,7 +14,7 @@ class Posts{
         $this->conn = $conn;
     }
 
-    // doc DL
+    // bai viet ngoai trang chu
     public function read()
     {
         $query = "SELECT Posts.id, content, Posts.user_id, full_name, avatar_url,like_count, created_at, updated_at  FROM Users JOIN Posts ON Users.id=Posts.user_id ORDER BY id DESC";
@@ -23,10 +23,12 @@ class Posts{
 
         return $stmt;
     }
+    // bai viet trang ca nhan
     public function timeline(){
-        $query = "SELECT Posts.id, content, Posts.user_id, full_name, avatar_url,like_count, created_at, updated_at  
+        
+        $query = "SELECT Posts.id, content, Posts.user_id, access_modifier, full_name, avatar_url,like_count, created_at, updated_at
                     FROM Users JOIN Posts ON Users.id=Posts.user_id 
-                    WHERE Posts.user_id=:id";
+                    WHERE Posts.user_id=:id ORDER BY created_at DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $this->user_id);
         $stmt->execute();
@@ -51,6 +53,7 @@ class Posts{
         $this->created_at = $row['created_at'];
         $this->like_count = $row['like_count'];
     }
+    // tao bai viet moi
     public function create(){
         $query = "INSERT INTO Posts SET content=:content, Posts.user_id=:id, like_count=0, created_at=now(), access_modifier='public'";
         $stmt = $this->conn->prepare($query);
@@ -67,6 +70,7 @@ class Posts{
         return false; 
         
     }
+    // update bai viet
     public function update(){
         $query = "UPDATE Posts SET content=:content, updated_at=now() WHERE id=:id";
         $stmt = $this->conn->prepare($query);
@@ -82,6 +86,7 @@ class Posts{
         return false; 
         
     }
+    // xoa bai viet
     public function delete(){
         $query = "DELETE FROM Posts WHERE id=:id";
         $stmt = $this->conn->prepare($query);
@@ -96,6 +101,23 @@ class Posts{
         return false; 
         
     }
+    // chinh sua quyen rieng tu
+    public function updatePrivacy($access_modifier){
+        
+        $query = "UPDATE Posts SET updated_at=now() WHERE id=:id, access_modifier=:access_modifier";
+        $stmt = $this->conn->prepare($query);
+        
+        //bind data
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':access_modifier', $access_modifier, PDO::PARAM_STR);
+        
+        if($stmt->execute()){
+            return true;
+        }
+        printf("Error %s.\n" ,$stmt->Error);
+        return false; 
+    }
+  
     
 }
 ?>

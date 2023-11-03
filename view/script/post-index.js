@@ -226,7 +226,11 @@ function loadData() {
                             </div>
                             <ins><a href="time-line.html" title="">${posts.full_name}</a> Post
                                 Album</ins>
-                            <span><i class="fa fa-globe"></i> published: ${posts.created_at} </span>
+                            <span><select id="myComboBox" onchange="showSelected()">
+                            <option value="option1">Public</option>
+                            <option value="option2">Friend</option>
+                            <option value="option3">Private</option>
+                            </select> published: ${posts.created_at} </span>
                         </div>
                         <div class="post-meta">
                             <div id="currentcontent">
@@ -402,7 +406,7 @@ function saveEditedPost(id) {
 
 }
 //vanh code :))
-function likePost(user_id, post_id){
+function likePost(user_id, post_id) {
     // check xem nguoi dung da like bai post hay chua
     // neu chua thi thuc hien them moi like post
     // neu roi thi thuc hien xoa like post
@@ -430,7 +434,7 @@ function likePost(user_id, post_id){
                     "data": JSON.stringify({
                         "user_id": user_id,
                         "post_id": post_id,
-                        
+
                     })
                 }
                 $.ajax(requests).done(function (response) {
