@@ -201,6 +201,7 @@ function loadData() {
         const targetDiv = document.querySelector('#postedContent');
         var str = response.data.map(function (posts) {
             return `
+
             <div class="central-meta item" style="display: inline-block;">
                 <div class="user-post">
                     <div class="friend-info">
@@ -210,9 +211,17 @@ function loadData() {
                         <div class="friend-name"> 
                             <div class="more">
                                 <div class="more-post-optns"><i class="ti-more-alt"></i>
-                                    <ul>
+                                    <ul><li>
+                                        <select class="myComboBox" id="myComboBox${posts.id}" onchange="updatePrivacy(${posts.id})">
+                                            <option value = "" hidden>Select privacy</option>
+                                            <option value = "public" >Public</option>
+                                            <option value = "follower" >Follower</option>
+                                            <option value = "private" >Private</option>
+                                        </select>
+                                        </li>
                                         <li onclick="updatePost()"><i class="fa fa-pencil-square-o"></i>Edit Post
                                         </li>
+                                        
                                         <li onclick="deletePost(${posts.id})"><i class="fa fa-trash-o"> Delete Post </i></li>
                                         <li class="bad-report"><i class="fa fa-flag"></i>Report Post</li>
                                         <li><i class="fa fa-address-card-o"></i>Boost This
@@ -227,11 +236,9 @@ function loadData() {
                             </div>
                             <ins><a href="time-line.html" title="">${posts.full_name}</a> Post
                                 Album</ins>
-                            <span><select id="myComboBox" onchange="showSelected()">
-                                        <option onclick="loadData(${posts.access_modifier} = "Public")>Public</option>
-                                        <option onclick="loadData(${posts.access_modifier} = "Friend")>Friend</option>
-                                        <option onclick="loadData(${posts.access_modifier} = "Private")>Private</option>
-                                        </select>
+                            <span>
+                                <img src="./images/${posts.access_modifier}.png" width=15px" />${posts.access_modifier}
+                                
                             published: ${posts.updated_at ? `updated ${posts.updated_at}` : `created ${posts.created_at}`}
                             </span >
                         </div >
@@ -241,7 +248,7 @@ function loadData() {
                             </div>
                             <div id="editForm" style="display: none;">
                             <textarea id="editedContent"></textarea>
-                            <button id="saveButton" onclick="saveEditedPost(${posts.id})" >Lưu</button>
+                            <button class="saveButton" id="saveButton" onclick="saveEditedPost(${posts.id})" >Lưu</button>
                             </div>
                             <figure>
                                 <ul class="like-dislike">
@@ -379,6 +386,28 @@ function updatePost() {
     const currentContent = document.getElementById('currentcontent').innerText;
     document.getElementById('editedContent').value = currentContent;
 
+}
+function updatePrivacy(id) {
+    var access_modifier = document.getElementById("myComboBox" + id).value;
+    if (access_modifier == "") return;
+    var settings = {
+        "url": API + "/postscontroller/UpdatePrivacy.php",
+        "method": "PUT",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+            "id": id,
+            "access_modifier": access_modifier
+        }),
+    };
+
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+        alert("ban da update quyen rieng tu");
+        loadData();
+    });
 }
 function saveEditedPost(id) {
 

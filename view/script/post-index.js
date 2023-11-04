@@ -210,9 +210,7 @@ function loadData() {
                             <div class="more">
                                 <div class="more-post-optns"><i class="ti-more-alt"></i>
                                     <ul>
-                                        <li onclick="updatePost()"><i class="fa fa-pencil-square-o"></i>Edit Post
-                                        </li>
-                                        <li onclick="deletePost(${posts.id})"><i class="fa fa-trash-o"> Delete Post </i></li>
+                                        
                                         <li class="bad-report"><i class="fa fa-flag"></i>Report Post</li>
                                         <li><i class="fa fa-address-card-o"></i>Boost This
                                             Post</li>
@@ -226,13 +224,11 @@ function loadData() {
                             </div>
                             <ins><a href="time-line.html" title="">${posts.full_name}</a> Post
                                 Album</ins>
-                            <span><select id="myComboBox" onchange="showSelected()">
-                            <option value="option1">Public</option>
-                            <option value="option2">Friend</option>
-                            <option value="option3">Private</option>
-                            </select> published: ${posts.created_at} </span>
-                        </div>
-                        <div class="post-meta">
+                            <span>
+                            <img src="./images/${posts.access_modifier}.png" width=15px" />${posts.access_modifier}
+                            published: ${posts.created_at} </span>
+                            </div>
+                            <div class="post-meta">
                             <div id="currentcontent">
                                 ${posts.content}
                             </div>
@@ -350,61 +346,6 @@ function loadData() {
 }
 
 
-function deletePost(id) {
-
-    var settings = {
-        "url": API + "/postscontroller/DeletePost.php",
-        "method": "POST",
-        "headers": {
-        },
-        "data": JSON.stringify({
-            "id": id
-        }),
-    };
-
-    $.ajax(settings).done(function (response) {
-        console.log(response);
-        loadData();
-        alert("Bạn đã xóa bài viết!");
-    });
-
-}
-
-function updatePost() {
-    document.getElementById('currentcontent').style.display = 'none';
-    document.getElementById('editForm').style.display = 'block';
-    const currentContent = document.getElementById('currentcontent').innerText;
-    document.getElementById('editedContent').value = currentContent;
-
-}
-function saveEditedPost(id) {
-
-    var editedContent = document.getElementById('editedContent').value;
-    alert(editedContent);
-
-
-    var settings = {
-        "url": API + "/postscontroller/UpdatePost.php",
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "data": JSON.stringify({
-            "content": editedContent,
-            "id": id
-        }),
-    };
-
-    $.ajax(settings).done(function (response) {
-        console.log("editPost: ", response);
-        loadData();
-    }).fail(function (errorThrown) {
-        console.error("Lỗi editPost: ", errorThrown);
-
-    });
-
-}
 //vanh code :))
 function likePost(user_id, post_id) {
     // check xem nguoi dung da like bai post hay chua

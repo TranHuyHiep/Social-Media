@@ -29,21 +29,28 @@
 			background-color: #27ae60;
 		}
 
-		/* Tùy chỉnh combobox */
+		/* Style the select element with the class */
 		.myComboBox {
-			padding: 10px;
+			font-size: 13.5px;
 			border: 1px solid #ccc;
-			border-radius: 5px;
-			background-color: #fff;
-			font-size: 16px;
-			width: 200px;
+			border-radius: 4px;
+			width: 100%;
+		}
+
+		/* Style the options within the select element */
+		.myComboBox option {
+			background-color: white;
 			color: #333;
 		}
 
-		/* Tùy chỉnh khi di chuột vào combobox */
-		.myComboBox:hover {
-			background-color: #f0f0f0;
+		/* Style the select element when it's focused */
+		.myComboBox:focus {
+			outline: none;
+			border-color: #007bff;
+			/* Change the color on focus */
 		}
+
+		/* Tùy chỉnh combobox */
 	</style>
 
 </head>

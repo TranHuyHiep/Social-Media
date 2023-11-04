@@ -8,6 +8,7 @@ class Posts{
     public $updated_at;
     public $created_at;
     public $like_count;
+    public $access_modifier;
     
     //ket noi db
     public function __construct($conn){
@@ -17,7 +18,7 @@ class Posts{
     // bai viet ngoai trang chu
     public function read()
     {
-        $query = "SELECT Posts.id, content, Posts.user_id, full_name, avatar_url,like_count, created_at, updated_at  FROM Users JOIN Posts ON Users.id=Posts.user_id ORDER BY id DESC";
+        $query = "SELECT Posts.id, content, Posts.user_id, full_name,access_modifier, avatar_url,like_count, created_at, updated_at  FROM Users JOIN Posts ON Users.id=Posts.user_id ORDER BY id DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -102,14 +103,15 @@ class Posts{
         
     }
     // chinh sua quyen rieng tu
-    public function updatePrivacy($access_modifier){
+    public function updatePrivacy(){
         
-        $query = "UPDATE Posts SET updated_at=now() WHERE id=:id, access_modifier=:access_modifier";
+        $query = "UPDATE Posts SET access_modifier=:access_modifier, updated_at=now() WHERE id=:id ";
         $stmt = $this->conn->prepare($query);
         
         //bind data
         $stmt->bindParam(':id', $this->id);
-        $stmt->bindParam(':access_modifier', $access_modifier, PDO::PARAM_STR);
+        $stmt->bindParam(':access_modifier', $this->access_modifier);
+
         
         if($stmt->execute()){
             return true;
