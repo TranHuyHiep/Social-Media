@@ -206,7 +206,7 @@ function loadData() {
                 <div class="user-post">
                     <div class="friend-info">
                         <figure>
-                            <img src="images/resources/nearly1.jpg" alt="">
+                            <img src="${posts.avatar_url}" alt="">
                         </figure>
                         <div class="friend-name"> 
                             <div class="more">
@@ -282,28 +282,11 @@ function loadData() {
                                             <a class="share-pst" href="#" title="Share">
                                                 <i class="fa fa-share-alt"></i>
                                             </a>
-                                            <ins>20</ins>
+                                           
                                         </span>
                                     </li>
                                 </ul>
-                                <div class="users-thumb-list">
-                                    <a data-toggle="tooltip" title="" href="#" data-original-title="Anderw">
-                                        <img alt="" src="images/resources/userlist-1.jpg">
-                                    </a>
-                                    <a data-toggle="tooltip" title="" href="#" data-original-title="frank">
-                                        <img alt="" src="images/resources/userlist-2.jpg">
-                                    </a>
-                                    <a data-toggle="tooltip" title="" href="#" data-original-title="Sara">
-                                        <img alt="" src="images/resources/userlist-3.jpg">
-                                    </a>
-                                    <a data-toggle="tooltip" title="" href="#" data-original-title="Amy">
-                                        <img alt="" src="images/resources/userlist-4.jpg">
-                                    </a>
-                                    <a data-toggle="tooltip" title="" href="#" data-original-title="Ema">
-                                        <img alt="" src="images/resources/userlist-5.jpg">
-                                    </a>
-                                    <span><strong>You</strong>, <b>Sarah</b> and <a href="#" title="">24+ more</a> liked</span>
-                                </div>
+                                
                             </div>
                         </div>
                         <div class="coment-area" style="display: block;">

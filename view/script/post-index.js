@@ -204,7 +204,7 @@ function loadData() {
                 <div class="user-post">
                     <div class="friend-info">
                         <figure>
-                            <img src="images/resources/nearly1.jpg" alt="">
+                            <img src="${posts.avatar_url}" alt="">
                         </figure>
                         <div class="friend-name"> 
                             <div class="more">
@@ -265,31 +265,10 @@ function loadData() {
 
                                     <li>
                                         <span>
-                                            <a class="share-pst" href="#" title="Share">
-                                                <i class="fa fa-share-alt"></i>
-                                            </a>
-                                            <ins>20</ins>
+                                            <i class="fa fa-share-alt" onclick="formload(${posts.id}) "></i>
                                         </span>
                                     </li>
-                                </ul>
-                                <div class="users-thumb-list">
-                                    <a data-toggle="tooltip" title="" href="#" data-original-title="Anderw">
-                                        <img alt="" src="images/resources/userlist-1.jpg">
-                                    </a>
-                                    <a data-toggle="tooltip" title="" href="#" data-original-title="frank">
-                                        <img alt="" src="images/resources/userlist-2.jpg">
-                                    </a>
-                                    <a data-toggle="tooltip" title="" href="#" data-original-title="Sara">
-                                        <img alt="" src="images/resources/userlist-3.jpg">
-                                    </a>
-                                    <a data-toggle="tooltip" title="" href="#" data-original-title="Amy">
-                                        <img alt="" src="images/resources/userlist-4.jpg">
-                                    </a>
-                                    <a data-toggle="tooltip" title="" href="#" data-original-title="Ema">
-                                        <img alt="" src="images/resources/userlist-5.jpg">
-                                    </a>
-                                    <span><strong>You</strong>, <b>Sarah</b> and <a href="#" title="">24+ more</a> liked</span>
-                                </div>
+                                </ul>   
                             </div>
                         </div>
                         <div class="coment-area" style="display: block;">
@@ -337,6 +316,90 @@ function loadData() {
 
                 </div>
             </div>
+            <div class="modal-sharepost" id="modal-sharepost${posts.id}" style="display: none; background-color: rgba(0,0,0,0.4); padding-top: 100px;">
+            <div class="central-meta postbox" 
+                style="  
+                background-color: #fefefe;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 60%;
+                display: block;
+                ">
+                <span class="create-post">Share post <span id="closetab" style="color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;color: #000; text-decoration: none; cursor: pointer;"">&times;</span></span>
+                <div class="new-postbox">
+                    <figure>
+                        <img src="images/resources/admin.jpg" alt="">
+                    </figure>
+                    <div class=" newpst-input">
+                        <form id="postForm" method="post">
+                            <textarea id="shareContent" rows="2"
+                                placeholder="Share some what you are thinking?"></textarea>
+                        </form>
+                        <div id="sharedContent">
+
+                        </div>
+                    </div>
+                    <div class="attachments">
+                        <ul>
+                            <li>
+                                <span class="add-loc">
+                                    <i class="fa fa-map-marker"></i>
+                                </span>
+                            </li>
+                            <li>
+                                <i class="fa fa-music"></i>
+                                <label class="fileContainer">
+                                    <input type="file">
+                                </label>
+                            </li>
+                            <li>
+                                <i class="fa fa-image"></i>
+                                <label class="fileContainer">
+                                    <input type="file">
+                                </label>
+                            </li>
+                            <li>
+                                <i class="fa fa-video-camera"></i>
+                                <label class="fileContainer">
+                                    <input type="file">
+                                </label>
+                            </li>
+                            <li>
+                                <i class="fa fa-camera"></i>
+                                <label class="fileContainer">
+                                    <input type="file">
+                                </label>
+                            </li>
+                            <li class="preview-btn">
+                                <button class="post-btn-preview" type="submit"
+                                    data-ripple="">Preview</button>
+                            </li>
+                        </ul>
+                        <button class="post-btn" type="submitPost" data-ripple=""
+                            onclick="share(${posts.id}, ${posts.user_id})">Share</button>
+
+                    </div>
+
+                    <div class="add-location-post">
+                        <span>Drag map point to selected area</span>
+                        <div class="row">
+
+                            <div class="col-lg-6">
+                                <label class="control-label">Lat :</label>
+                                <input type="text" class="" id="us3-lat" />
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Long :</label>
+                                <input type="text" class="" id="us3-lon" />
+                            </div>
+                        </div>
+                        <!-- map -->
+                        <div id="us3"></div>
+                    </div>
+                </div>
+            </div><!-- add post new box -->
+        </div><!-- centerl meta -->
             `
         }).join('');
 
@@ -344,7 +407,6 @@ function loadData() {
         targetDiv.innerHTML = str;
     });
 }
-
 
 //vanh code :))
 function likePost(user_id, post_id) {
@@ -418,5 +480,105 @@ function likePost(user_id, post_id) {
             console.log(error);
         },
 
+    });
+}
+
+function sharePost(id) {
+    var modal = document.getElementById("modal-sharepost" + id);
+    var span = document.getElementById("closetab");
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    modal.style.display = "block"
+    modal.style.position = "fixed";
+    modal.style.zIndex = 9999;
+    modal.style.top = "0%";
+    modal.style.left = "0%";
+    modal.style.width = "100vw"
+    modal.style.height = "100vh"
+    modal.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+}
+function loadSharePost(id) {
+
+    var settings = {
+        "url": API + "/postscontroller/ViewSharePost.php?id=" + id,
+        "method": "GET",
+        "timeout": 0,
+    };
+    $.ajax(settings).done(function (response) {
+        const targetDiv = document.querySelector('#sharedContent');
+        var str = response.data.map(function (posts) {
+            return `
+            <div class="central-meta item" style="display: inline-block;">
+                <div class="user-post">
+                    <div class="friend-info">
+                        <figure>
+                            <img src="${posts.avatar_url}" alt="">
+                        </figure>
+                        <div class="friend-name"> 
+                            <div class="more">
+                                <div class="more-post-optns"><i class="ti-more-alt"></i>
+                                    <ul>
+                                        
+                                        <li class="bad-report"><i class="fa fa-flag"></i>Report Post</li>
+                                        <li><i class="fa fa-address-card-o"></i>Boost This
+                                            Post</li>
+                                        <li><i class="fa fa-clock-o"></i>Schedule Post</li>
+                                        <li><i class="fa fa-wpexplorer"></i>Select as
+                                            featured</li>
+                                        <li><i class="fa fa-bell-slash-o"></i>Turn off
+                                            Notifications</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <ins><a href="time-line.html" title="">${posts.full_name}</a> Post
+                                Album</ins>
+                            <span>
+                            <img src="./images/${posts.access_modifier}.png" width=15px" />${posts.access_modifier}
+                            published: ${posts.created_at} </span>
+                            </div>
+                            <div class="post-meta">
+                            <div id="currentcontent">
+                                ${posts.content}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `
+        }).join('');
+        targetDiv.innerHTML = str;
+    });
+}
+function formload(id) {
+    loadSharePost(id)
+    sharePost(id)
+}
+function share(post_id, user_id) {
+    var shareContent = document.getElementById("shareContent").value;
+    console.log(shareContent);
+    var settings = {
+        "url": API + "/postscontroller/SharePost.php",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+        },
+        "data": JSON.stringify({
+            "content": shareContent,
+            "user_id": user_id,
+            "shared_post_id": post_id
+        }),
+    };
+
+    $.ajax(settings).done(function (response) {
+        console.log("sharePost: ", response);
+        loadData();
+    }).fail(function (errorThrown) {
+        console.error("Lỗi sharePost: ", errorThrown);
     });
 }

@@ -9,6 +9,9 @@ class Posts{
     public $created_at;
     public $like_count;
     public $access_modifier;
+    public $shared_post_id;
+    public $avatar_url;
+    public $full_name;
     
     //ket noi db
     public function __construct($conn){
@@ -18,7 +21,14 @@ class Posts{
     // bai viet ngoai trang chu
     public function read()
     {
-        $query = "SELECT Posts.id, content, Posts.user_id, full_name,access_modifier, avatar_url,like_count, created_at, updated_at  FROM Users JOIN Posts ON Users.id=Posts.user_id ORDER BY id DESC";
+        $query = "SELECT Posts.id, content, Posts.user_id, full_name,access_modifier, avatar_url,like_count, created_at, updated_at  FROM Posts JOIN Users ON Posts.user_id=Users.id where Posts.user_id in 
+        (SELECT follwing as friend_id
+            FROM socialmedia.userrelas
+            where follower = 1 and status = 2
+            union
+            SELECT follower as friend_id
+            FROM socialmedia.userrelas
+            where follwing = 1 and status = 2)";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -36,27 +46,38 @@ class Posts{
 
         return $stmt;
     }
-
-    //show DL
-    public function show(){
-        $query = "SELECT * FROM Posts WHERE id=? LIMIT 1";
+    // chia se bai viet
+    public function share(){
+        $query = "INSERT INTO Posts SET content=:content, shared_post_id=:shared_post_id, Posts.user_id=:users_id, like_count=0, created_at=now(), access_modifier='public', is_active=1";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->id);
         
-        $stmt->execute();
-        
-        $row = $stmt->Fetch(PDO::FETCH_ASSOC);
+        //bind data
+        $stmt->bindParam(':content', $this->content);
+        $stmt->bindParam(':users_id', $this->user_id);
+        $stmt->bindParam(':shared_post_id', $this->shared_post_id);
 
-        $this->id = $row['id'];
-        $this->user_id = $row['user_id'];
-        $this->content = $row['content'];
-        $this->updated_at = $row['updated_at'];
-        $this->created_at = $row['created_at'];
-        $this->like_count = $row['like_count'];
+
+        
+        if($stmt->execute()){
+            return true;
+        }
+        printf("Error %s.\n" ,$stmt->Error);
+        return false; 
+    }
+    
+
+    // lay bai viet chia se
+    public function showshare(){
+        $query = "SELECT Posts.id, content, Posts.user_id, access_modifier, full_name, avatar_url, created_at, updated_at  
+                        FROM Users JOIN Posts ON Users.id=Posts.user_id WHERE Posts.id=:id ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+        return $stmt;
     }
     // tao bai viet moi
     public function create(){
-        $query = "INSERT INTO Posts SET content=:content, Posts.user_id=:id, like_count=0, created_at=now(), access_modifier='public'";
+        $query = "INSERT INTO Posts SET content=:content, Posts.user_id=:id, like_count=0, created_at=now(), access_modifier='public', is_active=1";
         $stmt = $this->conn->prepare($query);
         
         //bind data

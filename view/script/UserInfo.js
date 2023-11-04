@@ -17,7 +17,7 @@ $(document).ready(function () {
         },
         error: function (error) {
             console.log("Lỗi: " + JSON.stringify(error));
-            alert("Đã xảy ra lỗi khi gọi API");
+            // alert("Đã xảy ra lỗi khi gọi API");
         }
     });
 });
