@@ -1,10 +1,10 @@
 window.onload = function () {
     loadData();
-    setInterval(loadData, 10000);
+    setInterval(loadData, 1000);
 }
 function loadData() {
     // TODO update id
-    var id = 1;
+    var id = localStorage.getItem("user_id");
     var settings = {
         "url": API + "/messengercontroller/getallmessagebyuser.php?id=" + id,
         "method": "GET",
@@ -55,7 +55,7 @@ function getMessageToUser(user_id) {
     messageBox(user_id)
 
     // TODO update id
-    var id = 1;
+    var id = localStorage.getItem("user_id");
     var settings = {
         "url": API + "/messengercontroller/getmessagetouser.php",
         "method": "POST",
@@ -253,7 +253,7 @@ function messageBox(user_id) {
 function sendMessage(user_id) {
     event.preventDefault()
     // TODO update id
-    var id = 1;
+    var id = localStorage.getItem("user_id");
     var content = document.getElementById("content").value;
 
     if(content == "") {
