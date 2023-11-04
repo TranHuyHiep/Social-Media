@@ -15,6 +15,42 @@
 	<link rel="stylesheet" href="css/color.css">
 	<link rel="stylesheet" href="css/responsive.css">
 	<style>
+		.saveButton {
+			padding: 10px 20px;
+			background-color: #2ecc71;
+			color: #fff;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+
+		.saveButton:hover {
+			background-color: #27ae60;
+		}
+
+		/* Style the select element with the class */
+		.myComboBox {
+			font-size: 13.5px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			width: 100%;
+		}
+
+		/* Style the options within the select element */
+		.myComboBox option {
+			background-color: white;
+			color: #333;
+		}
+
+		/* Style the select element when it's focused */
+		.myComboBox:focus {
+			outline: none;
+			border-color: #007bff;
+			/* Change the color on focus */
+		}
+
+		/* Tùy chỉnh combobox */
 	</style>
 
 </head>
@@ -1696,7 +1732,8 @@
 															data-ripple="">Preview</button>
 													</li>
 												</ul>
-												<button class="post-btn" type="submit" data-ripple="">Post</button>
+												<button class="post-btn" type="submitPost" data-ripple=""
+													onclick="submitPost()">Post</button>
 											</div>
 											<div class="add-location-post">
 												<span>Drag map point to selected area</span>

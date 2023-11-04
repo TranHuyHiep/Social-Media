@@ -201,18 +201,27 @@ function loadData() {
         const targetDiv = document.querySelector('#postedContent');
         var str = response.data.map(function (posts) {
             return `
+
             <div class="central-meta item" style="display: inline-block;">
                 <div class="user-post">
                     <div class="friend-info">
                         <figure>
-                            <img src="images/resources/nearly1.jpg" alt="">
+                            <img src="${posts.avatar_url}" alt="">
                         </figure>
                         <div class="friend-name"> 
                             <div class="more">
                                 <div class="more-post-optns"><i class="ti-more-alt"></i>
-                                    <ul>
+                                    <ul><li>
+                                        <select class="myComboBox" id="myComboBox${posts.id}" onchange="updatePrivacy(${posts.id})">
+                                            <option value = "" hidden>Select privacy</option>
+                                            <option value = "public" >Public</option>
+                                            <option value = "follower" >Follower</option>
+                                            <option value = "private" >Private</option>
+                                        </select>
+                                        </li>
                                         <li onclick="updatePost()"><i class="fa fa-pencil-square-o"></i>Edit Post
                                         </li>
+                                        
                                         <li onclick="deletePost(${posts.id})"><i class="fa fa-trash-o"> Delete Post </i></li>
                                         <li class="bad-report"><i class="fa fa-flag"></i>Report Post</li>
                                         <li><i class="fa fa-address-card-o"></i>Boost This
@@ -227,7 +236,10 @@ function loadData() {
                             </div>
                             <ins><a href="time-line.html" title="">${posts.full_name}</a> Post
                                 Album</ins>
-                            <span><i class="fa fa-globe"></i> published: ${posts.updated_at ? `updated ${posts.updated_at}` : `created ${posts.created_at}`}
+                            <span>
+                                <img src="./images/${posts.access_modifier}.png" width=15px" />${posts.access_modifier}
+                                
+                            published: ${posts.updated_at ? `updated ${posts.updated_at}` : `created ${posts.created_at}`}
                             </span >
                         </div >
                         <div class="post-meta">
@@ -236,7 +248,7 @@ function loadData() {
                             </div>
                             <div id="editForm" style="display: none;">
                             <textarea id="editedContent"></textarea>
-                            <button onclick="saveEditedPost(${posts.id})">Lưu</button>
+                            <button class="saveButton" id="saveButton" onclick="saveEditedPost(${posts.id})" >Lưu</button>
                             </div>
                             <figure>
                                 <ul class="like-dislike">
@@ -270,28 +282,11 @@ function loadData() {
                                             <a class="share-pst" href="#" title="Share">
                                                 <i class="fa fa-share-alt"></i>
                                             </a>
-                                            <ins>20</ins>
+                                           
                                         </span>
                                     </li>
                                 </ul>
-                                <div class="users-thumb-list">
-                                    <a data-toggle="tooltip" title="" href="#" data-original-title="Anderw">
-                                        <img alt="" src="images/resources/userlist-1.jpg">
-                                    </a>
-                                    <a data-toggle="tooltip" title="" href="#" data-original-title="frank">
-                                        <img alt="" src="images/resources/userlist-2.jpg">
-                                    </a>
-                                    <a data-toggle="tooltip" title="" href="#" data-original-title="Sara">
-                                        <img alt="" src="images/resources/userlist-3.jpg">
-                                    </a>
-                                    <a data-toggle="tooltip" title="" href="#" data-original-title="Amy">
-                                        <img alt="" src="images/resources/userlist-4.jpg">
-                                    </a>
-                                    <a data-toggle="tooltip" title="" href="#" data-original-title="Ema">
-                                        <img alt="" src="images/resources/userlist-5.jpg">
-                                    </a>
-                                    <span><strong>You</strong>, <b>Sarah</b> and <a href="#" title="">24+ more</a> liked</span>
-                                </div>
+                                
                             </div>
                         </div>
                         <div class="coment-area" style="display: block;">
@@ -375,6 +370,28 @@ function updatePost() {
     document.getElementById('editedContent').value = currentContent;
 
 }
+function updatePrivacy(id) {
+    var access_modifier = document.getElementById("myComboBox" + id).value;
+    if (access_modifier == "") return;
+    var settings = {
+        "url": API + "/postscontroller/UpdatePrivacy.php",
+        "method": "PUT",
+        "timeout": 0,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+            "id": id,
+            "access_modifier": access_modifier
+        }),
+    };
+
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+        alert("ban da update quyen rieng tu");
+        loadData();
+    });
+}
 function saveEditedPost(id) {
 
     var editedContent = document.getElementById('editedContent').value;
@@ -403,3 +420,4 @@ function saveEditedPost(id) {
     });
 
 }
+

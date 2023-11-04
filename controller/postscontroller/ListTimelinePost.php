@@ -30,7 +30,8 @@
                 'like_count' =>$like_count,
                 'created_at' => $created_at,
                 'updated_at' => $updated_at,
-                'content' => $content
+                'content' => $content,
+                'access_modifier' => $access_modifier
                
             );
             array_push($list['data'], $posts);
