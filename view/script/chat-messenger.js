@@ -4,7 +4,7 @@ window.onload = function () {
 }
 function loadData() {
     // TODO update id
-    var id = 1;
+    var id = localStorage.getItem("user_id");
     var settings = {
         "url": API + "/messengercontroller/getallmessagebyuser.php?id=" + id,
         "method": "GET",
@@ -20,7 +20,7 @@ function loadData() {
                 return `
                 <li class="nav-item unread">
                     <a class="active" href="" data-toggle="tab" onclick="getMessageToUser(${mess.id})">
-                        <figure><img src="${mess.avatar_url}" alt="">
+                        <figure><img src="../../view/images/${mess.avatar_url}" alt="">
                             <span class="status f-online"></span>
                         </figure>
                         <div class="user-name">
@@ -55,7 +55,7 @@ function getMessageToUser(user_id) {
     messageBox(user_id)
 
     // TODO update id
-    var id = 1;
+    var id = localStorage.getItem("user_id");
     var settings = {
         "url": API + "/messengercontroller/getmessagetouser.php",
         "method": "POST",
@@ -111,7 +111,7 @@ function loadUserDetail(user_id) {
         let str =
             `
         <div class="active-user">
-            <figure><img src="${response.avatar_url}" alt="">
+            <figure><img src="../../view/images/${response.avatar_url}" alt="">
                 <span class="status f-away"></span>
             </figure>
             <div>
@@ -157,7 +157,7 @@ function characterInfor(user_id) {
     $.ajax(settings).done(function (response) {
         let str =
             `
-        <figure><img src="${response.avatar_url}" alt=""></figure>
+        <figure><img src="../../view/images/${response.avatar_url}" alt=""></figure>
         <h6>${response.full_name}</h6>
         <span>Online</span>
         <div class="userabout">
@@ -253,10 +253,10 @@ function messageBox(user_id) {
 function sendMessage(user_id) {
     event.preventDefault()
     // TODO update id
-    var id = 1;
+    var id = localStorage.getItem("user_id");
     var content = document.getElementById("content").value;
 
-    if(content == "") {
+    if (content == "") {
         return;
     }
 
