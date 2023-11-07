@@ -10,6 +10,9 @@
 
     $posts = new Posts($connect);
 
+    $id = isset($_GET['id']) ? $_GET['id'] : die();
+
+    $posts->user_id = $id;
     $read = $posts->read();
 
     $num = $read->rowCount();
