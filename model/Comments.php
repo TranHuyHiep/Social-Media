@@ -170,7 +170,7 @@
         $query = "SELECT comments.id, comments.user_id, full_name, comments.content, comments.post_id,comments.like_count, users.avatar_url
         FROM users JOIN comments ON users.id = comments.user_id
         JOIN posts ON comments.post_id = posts.id
-        WHERE comments.post_id = ?";
+        WHERE comments.post_id = ? AND comments.is_active = 1" ;
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1,$id, PDO::PARAM_INT); // Assuming id is an integer
         $stmt->execute();
@@ -191,7 +191,7 @@
 
     //add new comments post
     public function addNewComments($id_users,$id_post, $content){
-        $query = "INSERT INTO comments(user_id, post_id, content, created_at,like_count ) VALUES (:id_users,:id_post,:content, now(),0)";
+        $query = "INSERT INTO comments(user_id, post_id, content, created_at,like_count,is_active ) VALUES (:id_users,:id_post,:content, now(),0,1)";
         //$query = "INSERT INTO likes(user_id, post_id) VALUES (:id_users, :id_post)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id_users", $id_users, PDO::PARAM_INT); // Assuming id is an integer
@@ -204,9 +204,10 @@
     }
 	//update
 	public function updateComments(){
-		$query = "UPDATE comments SET content = :content, created_at = now(), updated_at = now() WHERE id = :id";
+		$query = "UPDATE comments SET content = :content, created_at = now(), updated_at = now() WHERE user_id = :user_id AND id = :id";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(':content', $this->content);
+		$stmt->bindParam(':user_id', $this->user_id);
 		$stmt->bindParam(':id', $this->id);
 		if($stmt->execute()) {
             return true;
@@ -215,7 +216,7 @@
 	}
     //Delete comments post.
     public function removeCommentsPost($id){
-        $query = "DELETE FROM comments WHERE id = ?";
+        $query = "UPDATE comments SET is_active = 0 WHERE id = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
         if($stmt->execute()) {
@@ -225,7 +226,7 @@
     }
 	// Add comments vao comments
 	public function AddNewCommentsInCommnets(){
-		$query = "INSERT INTO comments(user_id,post_id,parent_comment_id,content,created_at,like_count) VALUES (:user_id,:post_id,:parent_comment_id,:content,now(),0)";
+		$query = "INSERT INTO comments(user_id,post_id,parent_comment_id,content,created_at,like_count, is_active) VALUES (:user_id,:post_id,:parent_comment_id,:content,now(),0,1)";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(':user_id', $this->user_id);
 		$stmt->bindParam(':post_id', $this->post_id);
