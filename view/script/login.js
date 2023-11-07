@@ -25,7 +25,7 @@ function login() {
             }
         },
         error: function (error) {
-            alert("ko")
+            alert("Đăng nhập không thành công!")
             console.log(error);
         }
     });

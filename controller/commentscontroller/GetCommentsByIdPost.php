@@ -26,8 +26,8 @@
                 'full_name' => $full_name,
                 'content' => $content,
                 'post_id' => $post_id,
-                'like_count' =>$like_count
-                
+                'like_count' =>$like_count,
+                'avatar_url' =>$avatar_url
             );
             array_push($list['data'], $mess);
         }

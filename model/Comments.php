@@ -167,7 +167,7 @@
     }
     //danh sach comment theo bai id post
     public function getCommentsByIdPost($id){
-        $query = "SELECT comments.id, comments.user_id, full_name, comments.content, comments.post_id,comments.like_count
+        $query = "SELECT comments.id, comments.user_id, full_name, comments.content, comments.post_id,comments.like_count, users.avatar_url
         FROM users JOIN comments ON users.id = comments.user_id
         JOIN posts ON comments.post_id = posts.id
         WHERE comments.post_id = ?";

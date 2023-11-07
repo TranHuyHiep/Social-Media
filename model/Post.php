@@ -24,12 +24,13 @@ class Posts{
         $query = "SELECT Posts.id, content, Posts.user_id, full_name,access_modifier, avatar_url,like_count, created_at, updated_at  FROM Posts JOIN Users ON Posts.user_id=Users.id where Posts.user_id in 
         (SELECT follwing as friend_id
             FROM socialmedia.userrelas
-            where follower = 1 and status = 2
+            where follower = :id and status = 2
             union
             SELECT follower as friend_id
             FROM socialmedia.userrelas
-            where follwing = 1 and status = 2)";
+            where follwing = :id and status = 2)";
         $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $this->user_id);
         $stmt->execute();
 
         return $stmt;

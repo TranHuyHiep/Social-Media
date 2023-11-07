@@ -1,8 +1,8 @@
 
 function submitPost() {
-    var userId = 1;
+    var userId = localStorage.getItem("user_id")
     var postContent = document.getElementById("postContent").value;
-    alert(postContent);
+    //alert(postContent);
     var settings = {
         "url": API + "/postscontroller/CreatePost.php",
         "method": "POST",
@@ -25,6 +25,34 @@ function submitPost() {
 }
 
 loadData();
+loadInforUser();
+
+function loadInforUser() {
+    let user_id = localStorage.getItem("user_id")
+    $.ajax({
+        type: "GET",
+        url: API + "/usercontroller/GetUserByID.php?id=" + user_id, // Thay thế bằng URL API thực tế
+        dataType: "json",
+        success: function (response) {
+            if (response.status === "success") {
+                // Cập nhật thông tin người dùng trên trang web
+                var userInfo = response;
+                $("#user_name").text(userInfo.full_name);
+                $("#user_avatar").attr("src", "../../view/images/" + userInfo.avatar_url);
+                $("#user_avatar1").attr("src", "../../view/images/" + userInfo.avatar_url);
+                localStorage.setItem("user_avatar", userInfo.avatar_url)
+
+            } else {
+                alert("Không tìm thấy thông tin người dùng");
+            }
+        },
+        error: function (error) {
+            console.log("Lỗi: " + JSON.stringify(error));
+            // alert("Đã xảy ra lỗi khi gọi API");
+        }
+    });
+}
+
 function newLikeComment(user_id, post_id, comment_id) {
     var check1 = 1;
     //var checked = false;
@@ -153,7 +181,7 @@ function getlike(id) {
                     return `
                   <li>
                     <div class="comet-avatar">
-                        <img src="images/resources/nearly3.jpg" alt="">
+                        <img src="../../view/images/${comment.avatar_url}" alt="">
                     </div>
                     <div class="we-comment">
                         <h5><a href="time-line.html" title="">${comment.full_name}</a></h5>
@@ -190,21 +218,23 @@ function showcomment(id) {
 
 }
 function loadData() {
+    let user_id = localStorage.getItem("user_id")
     var settings = {
-        "url": API + "/postscontroller/ViewPost.php",
+        "url": API + "/postscontroller/ViewPost.php?id=" + user_id,
         "method": "GET",
         "timeout": 0,
     };
 
     $.ajax(settings).done(function (response) {
         const targetDiv = document.querySelector('#postedContent');
+        const user_avatar = localStorage.getItem("user_avatar")
         var str = response.data.map(function (posts) {
             return `
             <div class="central-meta item" style="display: inline-block;">
                 <div class="user-post">
                     <div class="friend-info">
                         <figure>
-                            <img src="${posts.avatar_url}" alt="">
+                            <img src="../../view/images/${posts.avatar_url}" alt="">
                         </figure>
                         <div class="friend-name"> 
                             <div class="more">
@@ -252,7 +282,7 @@ function loadData() {
                                         </span>
                                     </li>
                                     <li>
-                                        <div class="likes heart" title="Like/Dislike" onclick = "likePost(1,${posts.id})">❤
+                                        <div class="likes heart" title="Like/Dislike" onclick = "likePost(${posts.id})">❤
                                             <span>${posts.like_count}</span>
                                         </div>
                                     </li>
@@ -277,7 +307,7 @@ function loadData() {
                             <ul class="we-comet">
                                 <li class="post-comment">
                                     <div class="comet-avatar">
-                                        <img src="images/resources/nearly1.jpg" alt="">
+                                        <img src="../../view/images/${user_avatar}" style="width: 30px; height: 30px;" alt="">
                                     </div>
                                     <div class="post-comt-box">
                                         <form method="post">
@@ -409,7 +439,8 @@ function loadData() {
 }
 
 //vanh code :))
-function likePost(user_id, post_id) {
+function likePost(post_id) {
+    let user_id = localStorage.getItem("user_id")
     // check xem nguoi dung da like bai post hay chua
     // neu chua thi thuc hien them moi like post
     // neu roi thi thuc hien xoa like post
@@ -518,7 +549,7 @@ function loadSharePost(id) {
                 <div class="user-post">
                     <div class="friend-info">
                         <figure>
-                            <img src="${posts.avatar_url}" alt="">
+                            <img src="../../view/images/${posts.avatar_url}" alt="">
                         </figure>
                         <div class="friend-name"> 
                             <div class="more">
