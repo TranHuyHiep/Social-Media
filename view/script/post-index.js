@@ -53,8 +53,10 @@ function loadInforUser() {
     });
 }
 
-function newLikeComment(user_id, post_id, comment_id) {
-    var check1 = 1;
+function newLikeComment(post_id, comment_id) {
+    //var check1 = 1;
+    var user_id = localStorage.getItem("user_id");
+    console.log(user_id);
     //var checked = false;
     //alert(post_id)
     $.ajax({
@@ -123,8 +125,10 @@ function newLikeComment(user_id, post_id, comment_id) {
 
     });
 }
-function deleteLikeComment(comment_id) {
-    console.log(window.globalVar);
+function deleteComment(comment_id) {
+    var userId = localStorage.getItem("user_id")
+    //console.log(window.globalVar);
+    console.log(userId);
     $.ajax({
         type: "POST",
         url: API + "/commentscontroller/CheckComment.php",
@@ -133,7 +137,7 @@ function deleteLikeComment(comment_id) {
         },
         data: JSON.stringify({
             id: comment_id,
-            user_id: window.globalVar
+            user_id: userId
         }),
         success: function (response) {
             console.log(response);
@@ -146,11 +150,13 @@ function deleteLikeComment(comment_id) {
                 $.ajax(requests).done(function (response) {
                     //alert("Sent friend request");
                     console.log("Xoa comment thanh cong");
+                    loadData();
                     //getRecommenFriend();
                 })
                     .fail(function (errorThrown) {
                         //console.log("Lỗi");
                         console.error("Lỗi: ", errorThrown);
+                        loadData();
                     });
             } else {
                 alert("Ban khong the xoa comment cua nguoi khac");
@@ -162,10 +168,10 @@ function deleteLikeComment(comment_id) {
 
     });
 }
-
+var numComment = 0;
 function getlike(id) {
     var id_post = id;
-
+    let user_id = localStorage.getItem("user_id")
     $.ajax({
         type: "GET",
         url: API + '/commentscontroller/GetCommentsByIdPost.php?id=' + id_post,
@@ -173,10 +179,11 @@ function getlike(id) {
             // 'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBWZXIiOiIwLjAuMCIsImV4cCI6NDcyNjM4OTEyMiwibG9jYWxlIjoiIiwibWFzdGVyVmVyIjoiIiwicGxhdGZvcm0iOiIiLCJwbGF0Zm9ybVZlciI6IiIsInVzZXJJZCI6IiJ9.QIZbmB5_9Xlap_gDhjETfMI6EAmR15yBtIQkWFWJkrg',
         },
         success: function (response) {
-            //var numFriend = 0;
+            
             if (response.data == null) {
                 console.log("no");
             } else {
+                numComment = response.data.length;
                 let $str = response.data.map(function (comment) {
                     return `
                   <li>
@@ -185,18 +192,22 @@ function getlike(id) {
                     </div>
                     <div class="we-comment">
                         <h5><a href="time-line.html" title="">${comment.full_name}</a></h5>
-                        <p>${comment.content}</p>
+                        <p id ="currentcontentComment${comment.id}">${comment.content}</p>
+                        <div id="editComment${comment.id}" style="display: none;">
+                            <textarea id="editedContentComment${comment.id}"></textarea>
+                            <button class="saveButton" id="saveButton" onclick="saveEditComment(${comment.id})" >Lưu</button>
+                            </div>
                         <div class="inline-itms">
                             <span>1 year ago</span>
                             <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-                            <a id ="${comment.id}" style="border: 0; "  onclick = "newLikeComment(1,${comment.post_id}, ${comment.id})">
+                            <a id ="${comment.id}" style="border: 0; "  onclick = "newLikeComment(${comment.post_id}, ${comment.id})">
                                 <i class="fa fa-heart " ></i><span> ${comment.like_count}</span>
                             </a>
                             <div class="more">
                                 <div class="more-post-optns"><i class="ti-more-alt"></i>
                                     <ul>
-                                        <li ><i class="fa fa-pencil-square-o"></i>Edit Comment</li>
-                                        <li onclick = "deleteLikeComment(${comment.id})"><i class="fa fa-trash-o"></i>Delete Comment</li>
+                                        <li onclick = "UpdateComment(${comment.id})"><i class="fa fa-pencil-square-o"></i>Edit Comment</li>
+                                        <li onclick = "deleteComment(${comment.id})"><i class="fa fa-trash-o"></i>Delete Comment</li>
                                         
                                     </ul>
                                 </div>
@@ -207,7 +218,9 @@ function getlike(id) {
                 </li>
                 `;
                 });
+                var str1 = ""+numComment;
                 $("#list-comments" + "" + id_post).html($str);
+                $("#numCm").html(str1);
             }
         },
     });
@@ -219,6 +232,7 @@ function showcomment(id) {
 }
 function loadData() {
     let user_id = localStorage.getItem("user_id")
+    console.log(user_id);
     var settings = {
         "url": API + "/postscontroller/ViewPost.php?id=" + user_id,
         "method": "GET",
@@ -228,6 +242,7 @@ function loadData() {
     $.ajax(settings).done(function (response) {
         const targetDiv = document.querySelector('#postedContent');
         const user_avatar = localStorage.getItem("user_avatar")
+        const user_id = localStorage.getItem("user_id")
         var str = response.data.map(function (posts) {
             return `
             <div class="central-meta item" style="display: inline-block;">
@@ -289,7 +304,7 @@ function loadData() {
                                     <li>
                                         <span id = "${posts.id}" class="comment" onclick = "showcomment(${posts.id})" title="Comments">
                                             <i class="fa fa-commenting"></i>
-                                            <ins>52</ins>
+                                            <ins id ="numCm"></ins>
                                         </span>
                                     </li>
 
@@ -311,7 +326,7 @@ function loadData() {
                                     </div>
                                     <div class="post-comt-box">
                                         <form method="post">
-                                            <textarea placeholder="Post your comment"></textarea>
+                                            <textarea id= "myInput" placeholder="Post your comment"></textarea>
                                             <div class="add-smiles">
                                                 <div class="uploadimage">
                                                     <i class="fa fa-image"></i>
@@ -336,8 +351,9 @@ function loadData() {
                                                 </div>
                                             </div>
 
-                                            <button type="submit"></button>
+                                            
                                         </form>
+                                        <button type="submitComment"  onclick="submitComment(${user_id},${posts.id})">Them</button>
                                     </div>
                                 </li>
                             </ul>
@@ -513,7 +529,32 @@ function likePost(post_id) {
 
     });
 }
-
+function submitComment(user_id,post_id){
+    var content = document.getElementById("myInput").value;
+    console.log(content);
+    var requests = {
+        "url":  API+ '/commentscontroller/NewCommentsPost.php',
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+            "user_id": user_id,
+            "post_id": post_id,
+            "content" : content
+        })
+    }
+    $.ajax(requests).done(function (response) {
+        //alert()
+        console.log('ok');
+        loadData();
+    })
+    .fail(function (errorThrown) {
+        //console.log("Lỗi");
+        console.error("Lỗi: ", errorThrown);
+        loadData();
+    });
+}
 function sharePost(id) {
     var modal = document.getElementById("modal-sharepost" + id);
     var span = document.getElementById("closetab");
@@ -611,5 +652,111 @@ function share(post_id, user_id) {
         loadData();
     }).fail(function (errorThrown) {
         console.error("Lỗi sharePost: ", errorThrown);
+    });
+}
+function UpdateComment(comment_id){
+    var userId = localStorage.getItem("user_id")
+    $.ajax({
+        type: "POST",
+        url: API + "/commentscontroller/CheckComment.php",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify({
+            id: comment_id,
+            user_id: userId
+        }),
+        success: function (response) {
+            // Kiểm tra xem dữ liệu phản hồi có phải là null không
+            if (response.data != null) {
+                document.getElementById('editComment'+comment_id).style.display = 'block';
+                const currentContent = document.getElementById('currentcontentComment'+comment_id).innerText;
+                document.getElementById('editedContentComment'+comment_id).value = currentContent;
+            } else {
+                alert("Ban khong the sua comment cua nguoi khac");
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        },
+    });
+}
+function saveEditComment(comment_id){
+    var userId = localStorage.getItem("user_id")
+    console.log(userId);
+    //check xem day co phai comment cua minh hay la ko
+    $.ajax({
+        type: "POST",
+        url: API + "/commentscontroller/CheckComment.php",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify({
+            id: comment_id,
+            user_id: userId
+        }),
+        success: function (response) {
+            // Kiểm tra xem dữ liệu phản hồi có phải là null không
+            if (response.data != null) {
+                var UserId = localStorage.getItem("user_id")
+                var editedContent = document.getElementById('editedContentComment' +comment_id).value;
+                console.log(editedContent);
+                var requests = {
+                    "url": API + '/commentscontroller/UpdateComment.php?',
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "user_id": UserId,
+                        "id": comment_id,
+                        "content": editedContent
+                    })
+                }
+                $.ajax(requests).done(function (response) {
+                    //alert("Sent friend request");
+                    console.log("Cap Nhat comment thanh cong");
+                    loadData();
+                    //getRecommenFriend();
+                })
+                    .fail(function (errorThrown) {
+                        //console.log("Lỗi");
+                        console.error("Lỗi: ", errorThrown);
+                        loadData();
+                    });
+            } else {
+                alert("Ban khong the xoa comment cua nguoi khac");
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        },
+
+    });
+}
+function submitComment(user_id,post_id){
+    var content = document.getElementById("myInput").value;
+    console.log(content);
+    var requests = {
+        "url":  API+ '/commentscontroller/NewCommentsPost.php',
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+            "user_id": user_id,
+            "post_id": post_id,
+            "content" : content
+        })
+    }
+    $.ajax(requests).done(function (response) {
+        //alert()
+        console.log('ok');
+        loadData();
+    })
+    .fail(function (errorThrown) {
+        //console.log("Lỗi");
+        console.error("Lỗi: ", errorThrown);
+        loadData();
     });
 }
