@@ -233,6 +233,8 @@ function showcomment(id) {
 }
 function loadData() {
     var user_id = localStorage.getItem('user_id');
+    var avatar_url = localStorage.getItem('user_avatar');
+
     var settings = {
         "url": API + "/postscontroller/ListTimelinePost.php?user_id=" + user_id,
         "method": "GET",
@@ -337,7 +339,7 @@ function loadData() {
                             <ul class="we-comet">
                                 <li class="post-comment">
                                     <div class="comet-avatar">
-                                        <img src="images/resources/nearly1.jpg" alt="">
+                                        <img src="../../view/images/${avatar_url}" alt="">
                                     </div>
                                     <div class="post-comt-box">
                                         <form method="post">

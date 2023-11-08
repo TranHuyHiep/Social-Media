@@ -25,8 +25,6 @@
                 'id' => $id,
                 'full_name' => $full_name,
                 'avatar_url' => $avatar_url,
-                'created_at' => $created_at,
-                'content' => $content,
             );
             array_push($list['data'], $users);
         }
