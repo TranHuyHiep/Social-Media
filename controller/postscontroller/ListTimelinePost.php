@@ -31,6 +31,7 @@
                 'created_at' => $created_at,
                 'updated_at' => $updated_at,
                 'content' => $content,
+                'shared_post_id' => $shared_post_id,
                 'access_modifier' => $access_modifier
                
             );

@@ -179,7 +179,7 @@ function getlike(id) {
             // 'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBWZXIiOiIwLjAuMCIsImV4cCI6NDcyNjM4OTEyMiwibG9jYWxlIjoiIiwibWFzdGVyVmVyIjoiIiwicGxhdGZvcm0iOiIiLCJwbGF0Zm9ybVZlciI6IiIsInVzZXJJZCI6IiJ9.QIZbmB5_9Xlap_gDhjETfMI6EAmR15yBtIQkWFWJkrg',
         },
         success: function (response) {
-            
+
             if (response.data == null) {
                 console.log("no");
             } else {
@@ -218,7 +218,7 @@ function getlike(id) {
                 </li>
                 `;
                 });
-                var str1 = ""+numComment;
+                var str1 = "" + numComment;
                 $("#list-comments" + "" + id_post).html($str);
                 $("#numCm").html(str1);
             }
@@ -277,6 +277,7 @@ function loadData() {
                             <div id="currentcontent">
                                 ${posts.content}
                             </div>
+                            
                             <div id="editForm" style="display: none;">
                             <textarea id="editedContent"></textarea>
                             <button onclick="saveEditedPost(${posts.id})">Lưu</button>
@@ -375,7 +376,8 @@ function loadData() {
                 <span class="create-post">Share post <span id="closetab" style="color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;color: #000; text-decoration: none; cursor: pointer;"">&times;</span></span>
                 <div class="new-postbox">
                     <figure>
-                        <img src="images/resources/admin.jpg" alt="">
+                    <img src="../../view/images/${user_avatar}" style="width: 30px; height: 30px;" alt="">
+
                     </figure>
                     <div class=" newpst-input">
                         <form id="postForm" method="post">
@@ -423,7 +425,7 @@ function loadData() {
                             </li>
                         </ul>
                         <button class="post-btn" type="submitPost" data-ripple=""
-                            onclick="share(${posts.id}, ${posts.user_id})">Share</button>
+                            onclick="share(${posts.id}, ${user_id})">Share</button>
 
                     </div>
 
@@ -529,11 +531,11 @@ function likePost(post_id) {
 
     });
 }
-function submitComment(user_id,post_id){
+function submitComment(user_id, post_id) {
     var content = document.getElementById("myInput").value;
     console.log(content);
     var requests = {
-        "url":  API+ '/commentscontroller/NewCommentsPost.php',
+        "url": API + '/commentscontroller/NewCommentsPost.php',
         "method": "POST",
         "headers": {
             "Content-Type": "application/json"
@@ -541,7 +543,7 @@ function submitComment(user_id,post_id){
         "data": JSON.stringify({
             "user_id": user_id,
             "post_id": post_id,
-            "content" : content
+            "content": content
         })
     }
     $.ajax(requests).done(function (response) {
@@ -549,11 +551,11 @@ function submitComment(user_id,post_id){
         console.log('ok');
         loadData();
     })
-    .fail(function (errorThrown) {
-        //console.log("Lỗi");
-        console.error("Lỗi: ", errorThrown);
-        loadData();
-    });
+        .fail(function (errorThrown) {
+            //console.log("Lỗi");
+            console.error("Lỗi: ", errorThrown);
+            loadData();
+        });
 }
 function sharePost(id) {
     var modal = document.getElementById("modal-sharepost" + id);
@@ -629,6 +631,7 @@ function loadSharePost(id) {
 }
 function formload(id) {
     loadSharePost(id)
+
     sharePost(id)
 }
 function share(post_id, user_id) {
@@ -654,7 +657,7 @@ function share(post_id, user_id) {
         console.error("Lỗi sharePost: ", errorThrown);
     });
 }
-function UpdateComment(comment_id){
+function UpdateComment(comment_id) {
     var userId = localStorage.getItem("user_id")
     $.ajax({
         type: "POST",
@@ -669,9 +672,9 @@ function UpdateComment(comment_id){
         success: function (response) {
             // Kiểm tra xem dữ liệu phản hồi có phải là null không
             if (response.data != null) {
-                document.getElementById('editComment'+comment_id).style.display = 'block';
-                const currentContent = document.getElementById('currentcontentComment'+comment_id).innerText;
-                document.getElementById('editedContentComment'+comment_id).value = currentContent;
+                document.getElementById('editComment' + comment_id).style.display = 'block';
+                const currentContent = document.getElementById('currentcontentComment' + comment_id).innerText;
+                document.getElementById('editedContentComment' + comment_id).value = currentContent;
             } else {
                 alert("Ban khong the sua comment cua nguoi khac");
             }
@@ -681,7 +684,7 @@ function UpdateComment(comment_id){
         },
     });
 }
-function saveEditComment(comment_id){
+function saveEditComment(comment_id) {
     var userId = localStorage.getItem("user_id")
     console.log(userId);
     //check xem day co phai comment cua minh hay la ko
@@ -699,7 +702,7 @@ function saveEditComment(comment_id){
             // Kiểm tra xem dữ liệu phản hồi có phải là null không
             if (response.data != null) {
                 var UserId = localStorage.getItem("user_id")
-                var editedContent = document.getElementById('editedContentComment' +comment_id).value;
+                var editedContent = document.getElementById('editedContentComment' + comment_id).value;
                 console.log(editedContent);
                 var requests = {
                     "url": API + '/commentscontroller/UpdateComment.php?',
@@ -734,11 +737,11 @@ function saveEditComment(comment_id){
 
     });
 }
-function submitComment(user_id,post_id){
+function submitComment(user_id, post_id) {
     var content = document.getElementById("myInput").value;
     console.log(content);
     var requests = {
-        "url":  API+ '/commentscontroller/NewCommentsPost.php',
+        "url": API + '/commentscontroller/NewCommentsPost.php',
         "method": "POST",
         "headers": {
             "Content-Type": "application/json"
@@ -746,7 +749,7 @@ function submitComment(user_id,post_id){
         "data": JSON.stringify({
             "user_id": user_id,
             "post_id": post_id,
-            "content" : content
+            "content": content
         })
     }
     $.ajax(requests).done(function (response) {
@@ -754,9 +757,9 @@ function submitComment(user_id,post_id){
         console.log('ok');
         loadData();
     })
-    .fail(function (errorThrown) {
-        //console.log("Lỗi");
-        console.error("Lỗi: ", errorThrown);
-        loadData();
-    });
+        .fail(function (errorThrown) {
+            //console.log("Lỗi");
+            console.error("Lỗi: ", errorThrown);
+            loadData();
+        });
 }

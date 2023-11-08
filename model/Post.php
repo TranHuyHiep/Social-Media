@@ -28,7 +28,7 @@ class Posts{
             union
             SELECT follower as friend_id
             FROM socialmedia.userrelas
-            where follwing = :id and status = 2)";
+            where follwing = :id and status = 2) ORDER BY created_at DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $this->user_id);
         $stmt->execute();
@@ -38,7 +38,7 @@ class Posts{
     // bai viet trang ca nhan
     public function timeline(){
         
-        $query = "SELECT Posts.id, content, Posts.user_id, access_modifier, full_name, avatar_url,like_count, created_at, updated_at
+        $query = "SELECT Posts.id, content, Posts.user_id, access_modifier,shared_post_id, full_name, avatar_url,like_count, created_at, updated_at
                     FROM Users JOIN Posts ON Users.id=Posts.user_id 
                     WHERE Posts.user_id=:id ORDER BY created_at DESC";
         $stmt = $this->conn->prepare($query);
@@ -69,13 +69,14 @@ class Posts{
 
     // lay bai viet chia se
     public function showshare(){
-        $query = "SELECT Posts.id, content, Posts.user_id, access_modifier, full_name, avatar_url, created_at, updated_at  
-                        FROM Users JOIN Posts ON Users.id=Posts.user_id WHERE Posts.id=:id ";
+        $query = "SELECT Posts.id, content, Posts.user_id, access_modifier,shared_post_id, full_name, avatar_url, created_at, updated_at  
+        FROM Users JOIN Posts ON Users.id=Posts.user_id WHERE Posts.id=:id ";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $this->id);
         $stmt->execute();
         return $stmt;
     }
+    
     // tao bai viet moi
     public function create(){
         $query = "INSERT INTO Posts SET content=:content, Posts.user_id=:id, like_count=0, created_at=now(), access_modifier='public', is_active=1";

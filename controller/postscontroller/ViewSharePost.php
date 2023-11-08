@@ -11,7 +11,7 @@
     $connect = $db->connect();
     $posts = new Posts($connect);
     $posts->id =  isset($_GET['id']) ? $_GET['id'] : die();
-    $posts->showshare();
+   
     $show = $posts->showshare();
     $num = $show->rowCount();
     if($num > 0) {
@@ -27,6 +27,7 @@
                 'created_at' => $created_at,
                 'updated_at' => $updated_at,
                 'content' => $content,
+                'shared_post_id' => $shared_post_id,
                 'access_modifier' => $access_modifier
                
             );
