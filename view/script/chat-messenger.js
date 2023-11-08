@@ -1,6 +1,6 @@
 window.onload = function () {
     loadData();
-    setInterval(loadData, 10000);
+    setInterval(loadData, 1000);
 }
 function loadData() {
     // TODO update id
