@@ -1,8 +1,8 @@
 
 function submitPost() {
-    var userId = 1;
+    var userId = localStorage.getItem("user_id");
     var postContent = document.getElementById("postContent").value;
-    alert(postContent);
+    //alert(postContent);
     var settings = {
         "url": API + "/postscontroller/CreatePost.php",
         "method": "POST",
@@ -25,6 +25,35 @@ function submitPost() {
 }
 
 loadData();
+loadInforUser();
+
+function loadInforUser() {
+    let user_id = localStorage.getItem("user_id")
+    $.ajax({
+        type: "GET",
+        url: API + "/usercontroller/GetUserByID.php?id=" + user_id, // Thay thế bằng URL API thực tế
+        dataType: "json",
+        success: function (response) {
+            if (response.status === "success") {
+                // Cập nhật thông tin người dùng trên trang web
+                var userInfo = response;
+                $("#user_name").text(userInfo.full_name);
+                $("#user_name1").text(userInfo.full_name);
+                $("#user_avatar").attr("src", "../../view/images/" + userInfo.avatar_url);
+                $("#user_avatar1").attr("src", "../../view/images/" + userInfo.avatar_url);
+                $("#user_avatar2").attr("src", "../../view/images/" + userInfo.avatar_url);
+
+            } else {
+                alert("Không tìm thấy thông tin người dùng");
+            }
+        },
+        error: function (error) {
+            console.log("Lỗi: " + JSON.stringify(error));
+            // alert("Đã xảy ra lỗi khi gọi API");
+        }
+    });
+}
+
 function newLikeComment(user_id, post_id, comment_id) {
     var check1 = 1;
     //var checked = false;
@@ -190,7 +219,7 @@ function showcomment(id) {
 
 }
 function loadData() {
-    var user_id = 1;
+    var user_id = localStorage.getItem('user_id');
     var settings = {
         "url": API + "/postscontroller/ListTimelinePost.php?user_id=" + user_id,
         "method": "GET",
@@ -206,7 +235,7 @@ function loadData() {
                 <div class="user-post">
                     <div class="friend-info">
                         <figure>
-                            <img src="${posts.avatar_url}" alt="">
+                            <img src="../../view/images/${posts.avatar_url}" alt="">
                         </figure>
                         <div class="friend-name"> 
                             <div class="more">
@@ -358,7 +387,7 @@ function deletePost(id) {
     $.ajax(settings).done(function (response) {
         console.log(response);
         loadData();
-        alert("Bạn đã xóa bài viết!");
+        //alert("Bạn đã xóa bài viết!");
     });
 
 }
@@ -388,14 +417,14 @@ function updatePrivacy(id) {
 
     $.ajax(settings).done(function (response) {
         console.log(response);
-        alert("ban da update quyen rieng tu");
+        //alert("ban da update quyen rieng tu");
         loadData();
     });
 }
 function saveEditedPost(id) {
 
     var editedContent = document.getElementById('editedContent').value;
-    alert(editedContent);
+    //alert(editedContent);
 
 
     var settings = {
