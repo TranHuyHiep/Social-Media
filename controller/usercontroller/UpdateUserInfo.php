@@ -14,7 +14,7 @@ $userInfo = new UserInfo($connect);
 // Nhận dữ liệu từ yêu cầu POST
 $data = json_decode(file_get_contents("php://input"));
 session_start();
-$user_id = $_SESSION['user_id'];
+$user_id = isset($_GET['id']) ? $_GET['id'] : ($_SESSION['user_id'] ? $_SESSION['user_id'] : die());
 
 //$is_active = isset($_POST['is_active']) ? $_POST['is_active'] : null;
 $study_at = isset($_POST['study_at']) ? $_POST['study_at'] : null;

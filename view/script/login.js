@@ -76,3 +76,11 @@ $(document).ready(function () {
         });
     });
 });
+// Hàm để đăng xuất người dùng
+function logout() {
+    // Xóa dữ liệu người dùng trong Local Storage
+     localStorage.removeItem('user_id'); // Đây là một ví dụ, bạn có thể lưu nhiều thông tin khác trong Local Storage
+  
+}
+  
+  
