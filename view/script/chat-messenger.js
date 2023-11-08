@@ -1,7 +1,33 @@
 window.onload = function () {
     loadData();
+    loadInforUser();
     setInterval(loadData, 1000);
 }
+
+function loadInforUser() {
+    let user_id = localStorage.getItem("user_id")
+    $.ajax({
+        type: "GET",
+        url: API + "/usercontroller/GetUserByID.php?id=" + user_id, // Thay thế bằng URL API thực tế
+        dataType: "json",
+        success: function (response) {
+            if (response.status === "success") {
+                // Cập nhật thông tin người dùng trên trang web
+                var userInfo = response;
+                $("#user_name").text(userInfo.full_name);
+                $("#user_avatar").attr("src", "../../view/images/" + userInfo.avatar_url);
+
+            } else {
+                alert("Không tìm thấy thông tin người dùng");
+            }
+        },
+        error: function (error) {
+            console.log("Lỗi: " + JSON.stringify(error));
+            // alert("Đã xảy ra lỗi khi gọi API");
+        }
+    });
+}
+
 function loadData() {
     // TODO update id
     var id = localStorage.getItem("user_id");

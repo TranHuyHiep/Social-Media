@@ -110,22 +110,14 @@ class Messengers
 
     public function getAllMessageByUser($user_id)
     {
-        $query = "SELECT DISTINCT *
-                    FROM (
-                        (SELECT users.id, full_name, avatar_url, created_at, content
-                        FROM messengers
-                        JOIN users ON users.id = messengers.user_to
-                        WHERE user_from = :id 
-                        order by created_at asc)
-                        UNION
-                        (SELECT users.id, full_name, avatar_url, created_at, content
-                        FROM messengers
-                        JOIN users ON users.id = messengers.user_from
-                        WHERE user_to = :id
-                        order by created_at desc)
-                    ) AS temp_table
-                    group by id
-                    order by created_at";
+        $query = "select * from 
+                (select follwing as user_id
+                from userrelas
+                where status = 2 and follower = :id
+                union
+                select follower as user_id
+                from userrelas
+                where status = 2 and follwing = :id) as friend join users on user_id = users.id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $user_id, PDO::PARAM_INT); // Assuming id is an integer
         $stmt->execute();
