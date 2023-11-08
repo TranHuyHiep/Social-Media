@@ -14,19 +14,21 @@ $name = isset($_GET['name']) ? $_GET['name'] : die();
 
 $read = $user->find_user('%' . $name . '%');
 $num = $read->rowCount();
-    if($num>0)
-    {
-        while($row = $read->fetch(PDO::FETCH_ASSOC)) {
-           
-            $response = array(
-                "status" => "success",
-                "user_id" => $row["id"],
-                "full_name" => $row["full_name"],
-                "avatar_url" => $row["avatar_url"]
-                //"getID"=>$getid
-            );
-            echo json_encode($response);
-        }
+
+$list = [];
+$list['length'] = $num;
+if($num>0)
+{
+    while($row = $read->fetch(PDO::FETCH_ASSOC)) {
+        
+        $response = array(
+            "status" => "success",
+            "user_id" => $row["id"],
+            "full_name" => $row["full_name"],
+            "avatar_url" => $row["avatar_url"]
+            //"getID"=>$getid
+        );
     }
-    
-?>
+    $list['data'] = $response;
+}
+echo json_encode($list);
