@@ -1,9 +1,37 @@
+let user_id = localStorage.getItem("user_id")
 window.onload = loadData;
+loadInforUser();
+
+function loadInforUser() {
+    let user_id = localStorage.getItem("user_id")
+    $.ajax({
+        type: "GET",
+        url: API + "/usercontroller/GetUserByID.php?id=" + user_id, // Thay thế bằng URL API thực tế
+        dataType: "json",
+        success: function (response) {
+            if (response.status === "success") {
+                // Cập nhật thông tin người dùng trên trang web
+                var userInfo = response;
+                $("#user_name").text(userInfo.full_name);
+                $("#user_name1").text(userInfo.full_name);
+                $("#user_avatar").attr("src", "../../view/images/" + userInfo.avatar_url);
+                $("#user_avatar1").attr("src", "../../view/images/" + userInfo.avatar_url);
+
+            } else {
+                alert("Không tìm thấy thông tin người dùng");
+            }
+        },
+        error: function (error) {
+            console.log("Lỗi: " + JSON.stringify(error));
+            // alert("Đã xảy ra lỗi khi gọi API");
+        }
+    });
+}
 
 function loadData() {
     $.ajax({
         type: 'GET',
-        url: API + '/social-media/controller/userrelacontroller/getbyid.php?id=1',
+        url: API + '/userrelacontroller/getbyid.php?id=' + user_id,
         headers: {
             // 'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBWZXIiOiIwLjAuMCIsImV4cCI6NDcyNjM4OTEyMiwibG9jYWxlIjoiIiwibWFzdGVyVmVyIjoiIiwicGxhdGZvcm0iOiIiLCJwbGF0Zm9ybVZlciI6IiIsInVzZXJJZCI6IiJ9.QIZbmB5_9Xlap_gDhjETfMI6EAmR15yBtIQkWFWJkrg',
         },
@@ -20,7 +48,7 @@ function loadData() {
                                         <img src="images/resources/frnd-cover1.jpg" alt="">
                                     </figure>
                                     <div class="frnd-meta">
-                                        <img src="${user.avatar_url}" style="width: 88px; height: 88px;" alt="">
+                                        <img src="../../view/images/${user.avatar_url}" style="width: 88px; height: 88px;" alt="">
                                         <div class="frnd-name">
                                             <a href="#" title="">${user.full_name}</a>
                                             <span style="max-width: 100px; display: inline-block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${user.email}</span>
@@ -56,7 +84,7 @@ function loadData() {
 
 function deleteFriend(follower, following) {
     var settings = {
-        "url": API + "/social-media/controller/userrelacontroller/deletefriend.php",
+        "url": API + "/userrelacontroller/deletefriend.php",
         "method": "POST",
         "headers": {
             "Content-Type": "application/json"

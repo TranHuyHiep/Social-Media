@@ -186,7 +186,13 @@ public function getUserByUserId($user_id) {
     //     return null; // Trả về null nếu không tìm thấy UserInfo
     // }
 }
-
+public function find_user($name){
+    $query = "SELECT * FROM users WHERE LOWER(full_name) LIKE LOWER(?) LIMIT 10;";      
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(1, $name, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt;
+}
 
     public function recommenFriend($id)
     {

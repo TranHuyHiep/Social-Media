@@ -1,12 +1,13 @@
 window.onload = loadData()
 function loadData() {
-    listFriendRequest(1)
+    listFriendRequest()
     getRecommenFriend()
 }
 function getRecommenFriend() {
+    let user_id = localStorage.getItem("user_id")
     $.ajax({
         type: 'GET',
-        url: API + '/social-media/controller/userrelacontroller/getrecommenfriend.php?id=1',
+        url: API + '/userrelacontroller/getrecommenfriend.php?id=' + user_id,
         headers: {
             // 'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBWZXIiOiIwLjAuMCIsImV4cCI6NDcyNjM4OTEyMiwibG9jYWxlIjoiIiwibWFzdGVyVmVyIjoiIiwicGxhdGZvcm0iOiIiLCJwbGF0Zm9ybVZlciI6IiIsInVzZXJJZCI6IiJ9.QIZbmB5_9Xlap_gDhjETfMI6EAmR15yBtIQkWFWJkrg',
         },
@@ -20,13 +21,13 @@ function getRecommenFriend() {
                 let str = response.data.map(function (user) {
                     return `
                     <li>
-                        <img src="${user.avatar_url}" style="height: 118.25px; width: auto;" alt="">
+                        <img src="../../view/images/${user.avatar_url}" style="height: 118.25px; width: auto;" alt="">
                         <div class="sugtd-frnd-meta">
                             <a href="#" title="">${user.full_name}</a>
                             <span>1 mutual friend</span>
                             <ul class="add-remove-frnd">
                                 <li class="add-tofrndlist">
-                                    <a onclick="addFriend(1, ${user.id})" title="Add Friend">
+                                    <a onclick="addFriend(${user_id}, ${user.id})" title="Add Friend">
                                         <i class="fa fa-user-plus"></i></a>
                                     </a>
                                 </li>
@@ -81,7 +82,7 @@ function getRecommenFriend() {
 
 function addFriend(follower, following) {
     var settings = {
-        "url": API + "/social-media/controller/userrelacontroller/addfriend.php",
+        "url": API + "/userrelacontroller/addfriend.php",
         "method": "POST",
         "headers": {
             "Content-Type": "application/json"
@@ -103,27 +104,28 @@ function addFriend(follower, following) {
         });
 }
 
-function listFriendRequest(id) {
+function listFriendRequest() {
+    let id = localStorage.getItem("user_id")
     var settings = {
-        "url": API + "/social-media/controller/userrelacontroller/listfriendrequest.php?id=" + id,
+        "url": API + "/userrelacontroller/listfriendrequest.php?id=" + id,
         "method": "GET"
     };
     const targetDiv = document.querySelector('#friend-requests');
 
     $.ajax(settings)
         .done(function (response) {
-            if(response.data == null) {
+            if (response.data == null) {
                 targetDiv.innerHTML = "No Friend request";
             } else {
                 let str = response.data.map(function (user) {
                     return `
                         <li>
-                            <figure><img src="${user.avatar_url}" alt="">
+                            <figure><img src="../../view/images/${user.avatar_url}" alt="">
                             </figure>
                             <div class="friend-meta">
                                 <h4><a href="time-line.html" title="">${user.full_name}</a></h4>
-                                <a href="#" title="" class="underline" onclick="acceptFriend(${user.id}, 1)">Accept</a>
-                                <a href="#" title="" class="underline" onclick="rejectFriend(${user.id}, 1)">Reject</a>
+                                <a href="#" title="" class="underline" onclick="acceptFriend(${user.id}, ${id})">Accept</a>
+                                <a href="#" title="" class="underline" onclick="rejectFriend(${user.id}, ${id})">Reject</a>
                             </div>
                         </li>
                     `
@@ -141,7 +143,7 @@ function acceptFriend(follower, following) {
     event.preventDefault();
 
     var settings = {
-        "url": API + "/social-media/controller/userrelacontroller/acceptfriend.php",
+        "url": API + "/userrelacontroller/acceptfriend.php",
         "method": "POST",
         "headers": {
             "Content-Type": "application/json"
@@ -167,7 +169,7 @@ function rejectFriend(follower, following) {
     event.preventDefault();
 
     var settings = {
-        "url": API + "/social-media/controller/userrelacontroller/rejectfriend.php",
+        "url": API + "/userrelacontroller/rejectfriend.php",
         "method": "POST",
         "headers": {
             "Content-Type": "application/json"
@@ -187,4 +189,5 @@ function rejectFriend(follower, following) {
             console.error("Lỗi: rejectFriend", errorThrown);
             loadData();
         });
+    loadData();
 }

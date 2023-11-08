@@ -16,7 +16,12 @@
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/color.css">
 	<link rel="stylesheet" href="css/responsive.css">
-
+	<style>
+		#avatar {
+			width: 50px;
+			height: 50px;
+		}
+	</style>
 </head>
 
 <body>
@@ -149,7 +154,7 @@
 					</li>
 					<li><span>Account Setting</span>
 						<ul>
-							<li><a href="setting.php" title="">Setting</a></li>
+							<li><a href="setting.html" title="">Setting</a></li>
 							<li><a href="privacy.html" title="">Privacy</a></li>
 							<li><a href="support-and-help.html" title="">Support & Help</a></li>
 							<li><a href="support-and-help-detail.html" title="">Support Detail</a></li>
@@ -258,8 +263,8 @@
 					</span>
 				</div>
 				<div class="top-search">
-					<form method="post" class="">
-						<input type="text" placeholder="Search People, Pages, Groups etc">
+					<form method="post" class="" id="search-form">
+						<input type="text" placeholder="Search People, Pages, Groups etc" id="search-input">
 						<button data-ripple><i class="ti-search"></i></button>
 					</form>
 				</div>
@@ -812,9 +817,10 @@
 					</li>
 				</ul>
 				<div class="user-img">
-					<h5>Jack Carter</h5>
-					<img src="images/resources/admin.jpg" alt="">
+					<h5 id="user_name">Jack Carter</h5>
+					<img src="images/resources/admin.jpg" style="width: 30px; height: 30px;" alt="" id="user_avatar1">
 					<span class="status f-online"></span>
+
 					<div class="user-setting">
 						<span class="seting-title">Chat setting <a href="#" title="">see all</a></span>
 						<ul class="chat-setting">
@@ -825,10 +831,10 @@
 						<span class="seting-title">User setting <a href="#" title="">see all</a></span>
 						<ul class="log-out">
 							<li><a href="about.html" title=""><i class="ti-user"></i> view profile</a></li>
-							<li><a href="setting.php" title=""><i class="ti-pencil-alt"></i>edit profile</a></li>
+							<li><a href="setting.html" title=""><i class="ti-pencil-alt"></i>edit profile</a></li>
 							<li><a href="#" title=""><i class="ti-target"></i>activity log</a></li>
-							<li><a href="setting.php" title=""><i class="ti-settings"></i>account setting</a></li>
-							<li><a href="logout.html" title=""><i class="ti-power-off"></i>log out</a></li>
+							<li><a href="setting.html" title=""><i class="ti-settings"></i>account setting</a></li>
+							<li onclick="logout()"><a href="login.html" title="" ><i class="ti-power-off"></i>log out</a></li>
 						</ul>
 					</div>
 				</div>
@@ -928,7 +934,7 @@
 					</li>
 					<li><a class="" href="#" title=""><i class="fa fa-gears"></i> Account Setting</a>
 						<ul>
-							<li><a href="setting.php" title="">Setting</a></li>
+							<li><a href="setting.html" title="">Setting</a></li>
 							<li><a href="privacy.html" title="">Privacy</a></li>
 							<li><a href="support-and-help.html" title="">Support & Help</a></li>
 							<li><a href="support-and-help-detail.html" title="">Support Detail</a></li>
@@ -1271,7 +1277,7 @@
 					<li class="menu-item-has-children"><a class="" href="#" title=""><i class="fa fa-gears"></i>Account
 							Setting</a>
 						<ul class="submenu">
-							<li><a href="setting.php" title="">Setting</a></li>
+							<li><a href="setting.html" title="">Setting</a></li>
 							<li><a href="privacy.html" title="">Privacy</a></li>
 							<li><a href="support-and-help.html" title="">Support & Help</a></li>
 							<li><a href="support-and-help-detail.html" title="">Support Detail</a></li>
@@ -1562,14 +1568,15 @@
 										</div><!-- who's following -->
 									</aside>
 								</div><!-- sidebar -->
-								<div class="col-lg-6">
+								<div class="col-lg-6" id="search-results-sidebar">
 									<div class="central-meta postbox">
 										<span class="create-post">Create post</span>
 										<div class="new-postbox">
 											<figure>
-												<img src="images/resources/admin.jpg" alt="">
+												<img id="user_avatar" src="images/resources/admin.jpg"
+													style="width: 40px; height: 40px;" alt="">
 											</figure>
-											<div class="newpst-input">
+											<div class=" newpst-input">
 												<form id="postForm" method="post">
 													<textarea id="postContent" rows="2"
 														placeholder="Share some what you are thinking?"></textarea>
@@ -1802,7 +1809,8 @@
 												<div class="page-meta">
 													<a href="#" title="" class="underline">My Creative Page</a>
 													<span><i class="ti-comment"></i><a href="insight.html"
-															title="">Messages <em>9</em></a></span>
+															title="">Messages
+															<em>9</em></a></span>
 													<span><i class="ti-bell"></i><a href="insight.html"
 															title="">Notifications <em>2</em></a></span>
 												</div>
@@ -1889,7 +1897,8 @@
 										</div><!-- page like widget -->
 										<div class="widget">
 											<h4 class="widget-title">Explor Events <a title="" href="#"
-													class="see-all">See All</a></h4>
+													class="see-all">See
+													All</a></h4>
 											<div class="rec-events bg-purple">
 												<i class="ti-gift"></i>
 												<h6><a href="#" title="">Ocean Motel good night event in columbia</a>
@@ -1922,7 +1931,8 @@
 										</div><!-- profile intro widget -->
 										<div class="widget stick-widget">
 											<h4 class="widget-title">Recent Links <a title="" href="#"
-													class="see-all">See All</a></h4>
+													class="see-all">See
+													All</a></h4>
 											<ul class="recent-links">
 												<li>
 													<figure><img src="images/resources/recentlink-1.jpg" alt="">
@@ -2089,7 +2099,7 @@
 					<figure><img src="images/resources/share-post.jpg" alt=""></figure>
 					<div class="friend-info">
 						<figure>
-							<img alt="" src="images/resources/admin.jpg">
+							<img alt="" src="images/abc.jpg" id="avatar">
 						</figure>
 						<div class="friend-name">
 							<ins><a title="" href="time-line.html">Jack Carter</a> share <a title=""
@@ -2292,8 +2302,7 @@
 									<a href="#" title="" data-toggle="tooltip" data-original-title="Amy">
 										<img src="images/resources/userlist-4.jpg" alt="">
 									</a>
-									<span><strong>You</strong>, <b>Sarah</b> and <a title="" href="#">24+ more</a>
-										liked</span>
+
 								</div>
 							</div>
 							<div style="display: block;" class="coment-area">
@@ -2408,10 +2417,9 @@
 	<script src="js/locationpicker.jquery.js"></script>
 	<!-- for loaction picker map -->
 	<script src="js/map-init.js"></script><!-- map initilasition -->
-	<script src="js/page-tourintro.js"></script>
 	<script src="js/page-tour-init.js"></script>
 	<script src="js/script.js"></script>
-
+	<script src="./css/UPdatePost.css"></script>
 	<script>
 		jQuery(document).ready(function ($) {
 
@@ -2467,7 +2475,11 @@
 
 		});	
 	</script>
-	<script src="./script/post-create.js"></script>
+	<script src="./script/api.js"></script>
+	<script src="./script/post-index.js"></script>
+	<!-- <script src="./script/UserInfo.js"></script> -->
+	<script src="./script/find-user.js"></script>
+	<script src="./script/login.js"></script>
 </body>
 
 

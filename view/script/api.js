@@ -1,1 +1,1 @@
-const API = "http://localhost";
+const API = "http://localhost/social-Media/controller";

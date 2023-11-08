@@ -12,7 +12,7 @@ $connect = $db->connect();
 $userInfo = new UserInfo($connect);
 
 session_start();
-$user_id = $_SESSION['user_id'];
+$user_id = isset($_GET['id']) ? $_GET['id'] : ($_SESSION['user_id'] ? $_SESSION['user_id'] : die());
 //echo json_encode($user_id);
 // Use the user_id to get the UserInfo
 $userInfoData = $userInfo->getUserInfoByUserId($user_id);

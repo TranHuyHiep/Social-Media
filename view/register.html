@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/color.css">
     <link rel="stylesheet" href="css/responsive.css">
 
+
 </head>
 <body>
 	<div class="www-layout">
@@ -62,53 +63,7 @@
                                 
                                 <div id="response"></div>
                                 
-                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                                <script>
-                                $(document).ready(function () {
-                                    $("#register-button").click(function () {
-                                        var full_name = $("#full_name").val();
-                                        var email = $("#email").val();
-                                        var password = $("#password").val();
-                                        var enterpassword = $("#enterpassword").val();
-                                        var avatar_url = document.getElementById("avatar_url").files[0];
-                                        var date_of_birth = $("#date_of_birth").val();
                                 
-                                        if (password !== enterpassword) {
-                                            // Mật khẩu và nhập lại mật khẩu không khớp
-                                            $("#password").val("");  // Xóa trường mật khẩu
-                                            $("#enterpassword").val("");  // Xóa trường nhập lại mật khẩu
-                                            $("#response").html("Mật khẩu không khớp. Vui lòng thử lại.");
-                                            return;  // Dừng xử lý tiếp theo
-                                        }
-                                
-                                        var formData = new FormData();
-                                        formData.append("full_name", full_name);
-                                        formData.append("email", email);
-                                        formData.append("password", password);
-                                        formData.append("avatar_url", avatar_url);
-                                        formData.append("date_of_birth", date_of_birth);
-                                
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "http://localhost:81/Social-Media/controller/loginscontroller/register.php",
-                                            data: formData,
-                                            contentType: false, // Không sử dụng contentType và processData để cho phép dữ liệu gửi dưới dạng FormData
-                                            processData: false,
-                                            success: function (response) {
-                                                if (response.status === "success") {
-                                                    console.log("Đăng ký thành công.");
-                                                    window.location.href = "../view/login.html";
-                                                } else {
-                                                    $("#response").html("Lỗi: " + response.message);
-                                                }
-                                            },
-                                            error: function (error) {
-                                                $("#response").html("Lỗi: " + JSON.stringify(error));
-                                            }
-                                        });
-                                    });
-                                });
-                                </script>
                                 
 
                   
@@ -129,6 +84,8 @@
     
     	<script src="js/main.min.js"></script>
 		<script src="js/script.js"></script>
+        <script src="script/api.js"></script>
+        <script src="script/login.js"></script>
 </body>	
 
 </html>

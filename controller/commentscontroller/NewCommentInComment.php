@@ -2,6 +2,7 @@
     header('Access-Control-Allow-Origin:*');
     header('Content-Type: application/json');
     header('Access-Control-Allow-Methods: POST');
+    header('Access-Control-Allow-Headers:Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-Width');
 
     include_once('../../config/DataBase.php');
     include_once('../../model/Comments.php');
@@ -18,9 +19,11 @@
     $comments->setContent($data->content);
     $read = $comments->AddNewCommentsInCommnets();
 
-    if($read == true) {
-        print_r('Add new comments in comments ');
+    $list = [];
+    if($read) {
+        $list['message'] = "New Comment comments";
     } else {
-        print_r('Fail!');
+        $list['message'] = "Failed ";
     }
+    echo json_encode($list);
 ?>

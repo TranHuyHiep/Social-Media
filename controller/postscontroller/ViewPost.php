@@ -9,6 +9,10 @@
     $connect = $db->connect();
 
     $posts = new Posts($connect);
+
+    $id = isset($_GET['id']) ? $_GET['id'] : die();
+
+    $posts->user_id = $id;
     $read = $posts->read();
 
     $num = $read->rowCount();
@@ -24,10 +28,13 @@
             $posts = array(
                 'id' => $id,
                 'user_id' => $user_id,
-                'like_count' => $like_count,
+                'full_name' => $full_name,
+                'avatar_url'=> $avatar_url,
+                'like_count' =>$like_count,
                 'created_at' => $created_at,
                 'updated_at' => $updated_at,
-                'content' => $content
+                'content' => $content,
+                'access_modifier' => $access_modifier
                
             );
             array_push($list['data'], $posts);

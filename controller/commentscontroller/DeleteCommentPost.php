@@ -2,6 +2,7 @@
     header('Access-Control-Allow-Origin:*');
     header('Content-Type: application/json');
     header('Access-Control-Allow-Methods: POST');
+    header('Access-Control-Allow-Headers:Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-Width');
 
     include_once('../../config/DataBase.php');
     include_once('../../model/Comments.php');
@@ -15,9 +16,11 @@
     $ID = isset($_GET["id"]) ? ($_GET["id"]) :die();
     $read = $comments->removeCommentsPost($ID);
 
-    if($read == true) {
-        print_r('Successful delete comments post');
+    $list = [];
+    if($read) {
+        $list['message'] = "Delete Comment post";
     } else {
-        print_r('Fail!');
+        $list['message'] = "Failed ";
     }
+    echo json_encode($list);
 ?>

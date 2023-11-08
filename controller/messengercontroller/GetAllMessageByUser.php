@@ -8,31 +8,29 @@
     $connect = $db->connect();
 
     $message = new Messengers($connect);
-
-    $data = json_decode(file_get_contents("php://input"));
-
-    $read = $message->getMessage($data->from, $data->to);
+    $id = isset($_GET['id']) ? $_GET['id'] : die();
+    $read = $message->getAllMessageByUser($id);
 
     $num = $read->rowCount();
 
-    $list = [];
     if($num > 0) {
+        $list = [];
         $list['data'] = [];
+
         while($row = $read->fetch(PDO::FETCH_ASSOC)) {
 
             extract($row);
 
-            $mess = array(
-                'user_from' => $user_from,
-                'user_to' => $user_to,
-                'content' => $content,
-                'created_at' => $created_at
+            $users = array(
+                'id' => $id,
+                'full_name' => $full_name,
+                'avatar_url' => $avatar_url,
             );
-            array_push($list['data'], $mess);
+            array_push($list['data'], $users);
         }
-        $list['message'] = "You have $num messages";
+        echo json_encode($list);
     } else {
-        $list['message'] = "0 message";
+        $list['data'] = [];
+        echo json_encode($list);
     }
-    echo json_encode($list);
 ?>

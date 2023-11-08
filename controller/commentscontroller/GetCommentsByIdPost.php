@@ -3,6 +3,7 @@
     header('Content-Type: application/json');
     include_once('../../config/DataBase.php');
     include_once('../../model/Comments.php');
+    header('Access-Control-Allow-Headers:Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, Authorization, X-Requested-Width');
 
     $db = new DataBase();
     $connect = $db->connect();
@@ -26,7 +27,8 @@
                 'full_name' => $full_name,
                 'content' => $content,
                 'post_id' => $post_id,
-                
+                'like_count' =>$like_count,
+                'avatar_url' =>$avatar_url
             );
             array_push($list['data'], $mess);
         }

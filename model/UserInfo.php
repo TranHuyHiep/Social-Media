@@ -1,6 +1,6 @@
 <?php
     class UserInfo{
-        private $id, $is_active, $study_at, $working_at, $favorites, $other_info, $date_of_birth, $create_at;
+        private $id, $is_active, $study_at, $working_at, $favorites, $other_info, $date_of_birth, $create_at, $conn;
        
        
         /**
