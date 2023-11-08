@@ -219,7 +219,7 @@ function getCommnent(id) {
                 </li>
                 `;
                 });
-                var str1 = ""+numComment;
+                var str1 = "" + numComment;
                 $("#list-comments" + "" + id_post).html($str);
                 $("#numCm").html(str1);
             }
@@ -233,7 +233,7 @@ function showcomment(id) {
 }
 function loadData() {
     var user_id = localStorage.getItem('user_id');
-    var avatar_url = localStorage.getItem('user_avatar');
+    var user_avatar = localStorage.getItem('user_avatar');
 
     var settings = {
         "url": API + "/postscontroller/ListTimelinePost.php?user_id=" + user_id,
@@ -241,12 +241,16 @@ function loadData() {
         "timeout": 0,
     };
 
-    $.ajax(settings).done(function (response) {
+    $.ajax(settings).done(async function (response) {
         const targetDiv = document.querySelector('#postedContent');
-        var str = response.data.map(function (posts) {
-            return `
-
-            <div class="central-meta item" style="display: inline-block;">
+        console.log(response)
+        var str = "";
+        for (let i = 0; i < response.data.length; i++) {
+            var posts = response.data[i];
+            console.log(posts.avatar_url);
+            str +=
+                `
+                <div class="central-meta item" style="display: inline-block;">
                 <div class="user-post">
                     <div class="friend-info">
                         <figure>
@@ -255,18 +259,7 @@ function loadData() {
                         <div class="friend-name"> 
                             <div class="more">
                                 <div class="more-post-optns"><i class="ti-more-alt"></i>
-                                    <ul><li>
-                                        <select class="myComboBox" id="myComboBox${posts.id}" onchange="updatePrivacy(${posts.id})">
-                                            <option value = "" hidden>Select privacy</option>
-                                            <option value = "public" >Public</option>
-                                            <option value = "follower" >Follower</option>
-                                            <option value = "private" >Private</option>
-                                        </select>
-                                        </li>
-                                        <li onclick="updatePost()"><i class="fa fa-pencil-square-o"></i>Edit Post
-                                        </li>
-                                        
-                                        <li onclick="deletePost(${posts.id})"><i class="fa fa-trash-o"> Delete Post </i></li>
+                                    <ul>  
                                         <li class="bad-report"><i class="fa fa-flag"></i>Report Post</li>
                                         <li><i class="fa fa-address-card-o"></i>Boost This
                                             Post</li>
@@ -281,18 +274,69 @@ function loadData() {
                             <ins><a href="time-line.html" title="">${posts.full_name}</a> Post
                                 Album</ins>
                             <span>
-                                <img src="./images/${posts.access_modifier}.png" width=15px" />${posts.access_modifier}
-                                
-                            published: ${posts.updated_at ? `updated ${posts.updated_at}` : `created ${posts.created_at}`}
-                            </span >
-                        </div >
-                        <div class="post-meta">
-                            <div id="currentcontent">
-                                ${posts.content}
+                            <img src="./images/${posts.access_modifier}.png" width=15px" />${posts.access_modifier}
+                            published: ${posts.created_at} </span>
                             </div>
+                            <div class="post-meta">
+                            <div id="currentcontent">
+                                ${posts.content}`;
+            if (posts.shared_post_id != null) {
+                var settings1 = {
+                    "url": API + "/postscontroller/ViewSharePost.php?id=" + posts.shared_post_id,
+                    "method": "GET",
+                    "timeout": 0,
+                };
+                $.ajax(settings1).done(function (response1) {
+                    console.log(response1.data);
+                    var str1 = response1.data.map(function (postshare) {
+                        return `
+                                    < div class= "central-meta item" style="display: inline-block;" >
+                                    <div class="user-post">
+                                        <div class="friend-info">
+                                            <figure>
+                                                <img src="../../view/images/${postshare.avatar_url}" alt="">
+                                            </figure>
+                                            <div class="friend-name">
+                                                <div class="more">
+                                                    <div class="more-post-optns"><i class="ti-more-alt"></i>
+                                                        <ul>
+                
+                                                            <li class="bad-report"><i class="fa fa-flag"></i>Report Post</li>
+                                                            <li><i class="fa fa-address-card-o"></i>Boost This
+                                                                Post</li>
+                                                            <li><i class="fa fa-clock-o"></i>Schedule Post</li>
+                                                            <li><i class="fa fa-wpexplorer"></i>Select as
+                                                                featured</li>
+                                                            <li><i class="fa fa-bell-slash-o"></i>Turn off
+                                                                Notifications</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <ins><a href="time-line.html" title="">${postshare.full_name}</a> Post
+                                                    Album</ins>
+                                                <span>
+                                                    <img src="./images/${postshare.access_modifier}.png" width=15px" />${postshare.access_modifier}
+                                                    published: ${postshare.created_at} </span>
+                                            </div>
+                                            <div class="post-meta">
+                                                <div id="currentcontent">
+                                                    ${postshare.content}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                                `
+                    }).join('');
+                    str += str1;
+                })
+            }
+            str += `
+                            </div>
+                            
                             <div id="editForm" style="display: none;">
                             <textarea id="editedContent"></textarea>
-                            <button class="saveButton" id="saveButton" onclick="saveEditedPost(${posts.id})" >Lưu</button>
+                            <button onclick="saveEditedPost(${posts.id})">Lưu</button>
                             </div>
                             <figure>
                                 <ul class="like-dislike">
@@ -323,14 +367,10 @@ function loadData() {
 
                                     <li>
                                         <span>
-                                            <a class="share-pst" href="#" title="Share">
-                                                <i class="fa fa-share-alt"></i>
-                                            </a>
-                                           
+                                            <i class="fa fa-share-alt" onclick="formload(${posts.id}) "></i>
                                         </span>
                                     </li>
-                                </ul>
-                                
+                                </ul>   
                             </div>
                         </div>
                         <div class="coment-area" style="display: block;">
@@ -339,11 +379,11 @@ function loadData() {
                             <ul class="we-comet">
                                 <li class="post-comment">
                                     <div class="comet-avatar">
-                                        <img src="../../view/images/${avatar_url}" alt="">
+                                        <img src="../../view/images/${user_avatar}" style="width: 30px; height: 30px;" alt="">
                                     </div>
                                     <div class="post-comt-box">
                                         <form method="post">
-                                            <textarea id = "myInput" placeholder="Post your comment"></textarea>
+                                            <textarea id= "myInput" placeholder="Post your comment"></textarea>
                                             <div class="add-smiles">
                                                 <div class="uploadimage">
                                                     <i class="fa fa-image"></i>
@@ -375,18 +415,201 @@ function loadData() {
                                 </li>
                             </ul>
                         </div>
-                    </div >
+                    </div>
 
-                </div >
-            </div >
-            `
-        }).join('');
+                </div>
+            </div>
+            <div class="modal-sharepost" id="modal-sharepost${posts.id}" style="display: none; background-color: rgba(0,0,0,0.4); padding-top: 100px;">
+            <div class="central-meta postbox" 
+                style="  
+                background-color: #fefefe;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 60%;
+                display: block;
+                ">
+                <span class="create-post">Share post <span id="closetab" style="color: #aaaaaa;float: right;font-size: 28px;font-weight: bold;color: #000; text-decoration: none; cursor: pointer;"">&times;</span></span>
+                <div class="new-postbox">
+                    <figure>
+                    <img src="../../view/images/${user_avatar}" style="width: 30px; height: 30px;" alt="">
 
+                    </figure>
+                    <div class=" newpst-input">
+                        <form id="postForm" method="post">
+                            <textarea id="shareContent" rows="2"
+                                placeholder="Share some what you are thinking?"></textarea>
+                        </form>
+                        <div id="sharedContent">
 
+                        </div>
+                    </div>
+                    <div class="attachments">
+                        <ul>
+                            <li>
+                                <span class="add-loc">
+                                    <i class="fa fa-map-marker"></i>
+                                </span>
+                            </li>
+                            <li>
+                                <i class="fa fa-music"></i>
+                                <label class="fileContainer">
+                                    <input type="file">
+                                </label>
+                            </li>
+                            <li>
+                                <i class="fa fa-image"></i>
+                                <label class="fileContainer">
+                                    <input type="file">
+                                </label>
+                            </li>
+                            <li>
+                                <i class="fa fa-video-camera"></i>
+                                <label class="fileContainer">
+                                    <input type="file">
+                                </label>
+                            </li>
+                            <li>
+                                <i class="fa fa-camera"></i>
+                                <label class="fileContainer">
+                                    <input type="file">
+                                </label>
+                            </li>
+                            <li class="preview-btn">
+                                <button class="post-btn-preview" type="submit"
+                                    data-ripple="">Preview</button>
+                            </li>
+                        </ul>
+                        <button class="post-btn" type="submitPost" data-ripple=""
+                            onclick="share(${posts.id}, ${user_id})">Share</button>
+
+                    </div>
+
+                    <div class="add-location-post">
+                        <span>Drag map point to selected area</span>
+                        <div class="row">
+
+                            <div class="col-lg-6">
+                                <label class="control-label">Lat :</label>
+                                <input type="text" class="" id="us3-lat" />
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Long :</label>
+                                <input type="text" class="" id="us3-lon" />
+                            </div>
+                        </div>
+                        <!-- map -->
+                        <div id="us3"></div>
+                    </div>
+                </div>
+            </div><!-- add post new box -->
+        </div><!-- centerl meta -->
+        `;
+        }
         targetDiv.innerHTML = str;
     });
 }
 
+function sharePost(id) {
+    var modal = document.getElementById("modal-sharepost" + id);
+    var span = document.getElementById("closetab");
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    modal.style.display = "block"
+    modal.style.position = "fixed";
+    modal.style.zIndex = 9999;
+    modal.style.top = "0%";
+    modal.style.left = "0%";
+    modal.style.width = "100vw"
+    modal.style.height = "100vh"
+    modal.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+}
+function loadSharePost(id) {
+
+    var settings = {
+        "url": API + "/postscontroller/ViewSharePost.php?id=" + id,
+        "method": "GET",
+        "timeout": 0,
+    };
+    $.ajax(settings).done(function (response) {
+        const targetDiv = document.querySelector('#sharedContent');
+        var str = response.data.map(function (posts) {
+            return `
+                    < div class= "central-meta item" style="display: inline-block;" >
+                    <div class="user-post">
+                        <div class="friend-info">
+                            <figure>
+                                <img src="../../view/images/${posts.avatar_url}" alt="">
+                            </figure>
+                            <div class="friend-name">
+                                <div class="more">
+                                    <div class="more-post-optns"><i class="ti-more-alt"></i>
+                                        <ul>
+
+                                            <li class="bad-report"><i class="fa fa-flag"></i>Report Post</li>
+                                            <li><i class="fa fa-address-card-o"></i>Boost This
+                                                Post</li>
+                                            <li><i class="fa fa-clock-o"></i>Schedule Post</li>
+                                            <li><i class="fa fa-wpexplorer"></i>Select as
+                                                featured</li>
+                                            <li><i class="fa fa-bell-slash-o"></i>Turn off
+                                                Notifications</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <ins><a href="time-line.html" title="">${posts.full_name}</a> Post
+                                    Album</ins>
+                                <span>
+                                    <img src="./images/${posts.access_modifier}.png" width=15px" />${posts.access_modifier}
+                                    published: ${posts.created_at} </span>
+                            </div>
+                            <div class="post-meta">
+                                <div id="currentcontent">
+                                    ${posts.content}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+                `
+        }).join('');
+        targetDiv.innerHTML = str;
+    });
+}
+function formload(id) {
+    loadSharePost(id)
+
+    sharePost(id)
+}
+function share(post_id, user_id) {
+    var shareContent = document.getElementById("shareContent").value;
+    console.log(shareContent);
+    var settings = {
+        "url": API + "/postscontroller/SharePost.php",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+        },
+        "data": JSON.stringify({
+            "content": shareContent,
+            "user_id": user_id,
+            "shared_post_id": post_id
+        }),
+    };
+
+    $.ajax(settings).done(function (response) {
+        console.log("sharePost: ", response);
+        loadData();
+    }).fail(function (errorThrown) {
+        console.error("Lỗi sharePost: ", errorThrown);
+    });
+}
 
 function deletePost(id) {
 
@@ -466,7 +689,7 @@ function saveEditedPost(id) {
 
 }
 //code vanh ne :))
-function UpdateComment(comment_id){
+function UpdateComment(comment_id) {
     var userId = localStorage.getItem("user_id")
     $.ajax({
         type: "POST",
@@ -481,9 +704,9 @@ function UpdateComment(comment_id){
         success: function (response) {
             // Kiểm tra xem dữ liệu phản hồi có phải là null không
             if (response.data != null) {
-                document.getElementById('editComment'+comment_id).style.display = 'block';
-                const currentContent = document.getElementById('currentcontentComment'+comment_id).innerText;
-                document.getElementById('editedContentComment'+comment_id).value = currentContent;
+                document.getElementById('editComment' + comment_id).style.display = 'block';
+                const currentContent = document.getElementById('currentcontentComment' + comment_id).innerText;
+                document.getElementById('editedContentComment' + comment_id).value = currentContent;
             } else {
                 alert("Ban khong the sua comment cua nguoi khac");
             }
@@ -493,7 +716,7 @@ function UpdateComment(comment_id){
         },
     });
 }
-function saveEditComment(comment_id){
+function saveEditComment(comment_id) {
     var userId = localStorage.getItem("user_id")
     console.log(userId);
     //check xem day co phai comment cua minh hay la ko
@@ -511,7 +734,7 @@ function saveEditComment(comment_id){
             // Kiểm tra xem dữ liệu phản hồi có phải là null không
             if (response.data != null) {
                 var UserId = localStorage.getItem("user_id")
-                var editedContent = document.getElementById('editedContentComment' +comment_id).value;
+                var editedContent = document.getElementById('editedContentComment' + comment_id).value;
                 console.log(editedContent);
                 var requests = {
                     "url": API + '/commentscontroller/UpdateComment.php?',
@@ -546,11 +769,11 @@ function saveEditComment(comment_id){
 
     });
 }
-function submitComment(user_id,post_id){
+function submitComment(user_id, post_id) {
     var content = document.getElementById("myInput").value;
     console.log(content);
     var requests = {
-        "url":  API+ '/commentscontroller/NewCommentsPost.php',
+        "url": API + '/commentscontroller/NewCommentsPost.php',
         "method": "POST",
         "headers": {
             "Content-Type": "application/json"
@@ -558,7 +781,7 @@ function submitComment(user_id,post_id){
         "data": JSON.stringify({
             "user_id": user_id,
             "post_id": post_id,
-            "content" : content
+            "content": content
         })
     }
     $.ajax(requests).done(function (response) {
@@ -566,11 +789,11 @@ function submitComment(user_id,post_id){
         console.log('ok');
         loadData();
     })
-    .fail(function (errorThrown) {
-        //console.log("Lỗi");
-        console.error("Lỗi: ", errorThrown);
-        loadData();
-    });
+        .fail(function (errorThrown) {
+            //console.log("Lỗi");
+            console.error("Lỗi: ", errorThrown);
+            loadData();
+        });
 }
 function likePost(post_id) {
     let user_id = localStorage.getItem("user_id")
@@ -608,13 +831,13 @@ function likePost(post_id) {
                     console.log("Them like post thanh cong");
 
                     //$("#list-comments").load(location.href + " #list-comments"); 
-                    
+
                     loadData();
 
                 }).fail(function (errorThrown) {
                     console.error("Lỗi: ", errorThrown);
                     loadData();
-                    
+
                 });
             } else {
                 var requests = {
@@ -630,13 +853,13 @@ function likePost(post_id) {
                 }
                 $.ajax(requests).done(function (response) {
                     console.log("Xoa thanh cong");
-                    
+
                     loadData();
                 }).fail(function (errorThrown) {
                     //console.log("Lỗi");
                     console.error("Lỗi: ", errorThrown);
                     loadData();
-                    
+
                 });
             }
         },
