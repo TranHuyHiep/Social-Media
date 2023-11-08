@@ -1,4 +1,4 @@
-
+var numComment = 0;
 function submitPost() {
     var userId = localStorage.getItem("user_id")
     var postContent = document.getElementById("postContent").value;
@@ -52,13 +52,14 @@ function loadInforUser() {
         }
     });
 }
-
+//vanh code :))
+//Ham them Moi/Huy like comment
+//Kiểm tra xem người dùng hiện tại đã like comment chưa
+//Nếu chưa thì thực hiện thêm mới
+//Nếu rồi thì thực hiện xóa
 function newLikeComment(post_id, comment_id) {
-    //var check1 = 1;
     var user_id = localStorage.getItem("user_id");
     console.log(user_id);
-    //var checked = false;
-    //alert(post_id)
     $.ajax({
         type: "POST",
         url: API + "/likescontroller/GetLikeCommentById.php",
@@ -71,10 +72,8 @@ function newLikeComment(post_id, comment_id) {
             comments_id: comment_id
         }),
         success: function (response) {
-            //console.log(response);
             // Kiểm tra xem dữ liệu phản hồi có phải là null không
             if (response.data == null) {
-                //var s = ""+comment_id;
                 var requests = {
                     "url": API + '/likescontroller/NewLikesComment.php',
                     "method": "POST",
@@ -89,13 +88,11 @@ function newLikeComment(post_id, comment_id) {
                 }
                 $.ajax(requests).done(function (response) {
                     console.log("Them like thanh cong");
-
-                    //$("#list-comments").load(location.href + " #list-comments"); 
-                    getlike(post_id);
+                    getComment(post_id);
 
                 }).fail(function (errorThrown) {
                     console.error("Lỗi: ", errorThrown);
-                    getlike(post_id);
+                    getComment(post_id);
                 });
             } else {
                 var requests = {
@@ -111,11 +108,10 @@ function newLikeComment(post_id, comment_id) {
                 }
                 $.ajax(requests).done(function (response) {
                     console.log("Xoa thanh cong");
-                    getlike(post_id);
+                    getComment(post_id);
                 }).fail(function (errorThrown) {
-                    //console.log("Lỗi");
                     console.error("Lỗi: ", errorThrown);
-                    getlike(post_id);
+                    getComment(post_id);
                 });
             }
         },
@@ -125,9 +121,12 @@ function newLikeComment(post_id, comment_id) {
 
     });
 }
+//Hàm xóa comment bài post
+//Kiểm tra xem đây có phải comment của người dùng hiện tại hay không
+//Nếu phải thì thực hiện xóa
+//Không thì không cho phép xóa comment
 function deleteComment(comment_id) {
     var userId = localStorage.getItem("user_id")
-    //console.log(window.globalVar);
     console.log(userId);
     $.ajax({
         type: "POST",
@@ -148,13 +147,10 @@ function deleteComment(comment_id) {
                     "method": "POST",
                 }
                 $.ajax(requests).done(function (response) {
-                    //alert("Sent friend request");
                     console.log("Xoa comment thanh cong");
                     loadData();
-                    //getRecommenFriend();
                 })
                     .fail(function (errorThrown) {
-                        //console.log("Lỗi");
                         console.error("Lỗi: ", errorThrown);
                         loadData();
                     });
@@ -168,8 +164,9 @@ function deleteComment(comment_id) {
 
     });
 }
-var numComment = 0;
-function getlike(id) {
+//Hàm lấy danh sách comment của 1 bài post
+function getComment(id) {
+    const user_avatar = localStorage.getItem("user_avatar")
     var id_post = id;
     let user_id = localStorage.getItem("user_id")
     $.ajax({
@@ -195,10 +192,10 @@ function getlike(id) {
                         <p id ="currentcontentComment${comment.id}">${comment.content}</p>
                         <div id="editComment${comment.id}" style="display: none;">
                             <textarea id="editedContentComment${comment.id}"></textarea>
-                            <button class="saveButton" id="saveButton" onclick="saveEditComment(${comment.id})" >Lưu</button>
+                            <button class=" post-btn" id="saveButton" onclick="saveEditComment(${comment.id})" >SAVE</button>
                             </div>
                         <div class="inline-itms">
-                            <span>1 year ago</span>
+                            <span>${countTime(comment.created_at)}</span>
                             <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                             <a id ="${comment.id}" style="border: 0; "  onclick = "newLikeComment(${comment.post_id}, ${comment.id})">
                                 <i class="fa fa-heart " ></i><span> ${comment.like_count}</span>
@@ -216,20 +213,255 @@ function getlike(id) {
                         </div>
                     </div>
                 </li>
+                
                 `;
                 });
                 var str1 = "" + numComment;
-                $("#list-comments" + "" + id_post).html($str);
-                $("#numCm").html(str1);
+                $("#list-comments" + "" + id_post).html($str);         
+                $("#numCm" + id_post).html(str1);
             }
+            var str2 =`
+                <li class="post-comment">
+                        <div class="comet-avatar">
+                            <img src="../../view/images/${user_avatar}" style="width: 30px; height: 30px;" alt="">
+                        </div>
+                        <div class="post-comt-box">
+                            <form method="post">
+                                <textarea id= "myInput${id_post}" placeholder="Post your comment"></textarea>
+                                <div class="add-smiles">
+                                    <div class="uploadimage">
+                                        <i class="fa fa-image"></i>
+                                        <label class="fileContainer">
+                                            <input type="file">
+                                        </label>
+                                    </div>
+                                    <span class="em em-expressionless" title="add icon"></span>
+                                    <div class="smiles-bunch">
+                                        <i class="em em---1"></i>
+                                        <i class="em em-smiley"></i>
+                                        <i class="em em-anguished"></i>
+                                        <i class="em em-laughing"></i>
+                                        <i class="em em-angry"></i>
+                                        <i class="em em-astonished"></i>
+                                        <i class="em em-blush"></i>
+                                        <i class="em em-disappointed"></i>
+                                        <i class="em em-worried"></i>
+                                        <i class="em em-kissing_heart"></i>
+                                        <i class="em em-rage"></i>
+                                        <i class="em em-stuck_out_tongue"></i>
+                                    </div>
+                                </div>  
+                            </form>
+                            <button class = "post-btn" type="submitComment"  onclick="submitComment(${user_id},${id_post})">ADD</button>
+                        </div>
+                    </li>
+                `;
+                $("#new-cm" + "" + id_post).html(str2);
         },
     });
 }
+//Hàm hiện list comment của 1 bài post 
 function showcomment(id) {
-    //console.log(id);
-    getlike(id);
+    getComment(id);
 
 }
+//Hàm Like/Unlike bài post
+function likePost(post_id) {
+    let user_id = localStorage.getItem("user_id")
+    // check xem nguoi dung da like bai post hay chua
+    // neu chua thi thuc hien them moi like post
+    // neu roi thi thuc hien xoa like post
+    $.ajax({
+        type: "POST",
+        url: API + "/likescontroller/CheckLikedPost.php",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify({
+            user_id: user_id,
+            post_id: post_id
+        }),
+        success: function (response) {
+            // Kiểm tra xem dữ liệu phản hồi có phải là null không
+            if (response.data == null) {
+                var requests = {
+                    "url": API + '/likescontroller/NewLikesPost.php',
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "user_id": user_id,
+                        "post_id": post_id,
+
+                    })
+                }
+                $.ajax(requests).done(function (response) {
+                    console.log("Them like post thanh cong");
+                    loadData();
+
+                }).fail(function (errorThrown) {
+                    console.error("Lỗi: ", errorThrown);
+                    loadData();
+                });
+            } else {
+                var requests = {
+                    "url": API + '/likescontroller/DeleteLikesPost.php',
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "user_id": user_id,
+                        "post_id": post_id
+                    })
+                }
+                $.ajax(requests).done(function (response) {
+                    console.log("Xoa thanh cong");
+                    loadData();
+                }).fail(function (errorThrown) {
+                    console.error("Lỗi: ", errorThrown);
+                    loadData();
+                });
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        },
+
+    });
+}
+//Hàm thêm mới 1 comment vào bài post
+function submitComment(user_id, post_id) {
+    var content = document.getElementById("myInput" + post_id).value;
+    console.log(content);
+    var requests = {
+        "url": API + '/commentscontroller/NewCommentsPost.php',
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+            "user_id": user_id,
+            "post_id": post_id,
+            "content": content
+        })
+    }
+    $.ajax(requests).done(function (response) {
+        //alert()
+        console.log('ok');
+        loadData();
+    })
+        .fail(function (errorThrown) {
+            console.error("Lỗi: ", errorThrown);
+            loadData();
+        });
+}
+//Hàm kiểm tra trc khi người dùng muốn sửa comment
+//Kiểm tra xem đây có phải là comment của người dùng hiện tại hay không
+//Nếu phải thì hiện form sửa comment
+//Không thì không cho phép sửa comment
+function UpdateComment(comment_id) {
+    var userId = localStorage.getItem("user_id")
+    $.ajax({
+        type: "POST",
+        url: API + "/commentscontroller/CheckComment.php",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify({
+            id: comment_id,
+            user_id: userId
+        }),
+        success: function (response) {
+            // Kiểm tra xem dữ liệu phản hồi có phải là null không
+            if (response.data != null) {
+                document.getElementById('editComment' + comment_id).style.display = 'block';
+                const currentContent = document.getElementById('currentcontentComment' + comment_id).innerText;
+                document.getElementById('editedContentComment' + comment_id).value = currentContent;
+            } else {
+                alert("Ban khong the sua comment cua nguoi khac");
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        },
+    });
+}
+//Hàm sửa comment
+function saveEditComment(comment_id) {
+    var userId = localStorage.getItem("user_id")
+    console.log(userId);
+    //check xem day co phai comment cua minh hay la ko
+    $.ajax({
+        type: "POST",
+        url: API + "/commentscontroller/CheckComment.php",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify({
+            id: comment_id,
+            user_id: userId
+        }),
+        success: function (response) {
+            // Kiểm tra xem dữ liệu phản hồi có phải là null không
+            if (response.data != null) {
+                var UserId = localStorage.getItem("user_id")
+                var editedContent = document.getElementById('editedContentComment' + comment_id).value;
+                console.log(editedContent);
+                var requests = {
+                    "url": API + '/commentscontroller/UpdateComment.php?',
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "user_id": UserId,
+                        "id": comment_id,
+                        "content": editedContent
+                    })
+                }
+                $.ajax(requests).done(function (response) {
+                    console.log("Cap Nhat comment thanh cong");
+                    loadData();
+                })
+                    .fail(function (errorThrown) {
+                        console.error("Lỗi: ", errorThrown);
+                        loadData();
+                    });
+            } else {
+                alert("Ban khong the xoa comment cua nguoi khac");
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        },
+
+    });
+}
+function countTime(created_at_string) {
+    let created_at = new Date(created_at_string);
+    let now = new Date();
+
+    let timeDifference = now - created_at; // Khoảng thời gian ở dạng miligisecond
+
+    let minutesDifference = Math.floor(timeDifference / (1000 * 60)); // Chuyển đổi sang phút
+    let hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60)); // Chuyển đổi sang giờ
+    let daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // Chuyển đổi sang ngày
+
+    let result;
+
+    if (daysDifference > 0) {
+        result = daysDifference + (daysDifference === 1 ? " d" : " d");
+    } else if (hoursDifference > 0) {
+        result = hoursDifference + (hoursDifference === 1 ? " h" : " h");
+    } else {
+        result = minutesDifference + (minutesDifference === 1 ? " mn" : " mn");
+    }
+
+    return result;
+}
+//end
 function loadData() {
     let user_id = localStorage.getItem("user_id")
     console.log(user_id);
@@ -305,7 +537,7 @@ function loadData() {
                                     <li>
                                         <span id = "${posts.id}" class="comment" onclick = "showcomment(${posts.id})" title="Comments">
                                             <i class="fa fa-commenting"></i>
-                                            <ins id ="numCm"></ins>
+                                            <ins id ="numCm${posts.id}"></ins>
                                         </span>
                                     </li>
 
@@ -320,43 +552,8 @@ function loadData() {
                         <div class="coment-area" style="display: block;">
                             <ul class="we-comet" id="list-comments${posts.id}">
                             </ul>
-                            <ul class="we-comet">
-                                <li class="post-comment">
-                                    <div class="comet-avatar">
-                                        <img src="../../view/images/${user_avatar}" style="width: 30px; height: 30px;" alt="">
-                                    </div>
-                                    <div class="post-comt-box">
-                                        <form method="post">
-                                            <textarea id= "myInput" placeholder="Post your comment"></textarea>
-                                            <div class="add-smiles">
-                                                <div class="uploadimage">
-                                                    <i class="fa fa-image"></i>
-                                                    <label class="fileContainer">
-                                                        <input type="file">
-                                                    </label>
-                                                </div>
-                                                <span class="em em-expressionless" title="add icon"></span>
-                                                <div class="smiles-bunch">
-                                                    <i class="em em---1"></i>
-                                                    <i class="em em-smiley"></i>
-                                                    <i class="em em-anguished"></i>
-                                                    <i class="em em-laughing"></i>
-                                                    <i class="em em-angry"></i>
-                                                    <i class="em em-astonished"></i>
-                                                    <i class="em em-blush"></i>
-                                                    <i class="em em-disappointed"></i>
-                                                    <i class="em em-worried"></i>
-                                                    <i class="em em-kissing_heart"></i>
-                                                    <i class="em em-rage"></i>
-                                                    <i class="em em-stuck_out_tongue"></i>
-                                                </div>
-                                            </div>
-
-                                            
-                                        </form>
-                                        <button type="submitComment"  onclick="submitComment(${user_id},${posts.id})">Them</button>
-                                    </div>
-                                </li>
+                            <ul class="we-comet" id="new-cm${posts.id}">
+                    
                             </ul>
                         </div>
                     </div>
@@ -454,108 +651,6 @@ function loadData() {
 
         targetDiv.innerHTML = str;
     });
-}
-
-//vanh code :))
-function likePost(post_id) {
-    let user_id = localStorage.getItem("user_id")
-    // check xem nguoi dung da like bai post hay chua
-    // neu chua thi thuc hien them moi like post
-    // neu roi thi thuc hien xoa like post
-    $.ajax({
-        type: "POST",
-        url: API + "/likescontroller/CheckLikedPost.php",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        data: JSON.stringify({
-            user_id: user_id,
-            post_id: post_id
-        }),
-        success: function (response) {
-            //console.log(response);
-            // Kiểm tra xem dữ liệu phản hồi có phải là null không
-            if (response.data == null) {
-                //var s = ""+comment_id;
-                var requests = {
-                    "url": API + '/likescontroller/NewLikesPost.php',
-                    "method": "POST",
-                    "headers": {
-                        "Content-Type": "application/json"
-                    },
-                    "data": JSON.stringify({
-                        "user_id": user_id,
-                        "post_id": post_id,
-
-                    })
-                }
-                $.ajax(requests).done(function (response) {
-                    console.log("Them like post thanh cong");
-
-                    //$("#list-comments").load(location.href + " #list-comments"); 
-                    //getlike(post_id);
-                    loadData();
-
-                }).fail(function (errorThrown) {
-                    console.error("Lỗi: ", errorThrown);
-                    loadData();
-                    //getlike(post_id);
-                });
-            } else {
-                var requests = {
-                    "url": API + '/likescontroller/DeleteLikesPost.php',
-                    "method": "POST",
-                    "headers": {
-                        "Content-Type": "application/json"
-                    },
-                    "data": JSON.stringify({
-                        "user_id": user_id,
-                        "post_id": post_id
-                    })
-                }
-                $.ajax(requests).done(function (response) {
-                    console.log("Xoa thanh cong");
-                    //getlike(post_id);
-                    loadData();
-                }).fail(function (errorThrown) {
-                    //console.log("Lỗi");
-                    console.error("Lỗi: ", errorThrown);
-                    loadData();
-                    //getlike(post_id);
-                });
-            }
-        },
-        error: function (error) {
-            console.log(error);
-        },
-
-    });
-}
-function submitComment(user_id, post_id) {
-    var content = document.getElementById("myInput").value;
-    console.log(content);
-    var requests = {
-        "url": API + '/commentscontroller/NewCommentsPost.php',
-        "method": "POST",
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "data": JSON.stringify({
-            "user_id": user_id,
-            "post_id": post_id,
-            "content": content
-        })
-    }
-    $.ajax(requests).done(function (response) {
-        //alert()
-        console.log('ok');
-        loadData();
-    })
-        .fail(function (errorThrown) {
-            //console.log("Lỗi");
-            console.error("Lỗi: ", errorThrown);
-            loadData();
-        });
 }
 function sharePost(id) {
     var modal = document.getElementById("modal-sharepost" + id);
@@ -656,110 +751,4 @@ function share(post_id, user_id) {
     }).fail(function (errorThrown) {
         console.error("Lỗi sharePost: ", errorThrown);
     });
-}
-function UpdateComment(comment_id) {
-    var userId = localStorage.getItem("user_id")
-    $.ajax({
-        type: "POST",
-        url: API + "/commentscontroller/CheckComment.php",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        data: JSON.stringify({
-            id: comment_id,
-            user_id: userId
-        }),
-        success: function (response) {
-            // Kiểm tra xem dữ liệu phản hồi có phải là null không
-            if (response.data != null) {
-                document.getElementById('editComment' + comment_id).style.display = 'block';
-                const currentContent = document.getElementById('currentcontentComment' + comment_id).innerText;
-                document.getElementById('editedContentComment' + comment_id).value = currentContent;
-            } else {
-                alert("Ban khong the sua comment cua nguoi khac");
-            }
-        },
-        error: function (error) {
-            console.log(error);
-        },
-    });
-}
-function saveEditComment(comment_id) {
-    var userId = localStorage.getItem("user_id")
-    console.log(userId);
-    //check xem day co phai comment cua minh hay la ko
-    $.ajax({
-        type: "POST",
-        url: API + "/commentscontroller/CheckComment.php",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        data: JSON.stringify({
-            id: comment_id,
-            user_id: userId
-        }),
-        success: function (response) {
-            // Kiểm tra xem dữ liệu phản hồi có phải là null không
-            if (response.data != null) {
-                var UserId = localStorage.getItem("user_id")
-                var editedContent = document.getElementById('editedContentComment' + comment_id).value;
-                console.log(editedContent);
-                var requests = {
-                    "url": API + '/commentscontroller/UpdateComment.php?',
-                    "method": "POST",
-                    "headers": {
-                        "Content-Type": "application/json"
-                    },
-                    "data": JSON.stringify({
-                        "user_id": UserId,
-                        "id": comment_id,
-                        "content": editedContent
-                    })
-                }
-                $.ajax(requests).done(function (response) {
-                    //alert("Sent friend request");
-                    console.log("Cap Nhat comment thanh cong");
-                    loadData();
-                    //getRecommenFriend();
-                })
-                    .fail(function (errorThrown) {
-                        //console.log("Lỗi");
-                        console.error("Lỗi: ", errorThrown);
-                        loadData();
-                    });
-            } else {
-                alert("Ban khong the xoa comment cua nguoi khac");
-            }
-        },
-        error: function (error) {
-            console.log(error);
-        },
-
-    });
-}
-function submitComment(user_id, post_id) {
-    var content = document.getElementById("myInput").value;
-    console.log(content);
-    var requests = {
-        "url": API + '/commentscontroller/NewCommentsPost.php',
-        "method": "POST",
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "data": JSON.stringify({
-            "user_id": user_id,
-            "post_id": post_id,
-            "content": content
-        })
-    }
-    $.ajax(requests).done(function (response) {
-        //alert()
-        console.log('ok');
-        loadData();
-    })
-        .fail(function (errorThrown) {
-            //console.log("Lỗi");
-            console.error("Lỗi: ", errorThrown);
-            loadData();
-        });
 }
