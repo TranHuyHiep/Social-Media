@@ -1,16 +1,22 @@
+
+
+
 $(document).ready(function () {
     console.log(localStorage.getItem('user_id'));
+    let user_id = localStorage.getItem("user_id")
     // Gọi API để lấy thông tin người dùng
     $.ajax({
         type: "GET",
-        url: API + "/usercontroller/GetUserByID.php", // Thay thế bằng URL API thực tế
+        url: API + "/usercontroller/GetUserByID.php?id="+ user_id, // Thay thế bằng URL API thực tế
         dataType: "json",
         success: function (response) {
             if (response.status === "success") {
                 // Cập nhật thông tin người dùng trên trang web
                 var userInfo = response;
                 $("#full_name").text(userInfo.full_name);
+                $("#full_name1").text(userInfo.full_name);
                 $("#avatar").attr("src", "images/" + userInfo.avatar_url);
+                $("#avatar1").attr("src", "images/" + userInfo.avatar_url);
             } else {
                 alert("Không tìm thấy thông tin người dùng");
             }
@@ -23,9 +29,10 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    let user_id = localStorage.getItem("user_id")
     // Sử dụng Ajax để gửi yêu cầu để lấy thông tin người dùng từ API
     $.ajax({
-        url: API + '/usercontroller/GetUserInfoByUserId.php',
+        url: API + '/usercontroller/GetUserInfoByUserId.php?id='+user_id,
         method: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -51,6 +58,7 @@ $(document).ready(function () {
 
 
 $(document).ready(function () {
+    let user_id = localStorage.getItem("user_id")
     // Gán sự kiện click vào nút "Save"
     $("#saveButton").click(function () {
         // Lấy dữ liệu từ các trường input
@@ -62,7 +70,7 @@ $(document).ready(function () {
 
         // Gửi yêu cầu AJAX để cập nhật thông tin người dùng
         $.ajax({
-            url: API + '/usercontroller/UpdateUserInfo.php', // Thay thế URL_API_CUA_BAN bằng URL của API cập nhật thông tin
+            url: API + '/usercontroller/UpdateUserInfo.php?id='+user_id, // Thay thế URL_API_CUA_BAN bằng URL của API cập nhật thông tin
             method: 'POST',
             data: {
                 study_at: study_at,
