@@ -141,7 +141,22 @@ class Posts{
         printf("Error %s.\n" ,$stmt->Error);
         return false; 
     }
-  
+    
+    public function findByName($name) {
+        $name = '%' . $name . '%'; // Thêm dấu % vào giá trị tìm kiếm
+        $query = "SELECT posts.id, content, access_modifier, like_count, created_at, updated_at, shared_post_id, full_name, email, avatar_url, user_id
+                    FROM posts
+                    JOIN users ON users.id = posts.user_id
+                    WHERE LOWER(content) LIKE LOWER(:name) AND is_active = 1
+                    ORDER BY created_at DESC
+                    LIMIT 10;";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':name', $name);
+        $stmt->execute();
+    
+        return $stmt;
+    }
+    
     
 }
 ?>
