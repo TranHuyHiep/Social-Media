@@ -226,4 +226,18 @@ public function find_user($name){
 
         return $stmt;
     }
+    public function updateavatar($user_id, $avatar_url) {
+        $query = "UPDATE users SET avatar_url = :avatar_url WHERE id = :user_id"; // Sửa thành `id` thay vì `user.id`
+    
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(':avatar_url', $avatar_url, PDO::PARAM_STR);
+    
+        if ($stmt->execute()) {
+            return true; // Trả về `true` nếu cập nhật thành công
+        } else {
+            return false; // Trả về `false` nếu cập nhật thất bại
+        }
+    }
+    
 }
