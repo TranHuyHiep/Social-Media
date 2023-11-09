@@ -187,7 +187,7 @@ public function getUserByUserId($user_id) {
     // }
 }
 public function find_user($name){
-    $query = "SELECT * FROM users WHERE LOWER(full_name) LIKE LOWER(?) LIMIT 10;";      
+    $query = "SELECT * FROM users WHERE full_name LIKE ? LIMIT 10;";      
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(1, $name, PDO::PARAM_STR);
     $stmt->execute();
