@@ -278,6 +278,7 @@ function getComment(id) {
         },
     });
 }
+
 //Hàm hiện list comment của 1 bài post 
 function showcomment(id) {
     getComment(id);
