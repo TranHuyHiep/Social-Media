@@ -166,8 +166,17 @@ function deleteComment(comment_id) {
 }
 //Hàm lấy danh sách comment của 1 bài post
 function getComment(id) {
+    //var comment_id = id;
+   
     const user_avatar = localStorage.getItem("user_avatar")
     var id_post = id;
+    // const replyForm = document.getElementById(`coment-area${id_post}`);
+
+    // if (replyForm.style.display === 'none' || replyForm.style.display === '') {
+    //     replyForm.style.display = 'block';
+    // } else {
+    //     replyForm.style.display = 'none';
+    // }
     let user_id = localStorage.getItem("user_id")
     $.ajax({
         type: "GET",
@@ -196,10 +205,19 @@ function getComment(id) {
                             </div>
                         <div class="inline-itms">
                             <span>${countTime(comment.created_at)}</span>
-                            <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                            
                             <a id ="${comment.id}" style="border: 0; "  onclick = "newLikeComment(${comment.post_id}, ${comment.id})">
                                 <i class="fa fa-heart " ></i><span> ${comment.like_count}</span>
                             </a>
+                            <a class="we-reply" title="Reply" onclick="showReplyForm(${comment.id})"><i class="fa fa-reply"></i></a>
+                            <ul id="nestedComments${comment.id}" class="nested-comments" style="display: none;">
+
+                            </ul>
+                            <div id="replyForm${comment.id}" style="display: none;">
+                                <textarea id="newReplyContent${comment.id}" placeholder="Type your reply here"></textarea>
+                                <button class="post-btn" onclick="addNewReply(${comment.id},${comment.post_id},${comment.id})">Post Reply</button>
+                            </div>
+                            
                             <div class="more">
                                 <div class="more-post-optns"><i class="ti-more-alt"></i>
                                     <ul>
@@ -388,6 +406,117 @@ function UpdateComment(comment_id) {
         },
     });
 }
+
+function showReplyForm(comment_id){
+    const nestedComments = document.getElementById(`nestedComments${comment_id}`);
+
+    if (nestedComments.style.display === 'none' || nestedComments.style.display === '') {
+        nestedComments.style.display = 'block';
+    } else {
+        nestedComments.style.display = 'none';
+    }
+    var id_comment = comment_id;
+    let user_id = localStorage.getItem("user_id")
+    $.ajax({
+        type: "GET",
+        url: API + '/commentscontroller/GetCommentByIdComment.php?id=' + id_comment,
+        headers: {
+            // 'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBWZXIiOiIwLjAuMCIsImV4cCI6NDcyNjM4OTEyMiwibG9jYWxlIjoiIiwibWFzdGVyVmVyIjoiIiwicGxhdGZvcm0iOiIiLCJwbGF0Zm9ybVZlciI6IiIsInVzZXJJZCI6IiJ9.QIZbmB5_9Xlap_gDhjETfMI6EAmR15yBtIQkWFWJkrg',
+        },
+        success: function (response) {
+
+            if (response.data == null) {
+                console.log("no");
+            } else {
+                //numComment = response.data.length;
+                let $str = response.data.map(function (comment) {
+                    return `
+                  <li>
+                    <div class="comet-avatar">
+                        <img src="../../view/images/${comment.avatar_url}" alt="">
+                    </div>
+                    <div class="we-comment">
+                        <h5><a href="time-line.html" title="">${comment.full_name}</a></h5>
+                        <p id ="currentcontentComment${comment.id}">${comment.content}</p>
+                        <div id="editComment${comment.id}" style="display: none;">
+                            <textarea id="editedContentComment${comment.id}"></textarea>
+                            <button class=" post-btn" id="saveButton" onclick="saveEditComment(${comment.id})" >SAVE</button>
+                            </div>
+                        <div class="inline-itms">
+                            <span>${countTime(comment.created_at)}</span>
+                            <a id ="${comment.id}" style="border: 0; "  onclick = "newLikeComment(${comment.post_id}, ${comment.id})">
+                                <i class="fa fa-heart " ></i><span> ${comment.like_count}</span>
+                            </a>
+                            <a class="we-reply" title="Reply" onclick="showReplyForm(${comment.id})"><i class="fa fa-reply"></i></a>
+                            <ul id="nestedComments${comment.id}" class="nested-comments" style="display: none;">
+                                
+                            </ul>
+                            <div id="replyForm${comment.id}" style="display: none;">
+                                <textarea id="newReplyContent${comment.id}" placeholder="Type your reply here"></textarea>
+                                <button class="post-btn" onclick="addNewReply(${comment.id},${comment.post_id},${comment.id})">Post Reply</button>
+                            </div>
+                            
+                            <div class="more">
+                                <div class="more-post-optns"><i class="ti-more-alt"></i>
+                                    <ul>
+                                        <li onclick = "UpdateComment(${comment.id})"><i class="fa fa-pencil-square-o"></i>Edit Comment</li>
+                                        <li onclick = "deleteComment(${comment.id})"><i class="fa fa-trash-o"></i>Delete Comment</li>
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </li>
+                
+                `;
+                });
+                //var str1 = "" + numComment;
+                $("#nestedComments" + "" + id_comment).html($str);         
+                //$("#numCm" + id_post).html(str1);
+            }
+        },
+    });
+
+
+
+    const replyForm = document.getElementById(`replyForm${comment_id}`);
+
+    if (replyForm.style.display === 'none' || replyForm.style.display === '') {
+        replyForm.style.display = 'block';
+    } else {
+        replyForm.style.display = 'none';
+    }
+}
+ function addNewReply(comment_id,post_id, parent_comment_id){
+    var editedContent = document.getElementById('newReplyContent' + comment_id).value;
+    var userId = localStorage.getItem("user_id")
+    $.ajax({
+        type: "POST",
+        url: API + "/commentscontroller/NewCommentInComment.php",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify({
+            user_id: userId,
+            post_id: post_id,
+            parent_comment_id: parent_comment_id,
+            content: editedContent
+        }),
+        success: function (response) {
+            // Kiểm tra xem dữ liệu phản hồi có phải là null không
+            if (response.data != null) {
+                loadData();
+            } else {
+                loadData();
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        },
+    });
+ }
 //Hàm sửa comment
 function saveEditComment(comment_id) {
     var userId = localStorage.getItem("user_id")
@@ -549,7 +678,7 @@ function loadData() {
                                 </ul>   
                             </div>
                         </div>
-                        <div class="coment-area" style="display: block;">
+                        <div class="coment-area" id = "coment-area${posts.id}" style="display: block;">
                             <ul class="we-comet" id="list-comments${posts.id}">
                             </ul>
                             <ul class="we-comet" id="new-cm${posts.id}">

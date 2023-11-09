@@ -170,7 +170,7 @@
         $query = "SELECT comments.id, comments.user_id, full_name, comments.content, comments.post_id,comments.like_count, users.avatar_url,comments.created_at
         FROM users JOIN comments ON users.id = comments.user_id
         JOIN posts ON comments.post_id = posts.id
-        WHERE comments.post_id = ? AND comments.is_active = 1" ;
+        WHERE comments.post_id = ? AND comments.is_active = 1 AND comments.parent_comment_id IS NULL"  ;
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1,$id, PDO::PARAM_INT); // Assuming id is an integer
         $stmt->execute();
@@ -237,8 +237,16 @@
         }
         return false;
 	}
-	// Update Comments.
-
+	public function GetCommentByIdComment($id){
+		$query = "SELECT comments.id,comments.parent_comment_id, comments.user_id, full_name, comments.content, comments.post_id,comments.like_count, users.avatar_url,comments.created_at
+        FROM users JOIN comments ON users.id = comments.user_id
+        -- JOIN posts ON comments.post_id = posts.id
+        WHERE comments.parent_comment_id = ? AND comments.is_active = 1" ;
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1,$id, PDO::PARAM_INT); // Assuming id is an integer
+        $stmt->execute();
+        return $stmt;
+	}
 
 }
 
