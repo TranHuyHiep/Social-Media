@@ -136,7 +136,15 @@ class users{
         
         
     }
-
+    public function forgotpass($email){
+        $query = "SELECT * FROM users WHERE email = ? LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $email, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt;
+        
+        
+    }
     public function register($full_name, $email, $password, $avatar_url, $date_of_birth)
     {
     // Check if the email already exists

@@ -1,11 +1,11 @@
-function login() {
+$("#login").click(function () {
     var data = {
         email: $("#email").val(),
         password: $("#password").val()
     };
 
     $.ajax({
-        type: "POST",
+        type: "GET",
         url: API + "/loginscontroller/Login.php?email=" + data.email + "&password=" + data.password,
 
 
@@ -29,7 +29,7 @@ function login() {
             console.log(error);
         }
     });
-}
+});
 
 
 $(document).ready(function () {
