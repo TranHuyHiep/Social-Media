@@ -57,10 +57,13 @@ $(document).ready(function () {
 
 
 
-$(document).ready(function () {
-    let user_id = localStorage.getItem("user_id")
-    // Gán sự kiện click vào nút "Save"
+
+    
+
     $("#saveButton").click(function () {
+        event.preventDefault();
+        let user_id = localStorage.getItem("user_id")
+        
         // Lấy dữ liệu từ các trường input
         var study_at = $("#study_at").val();
         var working_at = $("#working_at").val();
@@ -92,4 +95,3 @@ $(document).ready(function () {
             }
         });
     });
-});
