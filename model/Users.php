@@ -1,12 +1,12 @@
 <?php
 class users{
-    private $conn;
+    public $conn;
 
-    private $id;
-    private $full_name;
-    private $email;
-    private $avatar_url;
-    private $password;
+    public $id;
+    public $full_name;
+    public $email;
+    public $avatar_url;
+    public $password;
 
     /**
      * @return mixed
@@ -246,6 +246,20 @@ public function find_user($name){
         } else {
             return false; // Trả về `false` nếu cập nhật thất bại
         }
+    }
+    public function delete(){
+        $query = "DELETE FROM Users WHERE id=:id";
+        $stmt = $this->conn->prepare($query);
+        
+        //bind data
+        $stmt->bindParam(':id', $this->id);
+
+        if($stmt->execute()){
+            return true;
+        }
+        printf("Error %s.\n" ,$stmt->Error);
+        return false; 
+        
     }
     
 }

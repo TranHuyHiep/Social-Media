@@ -12,7 +12,7 @@ class Posts{
     public $shared_post_id;
     public $avatar_url;
     public $full_name;
-    
+    public $is_acive;
     //ket noi db
     public function __construct($conn){
         $this->conn = $conn;
@@ -158,6 +158,13 @@ class Posts{
         return $stmt;
     }
     
-    
+    public function Data()
+    {
+        $query = "SELECT * FROM Posts";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        return $stmt;
+    }
 }
 ?>
