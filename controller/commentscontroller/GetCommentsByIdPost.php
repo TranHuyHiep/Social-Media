@@ -28,7 +28,8 @@
                 'content' => $content,
                 'post_id' => $post_id,
                 'like_count' =>$like_count,
-                'avatar_url' =>$avatar_url
+                'avatar_url' =>$avatar_url,
+                'created_at' => $created_at,
             );
             array_push($list['data'], $mess);
         }
