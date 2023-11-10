@@ -255,6 +255,7 @@ function showcomment(id) {
     getCommnent(id);
 
 }
+
 function UpdateComment(comment_id) {
     var userId = localStorage.getItem("user_id")
     $.ajax({
@@ -449,25 +450,21 @@ function countTime(created_at_string) {
     return result;
 }
 //end
-function loadData() {
+async function loadData() {
+    var listSharePost = [];
     var user_id = localStorage.getItem('user_id');
     var user_avatar = localStorage.getItem('user_avatar');
 
-    var settings = {
-        "url": API + "/postscontroller/ListTimelinePost.php?user_id=" + user_id,
-        "method": "GET",
-        "timeout": 0,
-    };
+    const response = await fetch(API + "/postscontroller/ListTimelinePost.php?user_id=" + user_id);
+    const data = await response.json();
 
-    $.ajax(settings).done(async function (response) {
-        const targetDiv = document.querySelector('#postedContent');
-        console.log(response)
-        var str = "";
-        for (let i = 0; i < response.data.length; i++) {
-            var posts = response.data[i];
-            console.log(posts.avatar_url);
-            str +=
-                `
+    const targetDiv = document.querySelector('#postedContent');
+    var str = "";
+
+    for (let i = 0; i < data.data.length; i++) {
+        var posts = data.data[i];
+        str +=
+            `
                 <div class="central-meta item" style="display: inline-block;">
                 <div class="user-post">
                     <div class="friend-info">
@@ -498,58 +495,12 @@ function loadData() {
                             <div class="post-meta">
                             <div id="currentcontent">
                                 ${posts.content}`;
-            if (posts.shared_post_id != null) {
-                var settings1 = {
-                    "url": API + "/postscontroller/ViewSharePost.php?id=" + posts.shared_post_id,
-                    "method": "GET",
-                    "timeout": 0,
-                };
-                $.ajax(settings1).done(function (response1) {
-                    console.log(response1.data);
-                    var str1 = response1.data.map(function (postshare) {
-                        return `
-                                    < div class= "central-meta item" style="display: inline-block;" >
-                                    <div class="user-post">
-                                        <div class="friend-info">
-                                            <figure>
-                                                <img src="../../view/images/${postshare.avatar_url}" alt="">
-                                            </figure>
-                                            <div class="friend-name">
-                                                <div class="more">
-                                                    <div class="more-post-optns"><i class="ti-more-alt"></i>
-                                                        <ul>
-                
-                                                            <li class="bad-report"><i class="fa fa-flag"></i>Report Post</li>
-                                                            <li><i class="fa fa-address-card-o"></i>Boost This
-                                                                Post</li>
-                                                            <li><i class="fa fa-clock-o"></i>Schedule Post</li>
-                                                            <li><i class="fa fa-wpexplorer"></i>Select as
-                                                                featured</li>
-                                                            <li><i class="fa fa-bell-slash-o"></i>Turn off
-                                                                Notifications</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <ins><a href="time-line.html" title="">${postshare.full_name}</a> Post
-                                                    Album</ins>
-                                                <span>
-                                                    <img src="./images/${postshare.access_modifier}.png" width=15px" />${postshare.access_modifier}
-                                                    published: ${postshare.created_at} </span>
-                                            </div>
-                                            <div class="post-meta">
-                                                <div id="currentcontent">
-                                                    ${postshare.content}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                            </div>
-                                `
-                    }).join('');
-                    str += str1;
-                })
-            }
-            str += `
+        if (posts.shared_post_id != null) {
+            str += `<div class= "central-meta item" style="display: inline-block;" id="share-post-${posts.id}-${posts.shared_post_id}">
+                        </div>`;
+            listSharePost.push([posts.id, posts.shared_post_id])
+        }
+        str += `
                             </div>
                             
                             <div id="editForm" style="display: none;">
@@ -687,13 +638,18 @@ function loadData() {
                 </div>
             </div><!-- add post new box -->
         </div><!-- centerl meta -->
-        `;
-        }
-        targetDiv.innerHTML = str;
+            `;
+    }
+    targetDiv.innerHTML = str;
+
+    listSharePost.forEach(element => {
+        console.log(element);
+        loadSharePostInPost(element)
     });
+
 }
 
-function sharePost(id) {
+async function sharePost(id) {
     var modal = document.getElementById("modal-sharepost" + id);
     var span = document.getElementById("closetab");
     span.onclick = function () {
@@ -713,8 +669,61 @@ function sharePost(id) {
     modal.style.height = "100vh"
     modal.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
 }
-function loadSharePost(id) {
 
+async function loadSharePostInPost(pairId) {
+    var settings = {
+        "url": API + "/postscontroller/ViewSharePost.php?id=" + pairId[1],
+        "method": "GET",
+        "timeout": 0,
+    };
+    $.ajax(settings).done(function (response) {
+        const targetDiv = document.getElementById('share-post-'+ pairId[0] + '-' + pairId[1]);
+        var str = response.data.map(function (posts) {
+            return `
+            <div class="user-post">
+                <div class="friend-info">
+                    <figure>
+                        <img src="../../view/images/${posts.avatar_url}" alt="">
+                    </figure>
+                    <div class="friend-name"  style="width: 80%;">
+                        <div class="more">
+                            <div class="more-post-optns"><i class="ti-more-alt"></i>
+                                <ul>
+                                    <li class="bad-report"><i class="fa fa-flag"></i>Report Post</li>
+                                    <li><i class="fa fa-address-card-o"></i>Boost This
+                                        Post</li>
+                                    <li><i class="fa fa-clock-o"></i>Schedule Post</li>
+                                    <li><i class="fa fa-wpexplorer"></i>Select as
+                                        featured</li>
+                                    <li><i class="fa fa-bell-slash-o"></i>Turn off
+                                        Notifications</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <ins><a href="time-line.html" title="">${posts.full_name}</a> Post
+                            Album</ins>
+                        <span>
+                            <img src="./images/${posts.access_modifier}.png" width=15px" />${posts.access_modifier}
+                            published: ${posts.created_at} </span>
+                    </div>
+                    <div class="post-meta">
+                        <div id="currentcontent">
+                            ${posts.content}
+                        </div>
+                    </div>
+                </div>
+            </div>
+                `
+        }).join('');
+        console.log(targetDiv);
+
+
+        targetDiv.innerHTML = str;
+    });
+
+}
+
+function loadSharePost(id) {
     var settings = {
         "url": API + "/postscontroller/ViewSharePost.php?id=" + id,
         "method": "GET",
