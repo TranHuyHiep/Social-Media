@@ -9,26 +9,27 @@ function loadData() {
     $.ajax(settings).done(function (response) {
         console.log(response);
         const targetDiv = document.querySelector('#postData');
-        var str = response.data.map(function (posts) {
-            return `<table class="table align-items-center mb-0">
-            <thead>
-              <tr>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">User_ID</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Content</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Access_modifier</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Like_count</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shared_post_id</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created_at</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Updated_at</th>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">is_active</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
+        var str = `<table class="table align-items-center mb-0">
+        <thead>
+          <tr>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">User_ID</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Content</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Access_modifier</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Like_count</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shared_post_id</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created_at</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Updated_at</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">is_active</th>
+          </tr>
+        </thead>
+        <tbody>`
+        str += response.data.map(function (posts) {
+            return `
+                <tr>
                 <td class="text-secondary text-xs font-weight-bold ">
                     <div class="text-center">
-                        ${posts.id}
+                        ${posts.id} 
                     </div>
                 </td>
                 <td class="text-secondary text-center text-xs font-weight-bold">
@@ -61,12 +62,11 @@ function loadData() {
                     Delete
                   </button>
                 </td>
-              </tr>
-            </tbody>
-          </table>
-            `
+              </ >
+                `
         }).join('');
-
+        str += `</tbody >
+        </table > `
 
         targetDiv.innerHTML = str;
     });
