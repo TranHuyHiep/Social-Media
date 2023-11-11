@@ -204,12 +204,12 @@ function getCommnent(id) {
                     </div>
                 </li>
                 `;
-                }); 
+                });
                 var str1 = "" + numComment;
                 $("#list-comments" + "" + id_post).html($str);
                 $("#numCm" + id_post).html(str1);
             }
-            var str2 =`
+            var str2 = `
                 <li class="post-comment">
                     <div class="comet-avatar">
                         <img src="../../view/images/${user_avatar}" style="width: 30px; height: 30px;" alt="">
@@ -246,8 +246,8 @@ function getCommnent(id) {
                         <button class = "post-btn" type="submitComment"  onclick="submitComment(${user_id},${id_post})">NEW</button>
                     </div>
                 </li>
-            `; 
-            $("#new-cm" + "" + id_post).html(str2);            
+            `;
+            $("#new-cm" + "" + id_post).html(str2);
         },
     });
 }
@@ -474,7 +474,16 @@ async function loadData() {
                         <div class="friend-name"> 
                             <div class="more">
                                 <div class="more-post-optns"><i class="ti-more-alt"></i>
-                                    <ul>  
+                                    <ul><li>
+                                            <select class="myComboBox" id="myComboBox${posts.id}" onchange="updatePrivacy(${posts.id})">
+                                                <option style="display: none;">Select Privacy</option>
+                                                <option value="Public">Public</option>
+                                                <option value="Follower">Follower</option>
+                                                <option value="Private">Private</option>
+                                            </select>
+                                        </li> 
+                                        <li onclick="updatePost()"><i class="fa fa-pencil-square-o"></i>Edit Post</li>
+                                        <li onclick="deletePost(${posts.id})" ><i class="fa fa-trash-o"></i>Delete Post</li>
                                         <li class="bad-report"><i class="fa fa-flag"></i>Report Post</li>
                                         <li><i class="fa fa-address-card-o"></i>Boost This
                                             Post</li>
@@ -677,7 +686,7 @@ async function loadSharePostInPost(pairId) {
         "timeout": 0,
     };
     $.ajax(settings).done(function (response) {
-        const targetDiv = document.getElementById('share-post-'+ pairId[0] + '-' + pairId[1]);
+        const targetDiv = document.getElementById('share-post-' + pairId[0] + '-' + pairId[1]);
         var str = response.data.map(function (posts) {
             return `
             <div class="user-post">
@@ -830,6 +839,7 @@ function updatePost() {
 
 }
 function updatePrivacy(id) {
+    console.log(id)
     var access_modifier = document.getElementById("myComboBox" + id).value;
     if (access_modifier == "") return;
     var settings = {
