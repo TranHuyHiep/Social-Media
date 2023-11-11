@@ -15,10 +15,17 @@ $("#login").click(function () {
         dataType: "json",
         success: function (response) {
             if (response.status === "success") {
-                // Đăng nhập thành công, bạn có thể thực hiện hành động phù hợp ở đây
+                if(response.role==0){
+                    // Đăng nhập thành công, bạn có thể thực hiện hành động phù hợp ở đây
                 console.log("Đăng nhập thành công.");
                 localStorage.setItem('user_id', response.user_id);
                 window.location.href = "../view/index.html"
+                }
+                else{
+                    alert("Đăng nhập không thành công!")
+                    console.log("Đăng nhập không thành công: " + response.message);
+                } 
+                
             } else {
                 // Đăng nhập không thành công, hiển thị thông báo lỗi
                 console.log("Đăng nhập không thành công: " + response.message);
