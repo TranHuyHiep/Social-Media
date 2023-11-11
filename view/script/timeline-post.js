@@ -580,10 +580,10 @@ async function loadData() {
                     </figure>
                     <div class=" newpst-input">
                         <form id="postForm" method="post">
-                            <textarea id="shareContent" rows="2"
+                            <textarea id="shareContent${posts.id}" rows="2"
                                 placeholder="Share some what you are thinking?"></textarea>
                         </form>
-                        <div id="sharedContent">
+                        <div id="sharedContent${posts.id}">
 
                         </div>
                     </div>
@@ -739,10 +739,10 @@ function loadSharePost(id) {
         "timeout": 0,
     };
     $.ajax(settings).done(function (response) {
-        const targetDiv = document.querySelector('#sharedContent');
+        const targetDiv = document.getElementById('sharedContent' + id);
         var str = response.data.map(function (posts) {
             return `
-                    < div class= "central-meta item" style="display: inline-block;" >
+                    <div class= "central-meta item" style="display: inline-block;">
                     <div class="user-post">
                         <div class="friend-info">
                             <figure>
@@ -789,7 +789,7 @@ function formload(id) {
     sharePost(id)
 }
 function share(post_id, user_id) {
-    var shareContent = document.getElementById("shareContent").value;
+    var shareContent = document.getElementById("shareContent" + post_id).value;
     console.log(shareContent);
     var settings = {
         "url": API + "/postscontroller/SharePost.php",
