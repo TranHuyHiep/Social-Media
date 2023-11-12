@@ -13,8 +13,10 @@
         $comments = new Comments($connect);
     
         $data = json_decode(file_get_contents("php://input"));
-    
-        $read = $comments->addNewComments($data->user_id, $data->post_id,$data->content);
+        $comments->setUser_id($data->user_id);
+        $comments->setPost_id($data->post_id);
+        $comments->setContent($data->content);
+        $read = $comments->addNewComments();
     
         $list = [];
         if($read) {

@@ -82,7 +82,7 @@ function newLikeComment(post_id, comment_id) {
                     },
                     "data": JSON.stringify({
                         "user_id": user_id,
-                        "post_id": post_id,
+                        
                         "comments_id": comment_id
                     })
                 }
@@ -517,7 +517,7 @@ function showReplyForm(comment_id){
             console.log(error);
         },
     });
- }
+}
 //Hàm sửa comment
 function saveEditComment(comment_id) {
     var userId = localStorage.getItem("user_id")
@@ -682,7 +682,7 @@ function loadData() {
                         <div class="coment-area" id = "coment-area${posts.id}" style="display: block;">
                             <ul class="we-comet" id="list-comments${posts.id}">
                             </ul>
-                            <ul class="we-comet" id="new-cm${posts.id}">
+                            <ul class="we-comet" style = "margin-top: 15px;" id="new-cm${posts.id}">
                     
                             </ul>
                         </div>

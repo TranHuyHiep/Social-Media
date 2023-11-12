@@ -11,7 +11,8 @@
     $comments = new Comments($connect);
     
     $id= isset($_GET["id"]) ? ($_GET["id"]) :die();
-    $read = $comments->GetCommentByIdComment($id);
+    $comments->setParent_comment_id($id);
+    $read = $comments->GetCommentByIdComment();
 
     $num = $read->rowCount();
     $list = [];

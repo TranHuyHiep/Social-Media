@@ -13,7 +13,9 @@
 
     $data = json_decode(file_get_contents("php://input"));
     //$ID = isset($_GET["id"]) ? ($_GET["id"]) :die();
-    $read = $likes->removeLikeComment($data->user_id, $data->comments_id);
+    $likes->setUser_id($data->user_id);
+    $likes->setComment_id($data->comments_id);
+    $read = $likes->removeLikeComment();
 
     $list = [];
     if($read) {

@@ -13,8 +13,9 @@
 
     $comments = new Comments($connect);
     $data = json_decode(file_get_contents("php://input"));
-    
-    $read = $comments->checkCommentsByIdUser($data->id, $data->user_id);
+    $comments->setId($data->id);
+    $comments->setUser_id($data->user_id);
+    $read = $comments->checkCommentsByIdUser();
 
     $num = $read->rowCount();
     $list = [];
