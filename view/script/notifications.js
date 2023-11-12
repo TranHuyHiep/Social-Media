@@ -1,7 +1,8 @@
 function loadData() {
+    let user_id = localStorage.getItem("user_id")
     $.ajax({
         type: 'GET',
-        url: API+'/notificationscontroller/GetNotificationsById.php?id=1', // Thay API_URL_HERE bằng URL thực tế của API của bạn
+        url: API+'/notificationscontroller/GetNotificationsById.php?id='+ user_id , // Thay API_URL_HERE bằng URL thực tế của API của bạn
         headers: {
             // 'Authorization': 'Bearer YOUR_ACCESS_TOKEN_HERE' // Thêm mã thông báo xác thực nếu cần
         },
@@ -16,7 +17,7 @@ function loadData() {
                         <figure><img src="images/${notification.avatar}" alt=""></figure>
                         <div class="notifi-meta">
                             <p>${notification.content}</p>
-                            <span><i class="fa fa-thumbs-up"></i> ${notification.created_at}</span>
+                            <span><i class="fa fa-thumbs-up"></i> ${notification.create_at}</span>
                         </div>
                         <div class="more">
                             <div class="more-post-optns"><i class="ti-more-alt"></i>
