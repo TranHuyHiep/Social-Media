@@ -51,7 +51,7 @@ function loadData() {
                         </figure>
                         <div class="user-name">
                             <h6 class="">${mess.full_name}</h6>
-                            <span>${mess.content} - ${countTime(mess.created_at)}</span>
+                            <span>Chat with ${mess.full_name}</span>
                         </div>
                         <div class="more">
                             <div class="more-post-optns"><i class="ti-more-alt"></i>
@@ -147,7 +147,7 @@ function loadUserDetail(user_id) {
         </div>
         <ul class="live-calls">
             <li><span class="fa fa-phone"></span></li>
-            <li><span class="fa fa-video"></span></li>
+            <li><span class="fa fa-video" onclick="videocall()"></span></li>
             <li><span class="fa fa-info-circle"></span></li>
             <li>
                 <div class="dropdown">
@@ -214,6 +214,10 @@ function characterInfor(user_id) {
         `
         targetDiv.innerHTML = str;
     });
+}
+
+function videocall() {
+    window.location.href = "videocall.html"
 }
 
 function messageBox(user_id) {
