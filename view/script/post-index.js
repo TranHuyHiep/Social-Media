@@ -125,7 +125,7 @@ function newLikeComment(post_id, comment_id) {
 //Kiểm tra xem đây có phải comment của người dùng hiện tại hay không
 //Nếu phải thì thực hiện xóa
 //Không thì không cho phép xóa comment
-function deleteComment(comment_id) {
+function deleteComment(comment_id, post_id) {
     var userId = localStorage.getItem("user_id")
     console.log(userId);
     $.ajax({
@@ -148,11 +148,13 @@ function deleteComment(comment_id) {
                 }
                 $.ajax(requests).done(function (response) {
                     console.log("Xoa comment thanh cong");
-                    loadData();
+                    //loadData();
+                    getComment(post_id);
                 })
                     .fail(function (errorThrown) {
                         console.error("Lỗi: ", errorThrown);
-                        loadData();
+                        //loadData();
+                        getComment(post_id);
                     });
             } else {
                 alert("Ban khong the xoa comment cua nguoi khac");
@@ -201,7 +203,7 @@ function getComment(id) {
                         <p id ="currentcontentComment${comment.id}">${comment.content}</p>
                         <div id="editComment${comment.id}" style="display: none;">
                             <textarea id="editedContentComment${comment.id}"></textarea>
-                            <button class=" post-btn" id="saveButton" onclick="saveEditComment(${comment.id})" >SAVE</button>
+                            <button class=" post-btn" id="saveButton" onclick="saveEditComment(${comment.id},${comment.post_id})" >SAVE</button>
                             </div>
                         <div class="inline-itms">
                             <span>${countTime(comment.created_at)}</span>
@@ -222,7 +224,7 @@ function getComment(id) {
                                 <div class="more-post-optns"><i class="ti-more-alt"></i>
                                     <ul>
                                         <li onclick = "UpdateComment(${comment.id})"><i class="fa fa-pencil-square-o"></i>Edit Comment</li>
-                                        <li onclick = "deleteComment(${comment.id})"><i class="fa fa-trash-o"></i>Delete Comment</li>
+                                        <li onclick = "deleteComment(${comment.id},${comment.post_id})"><i class="fa fa-trash-o"></i>Delete Comment</li>
                                         
                                     </ul>
                                 </div>
@@ -369,11 +371,11 @@ function submitComment(user_id, post_id) {
     $.ajax(requests).done(function (response) {
         //alert()
         console.log('ok');
-        loadData();
+        getComment(post_id);
     })
         .fail(function (errorThrown) {
             console.error("Lỗi: ", errorThrown);
-            loadData();
+            getComment(post_id);
         });
 }
 //Hàm kiểm tra trc khi người dùng muốn sửa comment
@@ -441,7 +443,7 @@ function showReplyForm(comment_id){
                         <p id ="currentcontentComment${comment.id}">${comment.content}</p>
                         <div id="editComment${comment.id}" style="display: none;">
                             <textarea id="editedContentComment${comment.id}"></textarea>
-                            <button class=" post-btn" id="saveButton" onclick="saveEditComment(${comment.id})" >SAVE</button>
+                            <button class=" post-btn" id="saveButton" onclick="saveEditComment(${comment.id},${comment.post_id})" >SAVE</button>
                             </div>
                         <div class="inline-itms">
                             <span>${countTime(comment.created_at)}</span>
@@ -461,7 +463,7 @@ function showReplyForm(comment_id){
                                 <div class="more-post-optns"><i class="ti-more-alt"></i>
                                     <ul>
                                         <li onclick = "UpdateComment(${comment.id})"><i class="fa fa-pencil-square-o"></i>Edit Comment</li>
-                                        <li onclick = "deleteComment(${comment.id})"><i class="fa fa-trash-o"></i>Delete Comment</li>
+                                        <li onclick = "deleteComment(${comment.id}, ${comment.post_id})"><i class="fa fa-trash-o"></i>Delete Comment</li>
                                         
                                     </ul>
                                 </div>
@@ -508,18 +510,23 @@ function showReplyForm(comment_id){
         success: function (response) {
             // Kiểm tra xem dữ liệu phản hồi có phải là null không
             if (response.data != null) {
-                loadData();
+                //loadData();
+                getComment(post_id);
+                //showReplyForm(comment_id);
             } else {
-                loadData();
+                //loadData();
+                getComment(post_id);
+                //showReplyForm(comment_id);
             }
         },
         error: function (error) {
             console.log(error);
+            getComment(post_id);
         },
     });
 }
 //Hàm sửa comment
-function saveEditComment(comment_id) {
+function saveEditComment(comment_id, post_id) {
     var userId = localStorage.getItem("user_id")
     console.log(userId);
     //check xem day co phai comment cua minh hay la ko
@@ -553,11 +560,13 @@ function saveEditComment(comment_id) {
                 }
                 $.ajax(requests).done(function (response) {
                     console.log("Cap Nhat comment thanh cong");
-                    loadData();
+                    //loadData();
+                    getComment(post_id);
                 })
                     .fail(function (errorThrown) {
                         console.error("Lỗi: ", errorThrown);
-                        loadData();
+                        //loadData();
+                        getComment(post_id);
                     });
             } else {
                 alert("Ban khong the xoa comment cua nguoi khac");
