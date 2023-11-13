@@ -216,7 +216,7 @@
 	}
     //Delete comments post.
     public function removeCommentsPost(){
-        $query = "UPDATE comments SET is_active = 0 WHERE id = :id";
+        $query = "UPDATE comments SET is_active = 0 WHERE id = :id OR parent_comment_id = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $this->id);
         if($stmt->execute()) {

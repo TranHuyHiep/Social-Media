@@ -668,7 +668,7 @@ async function loadData() {
                                 </ul>   
                             </div>
                         </div>
-                        <<div class="coment-area" id = "coment-area${posts.id}" style="display: block;">
+                        <div class="coment-area" id = "coment-area${posts.id}" style="display: block;">
                             <ul class="we-comet" id="list-comments${posts.id}">
                             </ul>
                             <ul class="we-comet" style = "margin-top: 15px;" id="new-cm${posts.id}">

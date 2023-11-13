@@ -82,7 +82,7 @@ function newLikeComment(post_id, comment_id) {
                     },
                     "data": JSON.stringify({
                         "user_id": user_id,
-                        
+
                         "comments_id": comment_id
                     })
                 }
@@ -169,7 +169,7 @@ function deleteComment(comment_id, post_id) {
 //Hàm lấy danh sách comment của 1 bài post
 function getComment(id) {
     //var comment_id = id;
-   
+
     const user_avatar = localStorage.getItem("user_avatar")
     var id_post = id;
     // const replyForm = document.getElementById(`coment-area${id_post}`);
@@ -200,7 +200,9 @@ function getComment(id) {
                     </div>
                     <div class="we-comment">
                         <h5><a href="time-line.html" title="">${comment.full_name}</a></h5>
+                        <div style="padding: 5px;">
                         <p id ="currentcontentComment${comment.id}">${comment.content}</p>
+                        </div>
                         <div id="editComment${comment.id}" style="display: none;">
                             <textarea id="editedContentComment${comment.id}"></textarea>
                             <button class=" post-btn" id="saveButton" onclick="saveEditComment(${comment.id},${comment.post_id})" >SAVE</button>
@@ -237,10 +239,10 @@ function getComment(id) {
                 `;
                 });
                 var str1 = "" + numComment;
-                $("#list-comments" + "" + id_post).html($str);         
+                $("#list-comments" + "" + id_post).html($str);
                 $("#numCm" + id_post).html(str1);
             }
-            var str2 =`
+            var str2 = `
                 <li class="post-comment">
                         <div class="comet-avatar">
                             <img src="../../view/images/${user_avatar}" style="width: 30px; height: 30px;" alt="">
@@ -276,7 +278,7 @@ function getComment(id) {
                         </div>
                     </li>
                 `;
-                $("#new-cm" + "" + id_post).html(str2);
+            $("#new-cm" + "" + id_post).html(str2);
         },
     });
 }
@@ -410,7 +412,7 @@ function UpdateComment(comment_id) {
     });
 }
 
-function showReplyForm(comment_id){
+function showReplyForm(comment_id) {
     const nestedComments = document.getElementById(`nestedComments${comment_id}`);
 
     if (nestedComments.style.display === 'none' || nestedComments.style.display === '') {
@@ -476,7 +478,7 @@ function showReplyForm(comment_id){
                 `;
                 });
                 //var str1 = "" + numComment;
-                $("#nestedComments" + "" + id_comment).html($str);         
+                $("#nestedComments" + "" + id_comment).html($str);
                 //$("#numCm" + id_post).html(str1);
             }
         },
@@ -492,7 +494,7 @@ function showReplyForm(comment_id){
         replyForm.style.display = 'none';
     }
 }
- function addNewReply(comment_id,post_id, parent_comment_id){
+function addNewReply(comment_id, post_id, parent_comment_id) {
     var editedContent = document.getElementById('newReplyContent' + comment_id).value;
     var userId = localStorage.getItem("user_id")
     $.ajax({
@@ -558,12 +560,13 @@ function saveEditComment(comment_id, post_id) {
                         "content": editedContent
                     })
                 }
-                $.ajax(requests).done(function (response) {
+                $.ajax(requests).done(function (response1) {
                     console.log("Cap Nhat comment thanh cong");
                     //loadData();
                     getComment(post_id);
                 })
                     .fail(function (errorThrown) {
+                        showcomment(postId);
                         console.error("Lỗi: ", errorThrown);
                         //loadData();
                         getComment(post_id);
