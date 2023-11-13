@@ -1,28 +1,69 @@
 var numComment = 0;
-function submitPost() {
-    var userId = localStorage.getItem("user_id")
-    var postContent = document.getElementById("postContent").value;
-    //alert(postContent);
-    var settings = {
-        "url": API + "/postscontroller/CreatePost.php",
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
-        },
-        "data": JSON.stringify({
-            "content": postContent,
-            "id": userId
-        }),
-    };
 
-    $.ajax(settings).done(function (response) {
-        console.log("submitPost: ", response);
-        loadData();
-    }).fail(function (errorThrown) {
-        console.error("Lỗi submitPost: ", errorThrown);
-        getRecommenFriend();
+
+
+
+
+
+$(document).ready(function () {
+    $("#post").click(function () {
+        // Lấy dữ liệu từ form
+        var postContent = $("#postContent").val();
+        var userId = localStorage.getItem("user_id");
+        var url = $("#url")[0].files[0];
+
+        // Tạo FormData để chứa dữ liệu
+        var formData = new FormData();
+        formData.append("content", postContent);
+        formData.append("user_id", userId);
+        formData.append("url", url);
+
+        // Gửi Ajax request
+        $.ajax({
+            type: "POST",
+            url: API + "/postscontroller/CreatePost.php",  // Thay thế URL_TO_YOUR_PHP_FILE.php bằng đường dẫn đến tệp PHP xử lý API của bạn
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                console.log(response);
+                // Xử lý phản hồi từ server tại đây
+            },
+            error: function (error) {
+                console.error(error);
+                // Xử lý lỗi tại đây
+            }
+        });
     });
-}
+});
+
+
+
+// function submitPost() {
+//     var userId = localStorage.getItem("user_id")
+//     var postContent = document.getElementById("postContent").value;
+//     //alert(postContent);
+//     var settings = {
+//         "url": API + "/postscontroller/CreatePost.php",
+//         "method": "POST",
+//         "timeout": 0,
+//         "headers": {
+//         },
+//         "data": JSON.stringify({
+//             "content": postContent,
+//             "id": userId
+            
+//         }),
+//     };
+
+//     $.ajax(settings).done(function (response) {
+//         console.log("submitPost: ", response);
+//         loadData();
+//     }).fail(function (errorThrown) {
+//         console.error("Lỗi submitPost: ", errorThrown);
+//         getRecommenFriend();
+//     });
+// }
 
 loadData();
 loadInforUser();

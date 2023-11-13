@@ -78,22 +78,57 @@ class Posts{
     }
     
     // tao bai viet moi
-    public function create(){
-        $query = "INSERT INTO Posts SET content=:content, Posts.user_id=:id, like_count=0, created_at=now(), access_modifier='public', is_active=1";
-        $stmt = $this->conn->prepare($query);
+    // public function create(){
+    //     $query = "INSERT INTO Posts SET content=:content, Posts.user_id=:id, like_count=0, created_at=now(), access_modifier='public', is_active=1";
+    //     $stmt = $this->conn->prepare($query);
         
-        //bind data
-        $stmt->bindParam(':content', $this->content);
-        $stmt->bindParam(':id', $this->id);
+    //     //bind data
+    //     $stmt->bindParam(':content', $this->content);
+    //     $stmt->bindParam(':id', $this->id);
 
         
-        if($stmt->execute()){
-            return true;
-        }
-        printf("Error %s.\n" ,$stmt->Error);
-        return false; 
+    //     if($stmt->execute()){
+    //         return true;
+    //     }
+    //     printf("Error %s.\n" ,$stmt->Error);
+    //     return false; 
         
+    // }
+    public function create($content, $id, $url)
+{
+    // Thêm bài đăng
+    $postQuery = "INSERT INTO Posts SET content=:content, user_id=:id, like_count=0, created_at=NOW(), access_modifier='public', is_active=1";
+    $postStmt = $this->conn->prepare($postQuery);
+
+    // Bind data
+    $postStmt->bindParam(':content', $content);
+    $postStmt->bindParam(':id', $id);
+
+    // Thực hiện câu lệnh thêm vào Posts
+    if (!$postStmt->execute()) {
+        printf("Error %s.\n", implode(" ", $postStmt->errorInfo()));
+        return false;
     }
+
+    // Lấy ID của bài đăng vừa thêm
+    $postId = $this->conn->lastInsertId();
+
+    // Thêm media trước, nếu có
+    $mediaQuery = "INSERT INTO Medias SET post_id=:post_id, url=:url, is_active=1";
+    $mediaStmt = $this->conn->prepare($mediaQuery);
+    $mediaStmt->bindParam(':post_id', $postId, PDO::PARAM_INT); // Sử dụng ID tự sinh từ bảng Posts
+    $mediaStmt->bindParam(':url', $url);
+
+    // Thực hiện câu lệnh thêm vào Medias
+    if (!$mediaStmt->execute()) {
+        printf("Error %s.\n", implode(" ", $mediaStmt->errorInfo()));
+        return false;
+    }
+
+    return true;
+}
+
+    
     // update bai viet
     public function update(){
         $query = "UPDATE Posts SET content=:content, updated_at=now() WHERE id=:id";
