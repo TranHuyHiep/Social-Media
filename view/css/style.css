@@ -2815,7 +2815,7 @@ a.underline:hover:before,
 }
 
 .foot-logo {
-    display: inline-block;
+    display: flex;
     width: 100%;
 }
 
