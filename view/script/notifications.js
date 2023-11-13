@@ -13,23 +13,24 @@ function loadData() {
                 numnotification = notifications.length;
 
                 var $str = notifications.map(function (notification) {
-                    return `<li>
-                        <figure><img src="images/${notification.avatar}" alt=""></figure>
-                        <div class="notifi-meta">
-                            <p>${notification.content}</p>
-                            <span><i class="fa fa-thumbs-up"></i> ${notification.create_at}</span>
-                        </div>
-                        <div class="more">
-                            <div class="more-post-optns"><i class="ti-more-alt"></i>
-                                <ul>
-                                    <li><i class="fa fa-bell-slash-o"></i>Mute</li>
-                                    <li><i class="fa fa-wpexplorer"></i>Report</li>
-                                    <li><i class="fa fa-bell-slash-o"></i>Block</li>
-                                </ul>
+                    return `
+                    <li>
+                        <div>
+                            <figure>
+                                <img src="images/${notification.avatar}" style="width: 40px; height: 40px;" alt="">
+                            </figure>
+                            <div class="mesg-meta">
+                                <h6><a href="../../view/postbyid.html?id=${notification.link}" title="">${notification.content}</a></h6>
+                                <span><b>Your Friend</b></span>
+                                <i>${notification.create_at}</i>
+                            </div>
+                            <div class="add-del-friends">
+                                <a href="#" title=""><i class="fa fa-heart"></i></a>
+                                <a href="#" title=""><i class="fa fa-trash"></i></a>
                             </div>
                         </div>
-                        <i class="del ti-close" title="Remove"></i>
-                    </li>`;
+                    </li>
+                    `;
                 });
 
                 $('#list-notification').html($str);

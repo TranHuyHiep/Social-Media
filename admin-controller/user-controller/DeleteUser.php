@@ -14,7 +14,7 @@
     $user = new users($connect);
     
     $data = json_decode(file_get_contents("php://input"));
-    $user->id = $user->id;
+    $user->id = $data->id;
     if($user->delete()){
         echo json_encode(array('message', 'User Deleted'));
     } else {

@@ -112,7 +112,7 @@ class Posts{
     }
     // xoa bai viet
     public function delete(){
-        $query = "DELETE FROM Posts WHERE id=:id";
+        $query = "UPDATE Posts SET is_active = 0 WHERE id = :id";
         $stmt = $this->conn->prepare($query);
         
         //bind data
@@ -160,7 +160,7 @@ class Posts{
     
     public function Data()
     {
-        $query = "SELECT * FROM Posts";
+        $query = "SELECT * FROM Posts where is_active = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
