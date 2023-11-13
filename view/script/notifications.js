@@ -16,7 +16,7 @@ function loadData() {
                     return `<li>
                         <figure><img src="images/${notification.avatar}" alt=""></figure>
                         <div class="notifi-meta">
-                            <p>${notification.content}</p>
+                            <p ><a href="../../view/postbyid.html?id=${notification.link}" title="">${notification.content}</a></p>
                             <span><i class="fa fa-thumbs-up"></i> ${notification.create_at}</span>
                         </div>
                         <div class="more">
