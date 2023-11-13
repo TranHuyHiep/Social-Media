@@ -214,7 +214,7 @@ public function find_user($name){
                         SELECT follower
                         FROM userrelas
                         WHERE follwing = :id
-                        UNION SELECT :id)
+                        UNION SELECT :id) and role = 0
                         LIMIT 10;";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $id, PDO::PARAM_INT); // Assuming id is an integer
