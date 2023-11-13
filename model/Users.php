@@ -95,7 +95,7 @@ class users{
 
     public function read()
     {
-        $query = "SELECT * FROM users";
+        $query = "SELECT * FROM users where is_active = 1";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -248,7 +248,9 @@ public function find_user($name){
         }
     }
     public function delete(){
-        $query = "DELETE FROM Users WHERE id=:id";
+        $query = "UPDATE users
+                    SET is_active = 0
+                    WHERE id = :id;";
         $stmt = $this->conn->prepare($query);
         
         //bind data
