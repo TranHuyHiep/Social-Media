@@ -270,7 +270,23 @@ mark,
   padding: 0.2em;
   background-color: var(--bs-highlight-bg);
 }
-
+ul li{
+  list-style: none;
+}
+.foot-logo{
+  display: flex;
+  margin-top: 20px;
+}
+.text-group{
+  text-align: center;
+  justify-content: center;
+}
+.location li{
+  display: flex;
+}
+.location p{
+  margin-left: 5px;
+}
 sub,
 sup {
   position: relative;
