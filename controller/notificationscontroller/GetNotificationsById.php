@@ -22,7 +22,8 @@ if ($result) {
         $notification = array(
             'avatar' => $row['avatar_url'],
             'content' => $row['content'],
-            'create_at' => $row['created_at']
+            'create_at' => $row['created_at'],
+            'link'=> $row['link']
         );
 
         $notifications_data[] = $notification;
