@@ -28,7 +28,8 @@
                 'updated_at' => $updated_at,
                 'content' => $content,
                 'shared_post_id' => $shared_post_id,
-                'access_modifier' => $access_modifier
+                'access_modifier' => $access_modifier,
+                'url' => $url
                
             );
             array_push($list['data'], $posts);

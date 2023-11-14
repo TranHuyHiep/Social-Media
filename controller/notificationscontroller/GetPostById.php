@@ -33,7 +33,8 @@ if ($read) {
                 'shared_post_id' => $row['shared_post_id'],
                 'created_at' => $row['created_at'],
                 'updated_at' => $row['updated_at'],
-                'is_active' => $row['is_active']
+                'is_active' => $row['is_active'],
+                'url'=>$row['url']
             );
         }
 
