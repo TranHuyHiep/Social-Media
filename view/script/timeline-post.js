@@ -577,6 +577,7 @@ async function loadData() {
 
     const targetDiv = document.querySelector('#postedContent');
     var str = "";
+    console.log(data);
 
     for (let i = 0; i < data.data.length; i++) {
         var posts = data.data[i];
@@ -628,7 +629,7 @@ async function loadData() {
         }
         str += `
                             </div>
-                            
+                            ${posts.url ? `<div>  <img src="./images/${posts.url}"/></div>` : ``}
                             <div id="editForm" style="display: none;">
                             <textarea id="editedContent"></textarea>
                             <button onclick="saveEditedPost(${posts.id})">Lưu</button>
@@ -701,8 +702,8 @@ async function loadData() {
                                 placeholder="Share some what you are thinking?"></textarea>
                         </form>
                         <div id="sharedContent${posts.id}">
-
                         </div>
+                        
                     </div>
                     <div class="attachments">
                         <ul>
@@ -836,6 +837,9 @@ async function loadSharePostInPost(pairId) {
                         <div id="currentcontent">
                             ${posts.content}
                         </div>
+                        <div> 
+                        ${posts.url ? `<div style="max-width: 150px;">  <img src="./images/${posts.url}" /></div>` : ``}
+                         </div>
                     </div>
                 </div>
             </div>
@@ -891,6 +895,9 @@ function loadSharePost(id) {
                                 <div id="currentcontent">
                                     ${posts.content}
                                 </div>
+                                <div> 
+                                ${posts.url ? `<div style="max-width: 150px;">  <img src="./images/${posts.url}" /></div>` : ``}
+                                 </div>
                             </div>
                         </div>
                     </div>

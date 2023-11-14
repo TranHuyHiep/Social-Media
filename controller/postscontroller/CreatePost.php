@@ -26,8 +26,11 @@ if (isset($_FILES['url'])) {
         $url = $_FILES["url"]["name"];
     }
 }
+else{
+    $url = null;
+}
 
-if ($url !== null) {
+
     $result = $posts->create($content, $id, $url);
 
     if ($result) {
@@ -43,5 +46,5 @@ if ($url !== null) {
         );
         echo json_encode($response);
     }
-}
+
 ?>

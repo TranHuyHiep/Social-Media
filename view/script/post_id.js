@@ -11,13 +11,13 @@
 //             type: "GET",
 //             url: API+"/notificationscontroller/GetPostById.php?post_id=" + post_id,
 //             dataType: "json",
-           
+
 //             success: function (response) {
 //                 // Check if the API request was successful
 //                 if (response) {
 //                     // Assuming the response contains the post data in the expected format
 //                     var response = response;
-    
+
 //                     // Use the post data to update your HTML content
 //                     var userHtml = `
 //                     <div class="central-meta item" style="display: inline-block;">
@@ -30,7 +30,7 @@
 //                                 <div class="more">
 //                                     <div class="more-post-optns"><i class="ti-more-alt"></i>
 //                                         <ul>
-                                            
+
 //                                             <li class="bad-report"><i class="fa fa-flag"></i>Report Post</li>
 //                                             <li><i class="fa fa-address-card-o"></i>Boost This
 //                                                 Post</li>
@@ -52,7 +52,7 @@
 //                                 <div id="currentcontent">
 //                                     ${response.content}
 //                                 </div>
-                                
+
 //                                 <div id="editForm" style="display: none;">
 //                                 <textarea id="editedContent"></textarea>
 //                                 <button onclick="saveEditedPost(${response.id})">Lưu</button>
@@ -83,7 +83,7 @@
 //                                                 <ins id ="numCm${response.id}"></ins>
 //                                             </span>
 //                                         </li>
-                    
+
 //                                         <li>
 //                                             <span>
 //                                                 <i class="fa fa-share-alt" onclick="formload(${response.id}) "></i>
@@ -96,11 +96,11 @@
 //                                 <ul class="we-comet" id="list-comments${response.id}">
 //                                 </ul>
 //                                 <ul class="we-comet" style = "margin-top: 15px;" id="new-cm${response.id}">
-                        
+
 //                                 </ul>
 //                             </div>
 //                         </div>
-                    
+
 //                     </div>
 //                     </div>
 //                     <div class="modal-sharepost" id="modal-sharepost${response.id}" style="display: none; background-color: rgba(0,0,0,0.4); padding-top: 100px;">
@@ -117,7 +117,7 @@
 //                     <div class="new-postbox">
 //                         <figure>
 //                         <img src="../../view/images/${user_avatar}" style="width: 30px; height: 30px;" alt="">
-                    
+
 //                         </figure>
 //                         <div class=" newpst-input">
 //                             <form id="postForm" method="post">
@@ -125,7 +125,7 @@
 //                                     placeholder="Share some what you are thinking?"></textarea>
 //                             </form>
 //                             <div id="sharedContent">
-                    
+
 //                             </div>
 //                         </div>
 //                         <div class="attachments">
@@ -166,13 +166,13 @@
 //                             </ul>
 //                             <button class="post-btn" type="submitPost" data-ripple=""
 //                                 onclick="share(${response.id}, ${user_id})">Share</button>
-                    
+
 //                         </div>
-                    
+
 //                         <div class="add-location-post">
 //                             <span>Drag map point to selected area</span>
 //                             <div class="row">
-                    
+
 //                                 <div class="col-lg-6">
 //                                     <label class="control-label">Lat :</label>
 //                                     <input type="text" class="" id="us3-lat" />
@@ -189,7 +189,7 @@
 //                     </div><!-- add post new box -->
 //                     </div><!-- centerl meta -->
 //                     `;
-    
+
 //                     // Assuming #post is the container where you want to display the post
 //                     $("#post").html(userHtml);
 //                 } else {
@@ -203,7 +203,7 @@
 //             }
 //         });
 //     });
-    
+
 //     // Function to extract query parameters from the URL
 //  // Function to extract query parameters from the URL
 // function getParameterByName(name, url) {
@@ -216,23 +216,22 @@
 //     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 // }
 
-$(document).ready(function () {
-    // Call the function to get the post_id from the URL
-    var post_id = getParameterByName("id", window.location.href);
-    console.log("post_id:", post_id);
+// Call the function to get the post_id from the URL
+var post_id = getParameterByName("id", window.location.href);
+console.log("post_id:", post_id);
 
-    // Make an AJAX request to fetch the post data
-    $.ajax({
-        type: "GET",
-        url: API + "/notificationscontroller/GetPostById.php?post_id=" + post_id,
-        dataType: "json",
-        success: function (response) {
-            console.log("API response:", response);
+// Make an AJAX request to fetch the post data
+$.ajax({
+    type: "GET",
+    url: API + "/notificationscontroller/GetPostById.php?post_id=" + post_id,
+    dataType: "json",
+    success: function (response) {
+        console.log("API response:", response);
 
-            // Check if the API request was successful
-            if (response && response.id) {
-                // Use the post data to update your HTML content
-                var userHtml = `
+        // Check if the API request was successful
+        if (response && response.id) {
+            // Use the post data to update your HTML content
+            var userHtml = `
                                     <div class="central-meta item" style="display: inline-block;">
                                     <div class="user-post">
                                         <div class="friend-info">
@@ -265,7 +264,9 @@ $(document).ready(function () {
                                                 <div id="currentcontent">
                                                     ${response.content}
                                                 </div>
-                                                
+                                                <div> 
+                        ${response.url ? `<div style="max-width: 150px;">  <img src="./images/${response.url}" /></div>` : ``}
+                         </div>
                                                 <div id="editForm" style="display: none;">
                                                 <textarea id="editedContent"></textarea>
                                                 <button onclick="saveEditedPost(${response.id})">Lưu</button>
@@ -403,20 +404,19 @@ $(document).ready(function () {
                                     </div><!-- centerl meta -->
                                     `;
 
-                // Assuming #post is the container where you want to display the post
-                $("#post").html(userHtml);
-            } else {
-                // Handle the case where the API request was not successful or data is not in the expected format
-                console.log("Failed to fetch post data.");
-                $("#post").html("<p>Error fetching post data.</p>");
-            }
-        },
-        error: function (error) {
-            // Handle the AJAX error
-            console.log("An error occurred during the AJAX request:", error);
+            // Assuming #post is the container where you want to display the post
+            $("#post").html(userHtml);
+        } else {
+            // Handle the case where the API request was not successful or data is not in the expected format
+            console.log("Failed to fetch post data.");
             $("#post").html("<p>Error fetching post data.</p>");
         }
-    });
+    },
+    error: function (error) {
+        // Handle the AJAX error
+        console.log("An error occurred during the AJAX request:", error);
+        $("#post").html("<p>Error fetching post data.</p>");
+    }
 });
 
 // Function to extract query parameters from the URL
@@ -430,4 +430,3 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-    

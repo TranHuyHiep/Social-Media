@@ -13,6 +13,7 @@ class Posts{
     public $avatar_url;
     public $full_name;
     public $is_acive;
+    public $url;
     //ket noi db
     public function __construct($conn){
         $this->conn = $conn;
@@ -21,7 +22,9 @@ class Posts{
     // bai viet ngoai trang chu
     public function read()
     {
-        $query = "SELECT Posts.id, content, Posts.user_id, full_name,access_modifier, avatar_url,like_count, created_at, updated_at  FROM Posts JOIN Users ON Posts.user_id=Users.id where Posts.user_id in 
+        $query = "SELECT Posts.id, content, Posts.user_id, full_name,access_modifier, avatar_url,like_count, created_at, updated_at, url  
+        FROM Posts JOIN Users ON Posts.user_id=Users.id INNER JOIN Medias ON Posts.id=Medias.post_id
+        where Posts.user_id in 
         (SELECT follwing as friend_id
             FROM socialmedia.userrelas
             where follower = :id and status = 2
@@ -37,10 +40,9 @@ class Posts{
     }
     // bai viet trang ca nhan
     public function timeline(){
-        
-        $query = "SELECT Posts.id, content, Posts.user_id, access_modifier,shared_post_id, full_name, avatar_url,like_count, created_at, updated_at
-                    FROM Users JOIN Posts ON Users.id=Posts.user_id 
-                    WHERE Posts.user_id=:id ORDER BY created_at DESC";
+        $query = "SELECT Posts.id, content, Posts.user_id, access_modifier,shared_post_id, full_name, avatar_url, url, like_count, created_at, updated_at
+                    FROM Users JOIN Posts ON Users.id=Posts.user_id LEFT JOIN Medias ON Posts.id = Medias.post_id
+                    WHERE Posts.user_id=:id and Posts.is_active = 1 ORDER BY created_at DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $this->user_id);
         $stmt->execute();
@@ -64,13 +66,16 @@ class Posts{
         }
         printf("Error %s.\n" ,$stmt->Error);
         return false; 
+
+
+        
     }
     
 
     // lay bai viet chia se
     public function showshare(){
-        $query = "SELECT Posts.id, content, Posts.user_id, access_modifier,shared_post_id, full_name, avatar_url, created_at, updated_at  
-        FROM Users JOIN Posts ON Users.id=Posts.user_id WHERE Posts.id=:id ";
+        $query = "SELECT Posts.id, content, Posts.user_id, access_modifier,shared_post_id, full_name, avatar_url, created_at, updated_at, url  
+        FROM Users JOIN Posts ON Users.id=Posts.user_id INNER JOIN Medias ON Posts.id = Medias.post_id WHERE Posts.id=:id ";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $this->id);
         $stmt->execute();
