@@ -17,6 +17,7 @@ $(document).ready(function () {
                 $("#full_name1").text(userInfo.full_name);
                 $("#avatar").attr("src", "images/" + userInfo.avatar_url);
                 $("#avatar1").attr("src", "images/" + userInfo.avatar_url);
+                $("#email").text(userInfo.email);
             } else {
                 alert("Không tìm thấy thông tin người dùng");
             }
@@ -46,6 +47,11 @@ $(document).ready(function () {
                 $("#favorites").val(data.favorites);
                 $("#other_info").val(data.other_info);
                 $("#date_of_birth").val(data.date_of_birth);
+                $("#study_at").text(data.study_at); // Change from val to text
+                $("#working_at").text(data.working_at); // Change from val to text
+                $("#favorites").text(data.favorites); // Change from val to text
+                $("#other_info").text(data.other_info); // Change from val to text
+                $("#date_of_birth").text(data.date_of_birth);
             }
         },
         error: function () {
