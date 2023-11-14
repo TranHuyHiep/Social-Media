@@ -84,7 +84,8 @@ function newLikeComment(post_id, comment_id) {
                     })
                 }
                 $.ajax(requests).done(function (response) {
-                    console.log("Them like thanh cong");
+                    alert("You Like comments")
+                    //console.log("Them like thanh cong");
                     getCommnent(post_id);
 
                 }).fail(function (errorThrown) {
@@ -104,7 +105,8 @@ function newLikeComment(post_id, comment_id) {
                     })
                 }
                 $.ajax(requests).done(function (response) {
-                    console.log("Xoa thanh cong");
+                    alert("You unliked comments")
+                    //console.log("Xoa thanh cong");
                     getCommnent(post_id);
                 }).fail(function (errorThrown) {
                     console.error("Lỗi: ", errorThrown);
@@ -140,6 +142,7 @@ function deleteComment(comment_id) {
                     "method": "POST",
                 }
                 $.ajax(requests).done(function (response) {
+                    alert("Delete comment successful")
                     console.log("Xoa comment thanh cong");
                     loadData();
                 })
@@ -323,6 +326,7 @@ function saveEditComment(comment_id) {
                     })
                 }
                 $.ajax(requests).done(function (response) {
+                    alert("Update comment successful");
                     console.log("Cap Nhat comment thanh cong");
                     loadData();
                 })
@@ -356,8 +360,8 @@ function submitComment(user_id, post_id) {
         })
     }
     $.ajax(requests).done(function (response) {
-        //alert()
-        console.log('ok');
+        alert("You comment post");
+        //console.log('ok');
         loadData();
     })
         .fail(function (errorThrown) {
@@ -397,7 +401,8 @@ function likePost(post_id) {
                     })
                 }
                 $.ajax(requests).done(function (response) {
-                    console.log("Them like post thanh cong");
+                    alert("You liked post");
+                    //console.log("Them like post thanh cong");
                     loadData();
 
                 }).fail(function (errorThrown) {
@@ -418,7 +423,8 @@ function likePost(post_id) {
                     })
                 }
                 $.ajax(requests).done(function (response) {
-                    console.log("Xoa thanh cong");
+                    alert("You unliked post");
+                    //console.log("Xoa thanh cong");
 
                     loadData();
                 }).fail(function (errorThrown) {
@@ -929,7 +935,8 @@ function share(post_id, user_id) {
     };
 
     $.ajax(settings).done(function (response) {
-        console.log("sharePost: ", response);
+        alert("Share post successful");
+        //console.log("sharePost: ", response);
         loadData();
     }).fail(function (errorThrown) {
         console.error("Lỗi sharePost: ", errorThrown);
@@ -949,7 +956,8 @@ function deletePost(id) {
     };
 
     $.ajax(settings).done(function (response) {
-        console.log(response);
+        alert("Delete post successful");
+        //console.log(response);
         loadData();
     });
 
@@ -980,6 +988,7 @@ function updatePrivacy(id) {
     };
 
     $.ajax(settings).done(function (response) {
+        alert("Update successful");
         console.log(response);
         //alert("ban da update quyen rieng tu");
         loadData();
@@ -1005,6 +1014,7 @@ function saveEditedPost(id) {
     };
 
     $.ajax(settings).done(function (response) {
+        alert("Update post successful");
         console.log("editPost: ", response);
         loadData();
     }).fail(function (errorThrown) {

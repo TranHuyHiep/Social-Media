@@ -91,7 +91,7 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 if (data.status === "success") {
-                    alert("Thông tin đã được cập nhật thành công.");
+                    alert("The information has been updated successfully.");
                 } else {
                     alert("Có lỗi xảy ra khi cập nhật thông tin.");
                 }
