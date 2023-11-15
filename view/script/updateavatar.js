@@ -16,6 +16,7 @@
                         var response = JSON.parse(xhr.responseText);
                         if (response.status === 'success') {
                             // Cập nhật nguồn hình ảnh với URL mới
+                            alert("updata avatar Successfull");
                             document.getElementById('avatar').src = response.avatar_url;
                         } else {
                             alert('Không thể cập nhật hình ảnh: ' + response.message);

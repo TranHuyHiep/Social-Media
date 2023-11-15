@@ -88,7 +88,8 @@ function newLikeComment(user_id,post_id, comment_id){
                     })
                 }
                 $.ajax(requests).done(function (response) {
-                    console.log("Them like thanh cong");
+                    alert("you liked comments");
+                    // console.log("Them like thanh cong");
                     
                     //$("#list-comments").load(location.href + " #list-comments"); 
                     
@@ -111,6 +112,7 @@ function newLikeComment(user_id,post_id, comment_id){
                 })
             }
             $.ajax(requests).done(function (response) {
+                alert("you have unliked comments");
                 console.log("Xoa thanh cong");
                 getlike(post_id);
             })
@@ -148,6 +150,7 @@ function deleteLikeComment(comment_id){
                 }
                 $.ajax(requests).done(function (response) {
                     //alert("Sent friend request");
+                    alert("Delete comments  succefull");
                     console.log("Xoa comment thanh cong");
                     //getRecommenFriend();
                 })

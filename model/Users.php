@@ -160,7 +160,7 @@ class users{
     } else {
         // Email doesn't exist; proceed with registration
 
-        $query = "INSERT INTO Users (full_name, email, password, avatar_url,role, is_active) VALUES (?, ?, ?, ?,0, 1)";
+        $query = "INSERT INTO Users (full_name, email, password, avatar_url,role,is_active) VALUES (?, ?, ?, ?,0,1)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $full_name, PDO::PARAM_STR);
         $stmt->bindParam(2, $email, PDO::PARAM_STR);
@@ -171,7 +171,7 @@ class users{
         $user_id = $this->conn->lastInsertId();
 
         // Insert additional user information into the UserInfo table
-        $insert_userinfo_query = "INSERT INTO UserInfo (id, study_at, working_at, favorites, other_info, date_of_birth, created_at) VALUES (?, NULL, NULL, NULL, NULL, ?, NOW())";
+        $insert_userinfo_query = "INSERT INTO UserInfo (id, study_at, working_at, favorites, other_info, date_of_birth, created_at, is_active) VALUES (?, NULL, NULL, NULL, NULL, ?, NOW(),1)";
         $stmt = $this->conn->prepare($insert_userinfo_query);
         $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
         $stmt->bindParam(2, $date_of_birth, PDO::PARAM_STR);
