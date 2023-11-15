@@ -160,7 +160,7 @@ class users{
     } else {
         // Email doesn't exist; proceed with registration
 
-        $query = "INSERT INTO Users (full_name, email, password, avatar_url,role) VALUES (?, ?, ?, ?,0)";
+        $query = "INSERT INTO Users (full_name, email, password, avatar_url,role,is_active) VALUES (?, ?, ?, ?,0,1)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $full_name, PDO::PARAM_STR);
         $stmt->bindParam(2, $email, PDO::PARAM_STR);
