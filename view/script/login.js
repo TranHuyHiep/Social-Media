@@ -5,11 +5,29 @@ $("#login").click(function () {
     // Validate email format
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-        alert("Invalid email format. Please enter a valid email address.");
+        $.toast({
+            heading: 'Invalid email format',
+            text: "Please enter a valid email address",
+            showHideTransition: 'fade',
+            icon: 'error',
+            hideAfter: 7000,
+            loaderBg: '#fa6342',
+            position: 'bottom-right',
+        });
+        
         return;
     }
-    if(!password || password.trim() === ""){
-        alert("Must not be resisted Password");
+    if (!password || password.trim() === "") {
+        $.toast({
+            heading: 'Must not be resisted Password',
+            text: 'Must not be resisted Password',
+            showHideTransition: 'fade',
+            icon: 'error',
+            hideAfter: 7000,
+            loaderBg: '#fa6342',
+            position: 'bottom-right',
+        });
+        
         return;
     }
     var data = {
@@ -28,30 +46,50 @@ $("#login").click(function () {
         dataType: "json",
         success: function (response) {
             if (response.status === "success") {
-                if(response.role==0){
-                    // Đăng nhập thành công, bạn có thể thực hiện hành động phù hợp ở đây
-                
-                alert("Login successful!")
-                localStorage.setItem('user_id', response.user_id);
-                window.location.href = "../view/index.html"
+                if (response.role == 0) {
+                    $.toast({
+                        heading: 'Registration successfull',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
+                    alert("Login successful!")
+                    localStorage.setItem('user_id', response.user_id);
+                    window.location.href = "../view/index.html"
                 }
-                else{
-                    alert("The account does not exist \n the email password is incorrec")
-                    
-                } 
-                
+                else {
+                    $.toast({
+                        heading: 'The account does not exist',
+                        text: "The email or password is incorrect",
+                        showHideTransition: 'fade',
+                        icon: 'error',
+                        hideAfter: 7000,
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                    });
+                }
             } else {
                 // Đăng nhập không thành công, hiển thị thông báo lỗi
                 console.log("Đăng nhập không thành công: " + response.message);
             }
         },
         error: function (error) {
-            alert("The account does not exist \n the email password is incorrec")
-            console.log(error);
+            $.toast({
+                heading: 'The account does not exist',
+                text: "The email or password is incorrect",
+                showHideTransition: 'fade',
+                icon: 'error',
+                hideAfter: 7000,
+                loaderBg: '#fa6342',
+                position: 'bottom-right',
+            });
+            console.error(error);
         }
     });
 });
-
 
 $(document).ready(function () {
     $("#register-button").click(function () {
@@ -62,27 +100,57 @@ $(document).ready(function () {
         var avatar_url = document.getElementById("avatar_url").files[0];
         var date_of_birth = $("#date_of_birth").val();
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if(!full_name || full_name.trim() === ""){
-            alert("Must not be resisted Name");
+        if (!full_name || full_name.trim() === "") {
+            $.toast({
+                heading: 'Invalid Name',
+                text: 'Name is not blank',
+                showHideTransition: 'fade',
+                icon: 'error',
+                hideAfter: 7000,
+                loaderBg: '#fa6342',
+                position: 'bottom-right',
+            });
             return;
         }
         if (!emailRegex.test(email)) {
-            alert("Invalid email. Please try again.");
-            //$("#response").html("Email không hợp lệ. Vui lòng thử lại.");
+            $.toast({
+                heading: 'Invalid Email',
+                text: 'Invalid email. Please try again.',
+                showHideTransition: 'fade',
+                icon: 'error',
+                hideAfter: 7000,
+                loaderBg: '#fa6342',
+                position: 'bottom-right',
+            });
             return;
         }
         if (password.length < 6) {
             $("#password").val("");
             $("#enterpassword").val("");
-            alert("Password must have at least 6 characters. Please try again.");
+            $.toast({
+                heading: 'Invalid Password',
+                text: 'Password must have at least 6 characters',
+                showHideTransition: 'fade',
+                icon: 'error',
+                hideAfter: 7000,
+                loaderBg: '#fa6342',
+                position: 'bottom-right',
+            });
             return;
         }
         if (password !== enterpassword) {
             // Mật khẩu và nhập lại mật khẩu không khớp
             $("#password").val("");  // Xóa trường mật khẩu
             $("#enterpassword").val("");  // Xóa trường nhập lại mật khẩu
-            // $("#response").html("Mật khẩu không khớp. Vui lòng thử lại.");
-            alert("Password incorrect. Please try again");
+            $.toast({
+                heading: 'Invalid Re-Password',
+                text: 'Re-Password incorrect.',
+                showHideTransition: 'fade',
+                icon: 'error',
+                hideAfter: 7000,
+                loaderBg: '#fa6342',
+                position: 'bottom-right',
+            });
             return;  // Dừng xử lý tiếp theo
         }
         if (avatar_url) {
@@ -91,7 +159,15 @@ $(document).ready(function () {
             var fileExtension = fileName.split(".").pop().toLowerCase();
 
             if (!allowedExtensions.includes(fileExtension)) {
-                $("#response").html("Chỉ chấp nhận file với đuôi .jpg và .png cho avatar. Vui lòng thử lại.");
+                $.toast({
+                    heading: 'Invalid File Image',
+                    text: 'Only accept .jpg or .png for Avatar',
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
                 avatarInput.value = "";  // Clear the file input
                 return;
             }
@@ -119,17 +195,39 @@ $(document).ready(function () {
             processData: false,
             success: function (response) {
                 if (response.status === "success") {
-                    
-                    // alert("Registration successfull!")
+                    $.toast({
+                        heading: 'Registration successfull',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
+                    alert("Registration successfull")
                     window.location.href = "../view/login.html";
                 } else {
-                    alert("Registration failed!\n Account already exists")
-                  
+                    $.toast({
+                        heading: 'Registration failed',
+                        text: 'Account already exists',
+                        showHideTransition: 'fade',
+                        icon: 'error',
+                        hideAfter: 7000,
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                    });
                 }
             },
             error: function (error) {
-                alert("Registration failed!\n Account already exists")
-                
+                $.toast({
+                    heading: 'Registration failed',
+                    text: 'Account already exists',
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
             }
         });
     });
@@ -137,8 +235,7 @@ $(document).ready(function () {
 // Hàm để đăng xuất người dùng
 function logout() {
     // Xóa dữ liệu người dùng trong Local Storage
-     localStorage.removeItem('user_id'); // Đây là một ví dụ, bạn có thể lưu nhiều thông tin khác trong Local Storage
-  
+    localStorage.removeItem('user_id'); // Đây là một ví dụ, bạn có thể lưu nhiều thông tin khác trong Local Storage
+
 }
-  
-  
+

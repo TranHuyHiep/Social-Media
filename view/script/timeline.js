@@ -95,7 +95,15 @@ function addFriend(follower, following) {
 
     $.ajax(settings)
         .done(function (response) {
-            alert("Sent friend request");
+            $.toast({
+                heading: 'Sent friend request',
+                text: '',
+                showHideTransition: 'slide',
+                icon: 'success',
+                loaderBg: '#fa6342',
+                position: 'bottom-right',
+                hideAfter: 3000,
+            });
             getRecommenFriend();
         })
         .fail(function (errorThrown) {
@@ -157,7 +165,15 @@ function acceptFriend(follower, following) {
 
     $.ajax(settings)
         .done(function (response) {
-            alert("Accept Friend");
+            $.toast({
+                heading: 'Accepted friend',
+                text: '',
+                showHideTransition: 'slide',
+                icon: 'success',
+                loaderBg: '#fa6342',
+                position: 'bottom-right',
+                hideAfter: 3000,
+            });
             loadDataFriend();
         })
         .fail(function (errorThrown) {
@@ -183,7 +199,15 @@ function rejectFriend(follower, following) {
 
     $.ajax(settings)
         .done(function (response) {
-            alert("Reject friend request");
+            $.toast({
+                heading: 'Reject friend request',
+                text: '',
+                showHideTransition: 'slide',
+                icon: 'success',
+                loaderBg: '#fa6342',
+                position: 'bottom-right',
+                hideAfter: 3000,
+            });
             loadDataFriend();
         })
         .fail(function (errorThrown) {
