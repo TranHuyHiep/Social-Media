@@ -16,13 +16,37 @@
                         var response = JSON.parse(xhr.responseText);
                         if (response.status === 'success') {
                             // Cập nhật nguồn hình ảnh với URL mới
-                            alert("updata avatar Successfull");
+                            $.toast({
+                                heading: 'Updata avatar successfull',
+                                text: '',
+                                showHideTransition: 'slide',
+                                icon: 'success',
+                                loaderBg: '#fa6342',
+                                position: 'bottom-right',
+                                hideAfter: 3000,
+                            });
                             document.getElementById('avatar').src = response.avatar_url;
                         } else {
-                            alert('Không thể cập nhật hình ảnh: ' + response.message);
+                            $.toast({
+                                heading: 'Unable to update image',
+                                text: "Unable to update image",
+                                showHideTransition: 'fade',
+                                icon: 'error',
+                                hideAfter: 7000,
+                                loaderBg: '#fa6342',
+                                position: 'bottom-right',
+                            });
                         }
                     } else {
-                        alert('Không thể thực hiện yêu cầu.');
+                        $.toast({
+                            heading: 'Unable to update image',
+                            text: "Unable to update image",
+                            showHideTransition: 'fade',
+                            icon: 'error',
+                            hideAfter: 7000,
+                            loaderBg: '#fa6342',
+                            position: 'bottom-right',
+                        });
                     }
                 }
             };

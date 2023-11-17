@@ -19,12 +19,20 @@ $(document).ready(function () {
                 $("#avatar1").attr("src", "images/" + userInfo.avatar_url);
                 $("#email").text(userInfo.email);
             } else {
-                alert("Không tìm thấy thông tin người dùng");
+                $.toast({
+                    heading: 'User not found',
+                    text: "User not found",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
+                
             }
         },
         error: function (error) {
             console.log("Lỗi: " + JSON.stringify(error));
-            // alert("Đã xảy ra lỗi khi gọi API");
         }
     });
 });
@@ -91,13 +99,40 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 if (data.status === "success") {
-                    alert("The information has been updated successfully.");
+                    $.toast({
+                        heading: 'The information has been updated successfully',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
                 } else {
-                    alert("Có lỗi xảy ra khi cập nhật thông tin.");
+                    alert("An error occurred while updating information.");
+                    $.toast({
+                        heading: 'User not found',
+                        text: "User not found",
+                        showHideTransition: 'fade',
+                        icon: 'error',
+                        hideAfter: 7000,
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                    });
+                    
                 }
             },
             error: function () {
-                alert("Lỗi trong quá trình gửi yêu cầu AJAX.");
+                alert("An error occurred while updating information.");
+                $.toast({
+                    heading: 'User not found',
+                    text: "User not found",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
             }
         });
     });

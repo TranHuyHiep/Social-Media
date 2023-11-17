@@ -2,7 +2,6 @@ var numComment = 0;
 function submitPost() {
     var userId = localStorage.getItem("user_id");
     var postContent = document.getElementById("postContent").value;
-    //alert(postContent);
     var settings = {
         "url": API + "/postscontroller/CreatePost.php",
         "method": "POST",
@@ -16,7 +15,15 @@ function submitPost() {
     };
 
     $.ajax(settings).done(function (response) {
-        console.log("submitPost: ", response);
+        $.toast({
+            heading: 'You just created the post',
+            text: '',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#fa6342',
+            position: 'bottom-right',
+            hideAfter: 3000,
+        });
         loadData();
     }).fail(function (errorThrown) {
         console.error("Lỗi submitPost: ", errorThrown);
@@ -44,12 +51,19 @@ function loadInforUser() {
                 $("#user_avatar2").attr("src", "../../view/images/" + userInfo.avatar_url);
 
             } else {
-                alert("Không tìm thấy thông tin người dùng");
+                $.toast({
+                    heading: 'User not found',
+                    text: "User not found",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
             }
         },
         error: function (error) {
             console.log("Lỗi: " + JSON.stringify(error));
-            // alert("Đã xảy ra lỗi khi gọi API");
         }
     });
 }
@@ -79,15 +93,20 @@ function newLikeComment(post_id, comment_id) {
                     },
                     "data": JSON.stringify({
                         "user_id": user_id,
-                        
                         "comments_id": comment_id
                     })
                 }
-                $.ajax(requests).done(function (response) {
-                    alert("You Like comments")
-                    //console.log("Them like thanh cong");
+                $.ajax(requests).done(function (response1) {
+                    $.toast({
+                        heading: 'You just like the comment',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
                     getCommnent(post_id);
-
                 }).fail(function (errorThrown) {
                     console.error("Lỗi: ", errorThrown);
                     getCommnent(post_id);
@@ -104,9 +123,16 @@ function newLikeComment(post_id, comment_id) {
                         "comments_id": comment_id
                     })
                 }
-                $.ajax(requests).done(function (response) {
-                    alert("You unliked comments")
-                    //console.log("Xoa thanh cong");
+                $.ajax(requests).done(function (response1) {
+                    $.toast({
+                        heading: 'You just unlike the comment',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
                     getCommnent(post_id);
                 }).fail(function (errorThrown) {
                     console.error("Lỗi: ", errorThrown);
@@ -142,8 +168,15 @@ function deleteComment(comment_id) {
                     "method": "POST",
                 }
                 $.ajax(requests).done(function (response) {
-                    alert("Delete comment successful")
-                    console.log("Xoa comment thanh cong");
+                    $.toast({
+                        heading: 'You just deleted the comment',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
                     loadData();
                 })
                     .fail(function (errorThrown) {
@@ -151,7 +184,16 @@ function deleteComment(comment_id) {
                         loadData();
                     });
             } else {
-                alert("Ban khong the xoa comment cua nguoi khac");
+                $.toast({
+                    heading: 'Delete fail',
+                    text: "You cannot delete other people's comments",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
+
             }
         },
         error: function (error) {
@@ -285,7 +327,15 @@ function UpdateComment(comment_id) {
                 const currentContent = document.getElementById('currentcontentComment' + comment_id).innerText;
                 document.getElementById('editedContentComment' + comment_id).value = currentContent;
             } else {
-                alert("Ban khong the sua comment cua nguoi khac");
+                $.toast({
+                    heading: 'Edit comment failed',
+                    text: "You cannot edit other people's comments",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
             }
         },
         error: function (error) {
@@ -325,8 +375,16 @@ function saveEditComment(comment_id) {
                         "content": editedContent
                     })
                 }
-                $.ajax(requests).done(function (response) {
-                    alert("Update comment successful");
+                $.ajax(requests).done(function (response1) {
+                    $.toast({
+                        heading: 'You just udpated comment',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
                     console.log("Cap Nhat comment thanh cong");
                     loadData();
                 })
@@ -335,7 +393,16 @@ function saveEditComment(comment_id) {
                         loadData();
                     });
             } else {
-                alert("Ban khong the xoa comment cua nguoi khac");
+                $.toast({
+                    heading: 'Delete failed',
+                    text: "You cannot delete other people's comments",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
+
             }
         },
         error: function (error) {
@@ -360,8 +427,15 @@ function submitComment(user_id, post_id) {
         })
     }
     $.ajax(requests).done(function (response) {
-        alert("You comment post");
-        //console.log('ok');
+        $.toast({
+            heading: 'You just comment the post',
+            text: '',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#fa6342',
+            position: 'bottom-right',
+            hideAfter: 3000,
+        });
         loadData();
     })
         .fail(function (errorThrown) {
@@ -400,8 +474,18 @@ function likePost(post_id) {
 
                     })
                 }
-                $.ajax(requests).done(function (response) {
-                    alert("You liked post");
+                $.ajax(requests).done(function (response1) {
+                    if ($.isFunction($.fn.toast)) {
+                        $.toast({
+                            heading: 'You just liked the post',
+                            text: '',
+                            showHideTransition: 'slide',
+                            icon: 'success',
+                            loaderBg: '#fa6342',
+                            position: 'bottom-right',
+                            hideAfter: 3000,
+                        });
+                    }
                     //console.log("Them like post thanh cong");
                     loadData();
 
@@ -422,10 +506,18 @@ function likePost(post_id) {
                         "post_id": post_id
                     })
                 }
-                $.ajax(requests).done(function (response) {
-                    alert("You unliked post");
-                    //console.log("Xoa thanh cong");
-
+                $.ajax(requests).done(function (response1) {
+                    if ($.isFunction($.fn.toast)) {
+                        $.toast({
+                            heading: 'You just unliked the post',
+                            text: '',
+                            showHideTransition: 'slide',
+                            icon: 'success',
+                            loaderBg: '#fa6342',
+                            position: 'bottom-right',
+                            hideAfter: 3000,
+                        });
+                    }
                     loadData();
                 }).fail(function (errorThrown) {
                     console.error("Lỗi: ", errorThrown);
@@ -440,7 +532,7 @@ function likePost(post_id) {
 
     });
 }
-function showReplyForm(comment_id){
+function showReplyForm(comment_id) {
     const nestedComments = document.getElementById(`nestedComments${comment_id}`);
 
     if (nestedComments.style.display === 'none' || nestedComments.style.display === '') {
@@ -506,7 +598,7 @@ function showReplyForm(comment_id){
                 `;
                 });
                 //var str1 = "" + numComment;
-                $("#nestedComments" + "" + id_comment).html($str);         
+                $("#nestedComments" + "" + id_comment).html($str);
                 //$("#numCm" + id_post).html(str1);
             }
         },
@@ -522,7 +614,7 @@ function showReplyForm(comment_id){
         replyForm.style.display = 'none';
     }
 }
- function addNewReply(comment_id,post_id, parent_comment_id){
+function addNewReply(comment_id, post_id, parent_comment_id) {
     var editedContent = document.getElementById('newReplyContent' + comment_id).value;
     var userId = localStorage.getItem("user_id")
     $.ajax({
@@ -935,8 +1027,15 @@ function share(post_id, user_id) {
     };
 
     $.ajax(settings).done(function (response) {
-        alert("Share post successful");
-        //console.log("sharePost: ", response);
+        $.toast({
+            heading: 'You just shared the post',
+            text: '',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#fa6342',
+            position: 'bottom-right',
+            hideAfter: 3000,
+        });
         loadData();
     }).fail(function (errorThrown) {
         console.error("Lỗi sharePost: ", errorThrown);
@@ -956,8 +1055,15 @@ function deletePost(id) {
     };
 
     $.ajax(settings).done(function (response) {
-        alert("Delete post successful");
-        //console.log(response);
+        $.toast({
+            heading: 'You just deleted the post',
+            text: '',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#fa6342',
+            position: 'bottom-right',
+            hideAfter: 3000,
+        });
         loadData();
     });
 
@@ -988,17 +1094,21 @@ function updatePrivacy(id) {
     };
 
     $.ajax(settings).done(function (response) {
-        alert("Update successful");
-        console.log(response);
-        //alert("ban da update quyen rieng tu");
+        $.toast({
+            heading: 'You just update privacy',
+            text: '',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#fa6342',
+            position: 'bottom-right',
+            hideAfter: 3000,
+        });
         loadData();
     });
 }
 function saveEditedPost(id) {
 
     var editedContent = document.getElementById('editedContent').value;
-    //alert(editedContent);
-
 
     var settings = {
         "url": API + "/postscontroller/UpdatePost.php",
@@ -1014,12 +1124,19 @@ function saveEditedPost(id) {
     };
 
     $.ajax(settings).done(function (response) {
-        alert("Update post successful");
+        $.toast({
+            heading: 'You just Update the post',
+            text: '',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#fa6342',
+            position: 'bottom-right',
+            hideAfter: 3000,
+        });
         console.log("editPost: ", response);
         loadData();
     }).fail(function (errorThrown) {
         console.error("Lỗi editPost: ", errorThrown);
-
     });
 
 }

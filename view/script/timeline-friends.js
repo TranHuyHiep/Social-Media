@@ -18,12 +18,20 @@ function loadInforUser() {
                 $("#user_avatar1").attr("src", "../../view/images/" + userInfo.avatar_url);
 
             } else {
-                alert("Không tìm thấy thông tin người dùng");
+                $.toast({
+                    heading: 'User not found',
+                    text: "User not found",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
+                
             }
         },
         error: function (error) {
             console.log("Lỗi: " + JSON.stringify(error));
-            // alert("Đã xảy ra lỗi khi gọi API");
         }
     });
 }
@@ -97,11 +105,28 @@ function deleteFriend(follower, following) {
 
     $.ajax(settings)
         .done(function (response) {
-            alert("Delte Friend");
+            $.toast({
+                heading: 'Delete friend successfull',
+                text: '',
+                showHideTransition: 'slide',
+                icon: 'success',
+                loaderBg: '#fa6342',
+                position: 'bottom-right',
+                hideAfter: 3000,
+            });
             getRecommenFriend();
         })
         .fail(function (errorThrown) {
             console.error("Lỗi: ", errorThrown);
+            $.toast({
+                heading: 'Delete friend failed',
+                text: '',
+                showHideTransition: 'fade',
+                icon: 'error',
+                hideAfter: 7000,
+                loaderBg: '#fa6342',
+                position: 'bottom-right',
+            });
             getRecommenFriend();
         });
 }
