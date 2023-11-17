@@ -171,7 +171,7 @@ class users{
         $user_id = $this->conn->lastInsertId();
 
         // Insert additional user information into the UserInfo table
-        $insert_userinfo_query = "INSERT INTO UserInfo (id, study_at, working_at, favorites, other_info, date_of_birth, created_at, is_active) VALUES (?, NULL, NULL, NULL, NULL, ?, NOW(),1)";
+        $insert_userinfo_query = "INSERT INTO UserInfo (id, study_at, working_at, favorites, other_info, date_of_birth, created_at) VALUES (?, NULL, NULL, NULL, NULL, ?, NOW())";
         $stmt = $this->conn->prepare($insert_userinfo_query);
         $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
         $stmt->bindParam(2, $date_of_birth, PDO::PARAM_STR);

@@ -1,10 +1,4 @@
 var numComment = 0;
-
-
-
-
-
-
 $(document).ready(function () {
     $("#post").click(function () {
         // Lấy dữ liệu từ form
@@ -37,8 +31,6 @@ $(document).ready(function () {
         });
     });
 });
-
-
 
 // function submitPost() {
 //     var userId = localStorage.getItem("user_id")
@@ -364,7 +356,7 @@ function likePost(post_id) {
 
                     })
                 }
-                $.ajax(requests).done(function (response) {
+                $.ajax(requests).done(function (response1) {
                     alert("you liked post");
                     console.log("Them like post thanh cong");
                     loadData();
@@ -373,6 +365,7 @@ function likePost(post_id) {
                     console.error("Lỗi: ", errorThrown);
                     loadData();
                 });
+
             } else {
                 var requests = {
                     "url": API + '/likescontroller/DeleteLikesPost.php',
@@ -385,7 +378,7 @@ function likePost(post_id) {
                         "post_id": post_id
                     })
                 }
-                $.ajax(requests).done(function (response) {
+                $.ajax(requests).done(function (response1) {
                     alert("you unliked post");
                     console.log("Xoa thanh cong");
                     loadData();
@@ -398,8 +391,9 @@ function likePost(post_id) {
         error: function (error) {
             console.log(error);
         },
-
     });
+    loadData();
+
 }
 //Hàm thêm mới 1 comment vào bài post
 function submitComment(user_id, post_id) {
@@ -418,7 +412,7 @@ function submitComment(user_id, post_id) {
         })
     }
     $.ajax(requests).done(function (response) {
-        alert("You ")
+        alert("You had comment")
         console.log('ok');
         getComment(post_id);
     })

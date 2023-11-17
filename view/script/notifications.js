@@ -1,4 +1,4 @@
-function loadData() {
+function loadDataNotification() {
     let user_id = localStorage.getItem("user_id")
     $.ajax({
         type: 'GET',
@@ -11,6 +11,8 @@ function loadData() {
             if (response.status === 'success') {
                 var notifications = response.data;
                 numnotification = notifications.length;
+                $('#number-noti-outer').html(numnotification);
+                $('#number-noti').html(numnotification + " New Notifications");
 
                 var $str = notifications.map(function (notification) {
                     return `
@@ -35,6 +37,7 @@ function loadData() {
 
                 $('#list-notification').html($str);
             } else {
+                // debugger
                 $('#list-notification').html('<p>No notifications found</p>');
             }
 
@@ -47,4 +50,4 @@ function loadData() {
 }
 
 // Gọi hàm loadData khi trang được tải
-loadData();
+loadDataNotification();

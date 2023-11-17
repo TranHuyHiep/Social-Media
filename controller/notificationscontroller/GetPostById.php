@@ -17,9 +17,9 @@ $read = $notifications->getPostbyID($post_id);
 
 if ($read) {
     $num = $read->rowCount();
-
+    $response = array();
     if ($num > 0) {
-        $response = array();
+        
 
         while ($row = $read->fetch(PDO::FETCH_ASSOC)) {
             $response = array(
@@ -34,19 +34,11 @@ if ($read) {
                 'created_at' => $row['created_at'],
                 'updated_at' => $row['updated_at'],
                 'is_active' => $row['is_active'],
-                'url'=>$row['url']
+                'url'=> $row['url']
             );
         }
+    } 
 
-        echo json_encode($response);
-    } else {
-        // Return an error response if the post is not found
-        http_response_code(404);
-        echo json_encode(array("message" => "Post not found."));
-    }
-} else {
-    // Handle the case where there is an issue with the query or database connection
-    http_response_code(500);
-    echo json_encode(array("message" => "Internal Server Error."));
+    echo json_encode($response);
 }
 ?>
