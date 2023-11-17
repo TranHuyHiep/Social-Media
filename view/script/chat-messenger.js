@@ -183,7 +183,7 @@ function characterInfor(user_id) {
     $.ajax(settings).done(function (response) {
         let str =
             `
-        <figure><img src="../../view/images/${response.avatar_url}" alt=""></figure>
+        <figure><img src="../../view/images/${response.avatar_url}" style="width: 100px; height: 100px;" alt=""></figure>
         <h6>${response.full_name}</h6>
         <span>Online</span>
         <div class="userabout">
@@ -195,21 +195,6 @@ function characterInfor(user_id) {
                 <li><span>Email:</span> <a href="http://wpkixx.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a0d3c1cdd0ccc5e0c7cdc1c9cc8ec3cfcd">[email&#160;protected]</a></li>
                 <li><span>Phone:</span> Ontario, Canada</li>
             </ul>
-            <div class="media">
-                <span>Media</span>
-                <ul>
-                    <li><img src="images/resources/audio-user1.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user2.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user3.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user4.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user5.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user6.jpg" alt=""></li>
-                    <li><img src="images/resources/admin2.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user1.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user4.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user3.jpg" alt=""></li>
-                </ul>
-            </div>
         </div>
         `
         targetDiv.innerHTML = str;

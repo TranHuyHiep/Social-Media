@@ -6,8 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
-	<title>Pitnik Social Network Toolkit</title>
-	<link rel="icon" href="images/fav.png" type="image/png" sizes="16x16">
+	<title>Team-01 UTC IT1-K61's Social-Media</title>
+	<link rel="icon" href="../view-admin/assets/img/logo_utc.png" type="image/png">
 
 	<link rel="stylesheet" href="css/main.min.css">
 	<link rel="stylesheet" href="css/weather-icons.min.css">
@@ -269,10 +269,10 @@
 					</form>
 				</div>
 				<div class="page-name">
-					<span>Newsfeed</span>
+					<a href="newfeed.html">Newfeeds</a>
 				</div>
 				<ul class="setting-area">
-					<li><a href="newsfeed.html" title="Home" data-ripple=""><i class="fa fa-home"></i></a></li>
+					<li><a href="timeline.html" title="Home" data-ripple=""><i class="fa fa-home"></i></a></li>
 					<li>
 						<a href="#" title="Friend Requests" data-ripple="">
 							<i class="fa fa-user"></i><em class="bg-red">5</em>
@@ -366,10 +366,10 @@
 					</li>
 					<li>
 						<a href="#" title="Notification" data-ripple="">
-							<i class="fa fa-bell"></i><em class="bg-purple">7</em>
+							<i class="fa fa-bell"></i><em class="bg-purple" id="number-noti-outer">7</em>
 						</a>
 						<div class="dropdowns">
-							<span>4 New Notifications </span>
+							<span id="number-noti">4 New Notifications</span>
 							<ul class="drops-menu" id="list-notification">
 								<!-- <li>
 									<a href="notifications.html" title="">
@@ -1261,7 +1261,7 @@
 								<div class="col-lg-3">
 									<aside class="sidebar static left">
 										<div class="widget">
-											<div id="weatherapi-weather-widget-4"></div><script type='text/javascript' src='https://www.weatherapi.com/weather/widget.ashx?loc=2717932&wid=4&tu=2&div=weatherapi-weather-widget-4' async></script><noscript><a href="https://www.weatherapi.com/weather/q/hanoi-2717932" alt="Hour by hour Hanoi weather">10 day hour by hour Hanoi weather</a></noscript>
+											<div id="weatherapi-weather-widget-4"></div><script type='text/javascript' src='https://www.weatherapi.com/weather/widget.ashx?loc=2717932&wid=4&div=weatherapi-weather-widget-4' async></script><noscript><a href="https://www.weatherapi.com/weather/q/hanoi-2717932" alt="Hour by hour Hanoi weather">10 day hour by hour Hanoi weather</a></noscript>
 												<!-- <div class="weather-widget low-opacity bluesh">
 												<div class="bg-image"
 													style="background-image: url(images/resources/weather.jpg)"></div>
@@ -1325,61 +1325,6 @@
 
 											</div> -->
 										</div><!-- weather widget-->
-										<div class="widget whitish low-opacity">
-											<div style="background-image: url(images/resources/dob2.png)"
-												class="bg-image"></div>
-											<div class="dob-head">
-												<img src="images/resources/sug-page-5.jpg" alt="">
-												<span>22nd Birthday</span>
-												<div class="dob">
-													<i>19</i>
-													<span>September</span>
-												</div>
-											</div>
-											<div class="dob-meta">
-												<figure><img src="images/resources/dob-cake.gif" alt=""></figure>
-												<h6><a href="#" title="">Lucy Carbel</a> valentine's birthday</h6>
-												<p>leave a message with your best wishes on his profile.</p>
-											</div>
-										</div><!-- birthday widget -->
-										<div class="widget">
-											<h4 class="widget-title">Twitter feed</h4>
-											<ul class="twiter-feed">
-												<li>
-													<i class="fa fa-twitter"></i>
-													<span>
-														<i>jhon william</i>
-														@jhonwilliam
-													</span>
-													<p>tomorrow with the company we were working and 5 child run away
-														from the working place. <a href="#" title="">#daydream5k</a>
-													</p>
-													<em>2 hours ago</em>
-												</li>
-												<li>
-													<i class="fa fa-twitter"></i>
-													<span>
-														<i>Kelly watson</i>
-														@kelly
-													</span>
-													<p>tomorrow with the company we were working and 5 child run away
-														from the working place. <a href="#" title="">#daydream5k</a>
-													</p>
-													<em>2 hours ago</em>
-												</li>
-												<li>
-													<i class="fa fa-twitter"></i>
-													<span>
-														<i>Jony bravo</i>
-														@jonibravo
-													</span>
-													<p>tomorrow with the company we were working and 5 child run away
-														from the working place. <a href="#" title="">#daydream5k</a>
-													</p>
-													<em>2 hours ago</em>
-												</li>
-											</ul>
-										</div><!-- twitter feed-->
 										<div class="advertisment-box">
 											<h4 class="">advertisment</h4>
 											<figure>
@@ -1387,127 +1332,6 @@
 														src="images/resources/ad-widget.gif" alt=""></a>
 											</figure>
 										</div><!-- advertisment box -->
-										<div class="widget">
-											<h4 class="widget-title">Shortcuts</h4>
-											<ul class="naves">
-												<li>
-													<i class="ti-clipboard"></i>
-													<a href="newsfeed.html" title="">News feed</a>
-												</li>
-												<li>
-													<i class="ti-mouse-alt"></i>
-													<a href="inbox.html" title="">Inbox</a>
-												</li>
-												<li>
-													<i class="ti-files"></i>
-													<a href="fav-page.html" title="">My pages</a>
-												</li>
-												<li>
-													<i class="ti-user"></i>
-													<a href="timeline-friends.html" title="">friends</a>
-												</li>
-												<li>
-													<i class="ti-image"></i>
-													<a href="timeline-photos.html" title="">images</a>
-												</li>
-												<li>
-													<i class="ti-video-camera"></i>
-													<a href="timeline-videos.html" title="">videos</a>
-												</li>
-												<li>
-													<i class="ti-comments-smiley"></i>
-													<a href="messages.html" title="">Messages</a>
-												</li>
-												<li>
-													<i class="ti-bell"></i>
-													<a href="notifications.html" title="">Notifications</a>
-												</li>
-												<li>
-													<i class="ti-share"></i>
-													<a href="people-nearby.html" title="">People Nearby</a>
-												</li>
-												<li>
-													<i class="fa fa-bar-chart-o"></i>
-													<a href="insights.html" title="">insights</a>
-												</li>
-												<li>
-													<i class="ti-power-off"></i>
-													<a href="landing.html" title="">Logout</a>
-												</li>
-											</ul>
-										</div><!-- Shortcuts -->
-										<div class="widget">
-											<h4 class="widget-title">Recent Activity</h4>
-											<ul class="activitiez">
-												<li>
-													<div class="activity-meta">
-														<i>10 hours Ago</i>
-														<span><a href="#" title="">Commented on Video posted </a></span>
-														<h6>by <a href="time-line.html">black demon.</a></h6>
-													</div>
-												</li>
-												<li>
-													<div class="activity-meta">
-														<i>30 Days Ago</i>
-														<span><a href="#" title="">Posted your status. “Hello guys, how
-																are you?”</a></span>
-													</div>
-												</li>
-												<li>
-													<div class="activity-meta">
-														<i>2 Years Ago</i>
-														<span><a href="#" title="">Share a video on her
-																timeline.</a></span>
-														<h6>"<a href="#">you are so funny mr.been.</a>"</h6>
-													</div>
-												</li>
-											</ul>
-										</div><!-- recent activites -->
-										<div class="widget stick-widget">
-											<h4 class="widget-title">Who's follownig</h4>
-											<ul class="followers">
-												<li>
-													<figure><img src="images/resources/friend-avatar2.jpg" alt="">
-													</figure>
-													<div class="friend-meta">
-														<h4><a href="time-line.html" title="">Kelly Bill</a></h4>
-														<a href="#" title="" class="underline">Add Friend</a>
-													</div>
-												</li>
-												<li>
-													<figure><img src="images/resources/friend-avatar4.jpg" alt="">
-													</figure>
-													<div class="friend-meta">
-														<h4><a href="time-line.html" title="">Issabel</a></h4>
-														<a href="#" title="" class="underline">Add Friend</a>
-													</div>
-												</li>
-												<li>
-													<figure><img src="images/resources/friend-avatar6.jpg" alt="">
-													</figure>
-													<div class="friend-meta">
-														<h4><a href="time-line.html" title="">Andrew</a></h4>
-														<a href="#" title="" class="underline">Add Friend</a>
-													</div>
-												</li>
-												<li>
-													<figure><img src="images/resources/friend-avatar8.jpg" alt="">
-													</figure>
-													<div class="friend-meta">
-														<h4><a href="time-line.html" title="">Sophia</a></h4>
-														<a href="#" title="" class="underline">Add Friend</a>
-													</div>
-												</li>
-												<li>
-													<figure><img src="images/resources/friend-avatar3.jpg" alt="">
-													</figure>
-													<div class="friend-meta">
-														<h4><a href="time-line.html" title="">Allen</a></h4>
-														<a href="#" title="" class="underline">Add Friend</a>
-													</div>
-												</li>
-											</ul>
-										</div><!-- who's following -->
 									</aside>
 								</div><!-- sidebar -->
 								<div class="col-lg-6" id="search-results-sidebar">
@@ -1864,73 +1688,6 @@
 												</div>
 											</div>
 										</div><!-- page like widget -->
-										<div class="widget">
-											<h4 class="widget-title">Explor Events <a title="" href="#"
-													class="see-all">See
-													All</a></h4>
-											<div class="rec-events bg-purple">
-												<i class="ti-gift"></i>
-												<h6><a href="#" title="">Ocean Motel good night event in columbia</a>
-												</h6>
-												<img src="images/clock.png" alt="">
-											</div>
-											<div class="rec-events bg-blue">
-												<i class="ti-microphone"></i>
-												<h6><a href="#" title="">2016 The 3rd International Conference</a></h6>
-												<img src="images/clock.png" alt="">
-											</div>
-										</div><!-- explore events -->
-										<div class="widget">
-											<h4 class="widget-title">Profile intro</h4>
-											<ul class="short-profile">
-												<li>
-													<span>about</span>
-													<p>Hi, i am jhon kates, i am 32 years old and worked as a web
-														developer in microsoft </p>
-												</li>
-												<li>
-													<span>fav tv show</span>
-													<p>Sacred Games, Spartcus Blood, Games of Theron </p>
-												</li>
-												<li>
-													<span>favourit music</span>
-													<p>Justin Biber, Shakira, Nati Natasah</p>
-												</li>
-											</ul>
-										</div><!-- profile intro widget -->
-										<div class="widget stick-widget">
-											<h4 class="widget-title">Recent Links <a title="" href="#"
-													class="see-all">See
-													All</a></h4>
-											<ul class="recent-links">
-												<li>
-													<figure><img src="images/resources/recentlink-1.jpg" alt="">
-													</figure>
-													<div class="re-links-meta">
-														<h6><a href="#" title="">moira's fade reaches much farther than
-																you think.</a></h6>
-														<span>2 weeks ago </span>
-													</div>
-												</li>
-												<li>
-													<figure><img src="images/resources/recentlink-2.jpg" alt="">
-													</figure>
-													<div class="re-links-meta">
-														<h6><a href="#" title="">daniel asks if we want him to do the
-																voice of doomfist</a></h6>
-														<span>3 months ago </span>
-													</div>
-												</li>
-												<li>
-													<figure><img src="images/resources/recentlink-3.jpg" alt="">
-													</figure>
-													<div class="re-links-meta">
-														<h6><a href="#" title="">the pitnik overwatch scandals.</a></h6>
-														<span>1 day before</span>
-													</div>
-												</li>
-											</ul>
-										</div><!-- recent links -->
 									</aside>
 								</div><!-- sidebar -->
 							</div>
@@ -1939,20 +1696,6 @@
 				</div>
 			</div>
 		</section>
-
-		<a title="Your Cart Items" href="shop-cart.html" class="shopping-cart" data-toggle="tooltip">Cart <i
-				class="fa fa-shopping-bag"></i><span>02</span></a>
-
-		<div class="bottombar">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<span class="copyright">© Pitnik 2020. All rights reserved.</span>
-						<i><img src="images/credit-cards.png" alt=""></i>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 	<div class="side-panel">
 		<h4 class="panel-title">General Setting</h4>

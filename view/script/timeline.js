@@ -1,5 +1,5 @@
-window.onload = loadData()
-function loadData() {
+window.onload = loadDataFriend()
+function loadDataFriend() {
     listFriendRequest()
     getRecommenFriend()
 }
@@ -114,6 +114,7 @@ function listFriendRequest() {
 
     $.ajax(settings)
         .done(function (response) {
+            console.log(response);
             if (response.data == null) {
                 targetDiv.innerHTML = "No Friend request";
             } else {
@@ -157,11 +158,11 @@ function acceptFriend(follower, following) {
     $.ajax(settings)
         .done(function (response) {
             alert("Accept Friend");
-            loadData();
+            loadDataFriend();
         })
         .fail(function (errorThrown) {
             console.error("Lỗi: ", errorThrown);
-            loadData();
+            loadDataFriend();
         });
 }
 
@@ -183,11 +184,11 @@ function rejectFriend(follower, following) {
     $.ajax(settings)
         .done(function (response) {
             alert("Reject friend request");
-            loadData();
+            loadDataFriend();
         })
         .fail(function (errorThrown) {
             console.error("Lỗi: rejectFriend", errorThrown);
-            loadData();
+            loadDataFriend();
         });
-    loadData();
+    loadDataFriend();
 }
