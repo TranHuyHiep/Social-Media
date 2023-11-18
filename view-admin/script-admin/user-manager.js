@@ -67,7 +67,15 @@ function deleteUser(id) {
     };
 
     $.ajax(settings).done(function (response) {
-        console.log(response);
+        $.toast({
+            heading: 'Delete completed',
+            text: '',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#fa6342',
+            position: 'bottom-right',
+            hideAfter: 3000,
+        });
         loadData();
     });
 

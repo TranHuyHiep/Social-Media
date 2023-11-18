@@ -15,24 +15,53 @@ $("#signin").click(function () {
         dataType: "json",
         success: function (response) {
             if (response.status === "success") {
-                if(response.role==1){
-                    // Đăng nhập thành công, bạn có thể thực hiện hành động phù hợp ở đây
-                console.log("Đăng nhập thành công.");
-                localStorage.setItem('user_id', response.user_id);
-                window.location.href = "../pages/user-manager.html"
+                if (response.role == 1) {
+                    $.toast({
+                        heading: 'Login successfull',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
+                    alert("Login successfull")
+                    localStorage.setItem('user_id', response.user_id);
+                    window.location.href = "../pages/user-manager.html"
                 }
-                else  {
-                    alert("Đăng nhập không thành công!")
-                    console.log("Đăng nhập không thành công: " + response.message);}
-                
+                else {
+                    $.toast({
+                        heading: 'Login fail',
+                        text: "Login fail",
+                        showHideTransition: 'fade',
+                        icon: 'error',
+                        hideAfter: 7000,
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                    });
+                }
             } else {
-                // Đăng nhập không thành công, hiển thị thông báo lỗi
-                console.log("Đăng nhập không thành công: " + response.message);
+                $.toast({
+                    heading: 'Login fail',
+                    text: "Login fail",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
             }
         },
         error: function (error) {
-            alert("Đăng nhập không thành công!")
-            console.log(error);
+            $.toast({
+                heading: 'Login fail',
+                text: "Login fail",
+                showHideTransition: 'fade',
+                icon: 'error',
+                hideAfter: 7000,
+                loaderBg: '#fa6342',
+                position: 'bottom-right',
+            });
         }
     });
 });
