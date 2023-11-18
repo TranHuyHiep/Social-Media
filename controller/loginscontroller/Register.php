@@ -35,9 +35,12 @@ if (isset($_FILES['avatar_url'])) {
        
     }
 }
+else{
+    $avatar_url=null;
+}
 
 // Kiểm tra xem có di chuyển tệp thành công hay không
-if ($avatar_url !== null) {
+// if ($avatar_url !== null) {
     // Gọi hàm đăng ký và truyền đường dẫn hình ảnh vào
     $result = $users->register($full_name, $email, $password, $avatar_url, $date_of_birth);
 
@@ -48,7 +51,7 @@ if ($avatar_url !== null) {
         );
         echo json_encode($response);
     }
-} 
+
 // else {
 //     $response = array(
 //         "status" => "error",

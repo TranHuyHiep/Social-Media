@@ -12,8 +12,9 @@
 
     $likes = new Likes($connect);
     $data = json_decode(file_get_contents("php://input"));
-    
-    $read = $likes->checkLikeComment($data->user_id, $data->comments_id);
+    $likes->setUser_id($data->user_id);
+    $likes->setComment_id($data->comments_id);
+    $read = $likes->checkLikeComment();
 
     $num = $read->rowCount();
     $list = [];

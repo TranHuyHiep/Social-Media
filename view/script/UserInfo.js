@@ -17,13 +17,22 @@ $(document).ready(function () {
                 $("#full_name1").text(userInfo.full_name);
                 $("#avatar").attr("src", "images/" + userInfo.avatar_url);
                 $("#avatar1").attr("src", "images/" + userInfo.avatar_url);
+                $("#email").text(userInfo.email);
             } else {
-                alert("Không tìm thấy thông tin người dùng");
+                $.toast({
+                    heading: 'User not found',
+                    text: "User not found",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
+                
             }
         },
         error: function (error) {
             console.log("Lỗi: " + JSON.stringify(error));
-            // alert("Đã xảy ra lỗi khi gọi API");
         }
     });
 });
@@ -46,6 +55,11 @@ $(document).ready(function () {
                 $("#favorites").val(data.favorites);
                 $("#other_info").val(data.other_info);
                 $("#date_of_birth").val(data.date_of_birth);
+                $("#study_at").text(data.study_at); // Change from val to text
+                $("#working_at").text(data.working_at); // Change from val to text
+                $("#favorites").text(data.favorites); // Change from val to text
+                $("#other_info").text(data.other_info); // Change from val to text
+                $("#date_of_birth").text(data.date_of_birth);
             }
         },
         error: function () {
@@ -57,10 +71,13 @@ $(document).ready(function () {
 
 
 
-$(document).ready(function () {
-    let user_id = localStorage.getItem("user_id")
-    // Gán sự kiện click vào nút "Save"
+
+    
+
     $("#saveButton").click(function () {
+        event.preventDefault();
+        let user_id = localStorage.getItem("user_id")
+        
         // Lấy dữ liệu từ các trường input
         var study_at = $("#study_at").val();
         var working_at = $("#working_at").val();
@@ -82,14 +99,40 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 if (data.status === "success") {
-                    alert("Thông tin đã được cập nhật thành công.");
+                    $.toast({
+                        heading: 'The information has been updated successfully',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
                 } else {
-                    alert("Có lỗi xảy ra khi cập nhật thông tin.");
+                    alert("An error occurred while updating information.");
+                    $.toast({
+                        heading: 'User not found',
+                        text: "User not found",
+                        showHideTransition: 'fade',
+                        icon: 'error',
+                        hideAfter: 7000,
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                    });
+                    
                 }
             },
             error: function () {
-                alert("Lỗi trong quá trình gửi yêu cầu AJAX.");
+                alert("An error occurred while updating information.");
+                $.toast({
+                    heading: 'User not found',
+                    text: "User not found",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
             }
         });
     });
-});

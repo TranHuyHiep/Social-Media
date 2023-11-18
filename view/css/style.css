@@ -1642,6 +1642,17 @@ form button {
     width: 100%;
     transition: all 0.2s linear 0s;
 }
+.post-btn {
+    background: #23d2e2 none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: 500;
+    margin-top: 11px;
+    padding: 5px;
+    width: 100%;
+    transition: all 0.2s linear 0s;
+}
 
 .attachments .fileContainer [type="file"] {
     right: 2px;
@@ -2804,7 +2815,7 @@ a.underline:hover:before,
 }
 
 .foot-logo {
-    display: inline-block;
+    display: flex;
     width: 100%;
 }
 

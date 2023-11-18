@@ -6,14 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="" />
 	<meta name="keywords" content="" />
-	<title>Pitnik Social Network Toolkit</title>
-	<link rel="icon" href="images/fav.png" type="image/png" sizes="16x16">
+	<title>Team-01 UTC IT1-K61's Social-Media</title>
+	<link rel="icon" href="../view-admin/assets/img/logo_utc.png" type="image/png">
 
 	<link rel="stylesheet" href="css/main.min.css">
 	<link rel="stylesheet" href="css/nprogress.css">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/color.css">
 	<link rel="stylesheet" href="css/responsive.css">
+	<link rel="stylesheet" href="css/toast-notification.css">
 	<style>
 		.saveButton {
 			padding: 10px 20px;
@@ -58,15 +59,15 @@
 <body>
 	<div class="wavy-wraper">
 		<div class="wavy">
-			<span style="--i:1;">p</span>
-			<span style="--i:2;">i</span>
-			<span style="--i:3;">t</span>
-			<span style="--i:4;">n</span>
-			<span style="--i:5;">i</span>
-			<span style="--i:6;">k</span>
-			<span style="--i:7;">.</span>
-			<span style="--i:8;">.</span>
-			<span style="--i:9;">.</span>
+			<span style="--i:1;">U</span>
+            <span style="--i:2;">T</span>
+            <span style="--i:3;">C</span>
+            <span style="--i:4;">-</span>
+            <span style="--i:5;">0</span>
+            <span style="--i:6;">1</span>
+            <span style="--i:7;">K</span>
+            <span style="--i:8;">6</span>
+            <span style="--i:9;">1</span>
 		</div>
 	</div>
 	<div class="theme-layout">
@@ -1452,7 +1453,7 @@
 										</div>
 									</div>
 								</div><!-- user profile banner  -->
-								<div class="col-lg-3">
+								<div class="col-lg-4">
 									<aside class="sidebar static left">
 										<div class="widget">
 											<h4 class="widget-title">User Badges <a class="see-all" href="#"
@@ -1601,82 +1602,6 @@
 														src="images/resources/ad-widget.gif" alt=""></a>
 											</figure>
 										</div>
-										<div class="widget">
-											<h4 class="widget-title">Shortcuts</h4>
-											<ul class="naves">
-												<li>
-													<i class="ti-clipboard"></i>
-													<a href="newsfeed.html" title="">News feed</a>
-												</li>
-												<li>
-													<i class="ti-mouse-alt"></i>
-													<a href="inbox.html" title="">Inbox</a>
-												</li>
-												<li>
-													<i class="ti-files"></i>
-													<a href="fav-page.html" title="">My pages</a>
-												</li>
-												<li>
-													<i class="ti-user"></i>
-													<a href="timeline-friends.html" title="">friends</a>
-												</li>
-												<li>
-													<i class="ti-image"></i>
-													<a href="timeline-photos.html" title="">images</a>
-												</li>
-												<li>
-													<i class="ti-video-camera"></i>
-													<a href="timeline-videos.html" title="">videos</a>
-												</li>
-												<li>
-													<i class="ti-comments-smiley"></i>
-													<a href="messages.html" title="">Messages</a>
-												</li>
-												<li>
-													<i class="ti-bell"></i>
-													<a href="notifications.html" title="">Notifications</a>
-												</li>
-												<li>
-													<i class="ti-share"></i>
-													<a href="people-nearby.html" title="">People Nearby</a>
-												</li>
-												<li>
-													<i class="fa fa-bar-chart-o"></i>
-													<a href="insights.html" title="">insights</a>
-												</li>
-												<li>
-													<i class="ti-power-off"></i>
-													<a href="landing.html" title="">Logout</a>
-												</li>
-											</ul>
-										</div><!-- Shortcuts -->
-										<div class="widget">
-											<h4 class="widget-title">Recent Activity</h4>
-											<ul class="activitiez">
-												<li>
-													<div class="activity-meta">
-														<i>10 hours Ago</i>
-														<span><a href="#" title="">Commented on Video posted </a></span>
-														<h6>by <a href="time-line.html">black demon.</a></h6>
-													</div>
-												</li>
-												<li>
-													<div class="activity-meta">
-														<i>30 Days Ago</i>
-														<span><a href="#" title="">Posted your status. “Hello guys, how
-																are you?”</a></span>
-													</div>
-												</li>
-												<li>
-													<div class="activity-meta">
-														<i>2 Years Ago</i>
-														<span><a href="#" title="">Share a video on her
-																timeline.</a></span>
-														<h6>"<a href="#">you are so funny mr.been.</a>"</h6>
-													</div>
-												</li>
-											</ul>
-										</div><!-- recent activites -->
 										<div class="widget stick-widget">
 											<h4 class="widget-title">Friend Requests</h4>
 											<ul class="followers" id="friend-requests">
@@ -1685,20 +1610,21 @@
 										</div><!-- who's following -->
 									</aside>
 								</div><!-- sidebar -->
-								<div class="col-lg-6">
-									<div class="central-meta postbox">
+								<div class="col-lg-8">
+									<div class="central-meta postbox" id="search-results-sidebar">
 										<span class="create-post">Create post</span>
 										<div class="new-postbox">
 											<figure>
-												<img id="user_avatar1" style="height: 30px; width: 30px;"
-													src="images/resources/admin.jpg" alt="">
+												<img id="user_avatar1" src="images/resources/admin.jpg" style="width: 40px; height: 40px;" alt="">
 											</figure>
 											<div class="newpst-input">
-												<form method="post">
-													<textarea id="postContent" rows="2"
-														placeholder="Share some what you are thinking?"></textarea>
+												<form id="postForm" method="post">
+													<textarea id="postContent" rows="2" placeholder="Share some what you are thinking?"></textarea>
 												</form>
 											</div>
+											
+											<div id="imagePreview"></div>
+											
 											<div class="attachments">
 												<ul>
 													<li>
@@ -1715,7 +1641,7 @@
 													<li>
 														<i class="fa fa-image"></i>
 														<label class="fileContainer">
-															<input type="file">
+															<input type="file" id="url">
 														</label>
 													</li>
 													<li>
@@ -1727,17 +1653,40 @@
 													<li>
 														<i class="fa fa-camera"></i>
 														<label class="fileContainer">
-															<input type="file">
+															<input type="file" >
 														</label>
 													</li>
 													<li class="preview-btn">
-														<button class="post-btn-preview" type="submit"
-															data-ripple="">Preview</button>
+														<button class="post-btn-preview" type="button" data-ripple="" id="preview">Preview</button>
 													</li>
 												</ul>
-												<button class="post-btn" type="submitPost" data-ripple=""
-													onclick="submitPost()">Post</button>
+												<button class="post-btn" type="button" data-ripple="" id="post">Post</button>
 											</div>
+											<script>
+												document.getElementById('url').addEventListener('change', function (event) {
+												  // Lấy danh sách các files được chọn
+												  var files = event.target.files;
+											
+												  // Kiểm tra xem có file nào được chọn hay không
+												  if (files.length > 0) {
+													var imagePreview = document.getElementById('imagePreview');
+													// Lấy file đầu tiên từ danh sách
+													var file = files[0];
+											
+													// Tạo đối tượng FileReader để đọc file
+													var reader = new FileReader();
+											
+													// Thiết lập sự kiện khi đọc file thành công
+													reader.onload = function (e) {
+													  // Hiển thị hình ảnh trên trình duyệt
+													  imagePreview.innerHTML = '<img src="' + e.target.result + '" alt="Image preview">';
+													};
+											
+													// Đọc nội dung của file dưới dạng URL
+													reader.readAsDataURL(file);
+												  }
+												});
+											  </script>
 											<div class="add-location-post">
 												<span>Drag map point to selected area</span>
 												<div class="row">
@@ -1767,175 +1716,12 @@
 
 									</div>
 								</div><!-- centerl meta -->
-								<div class="col-lg-3">
-									<aside class="sidebar static right">
-										<div class="widget">
-											<h4 class="widget-title">Your page</h4>
-											<div class="your-page">
-												<figure>
-													<a href="#" title=""><img src="images/resources/friend-avatar9.jpg"
-															alt=""></a>
-												</figure>
-												<div class="page-meta">
-													<a href="#" title="" class="underline">My Creative Page</a>
-													<span><i class="ti-comment"></i><a href="insight.html"
-															title="">Messages <em>9</em></a></span>
-													<span><i class="ti-bell"></i><a href="insight.html"
-															title="">Notifications <em>2</em></a></span>
-												</div>
-												<ul class="page-publishes">
-													<li>
-														<span><i class="ti-pencil-alt"></i>Publish</span>
-													</li>
-													<li>
-														<span><i class="ti-camera"></i>Photo</span>
-													</li>
-													<li>
-														<span><i class="ti-video-camera"></i>Live</span>
-													</li>
-													<li>
-														<span><i class="fa fa-user-plus"></i>Invite</span>
-													</li>
-												</ul>
-												<div class="page-likes">
-													<ul class="nav nav-tabs likes-btn">
-														<li class="nav-item"><a class="active" href="#link1"
-																data-toggle="tab" data-ripple="">likes</a></li>
-														<li class="nav-item"><a class="" href="#link2" data-toggle="tab"
-																data-ripple="">views</a></li>
-													</ul>
-													<!-- Tab panes -->
-													<div class="tab-content">
-														<div class="tab-pane active fade show " id="link1">
-															<span><i class="ti-heart"></i>884</span>
-															<a href="#" title="weekly-likes">35 new likes this week</a>
-															<div class="users-thumb-list">
-																<a href="#" title="Anderw" data-toggle="tooltip">
-																	<img src="images/resources/userlist-1.jpg" alt="">
-																</a>
-																<a href="#" title="frank" data-toggle="tooltip">
-																	<img src="images/resources/userlist-2.jpg" alt="">
-																</a>
-																<a href="#" title="Sara" data-toggle="tooltip">
-																	<img src="images/resources/userlist-3.jpg" alt="">
-																</a>
-																<a href="#" title="Amy" data-toggle="tooltip">
-																	<img src="images/resources/userlist-4.jpg" alt="">
-																</a>
-																<a href="#" title="Ema" data-toggle="tooltip">
-																	<img src="images/resources/userlist-5.jpg" alt="">
-																</a>
-																<a href="#" title="Sophie" data-toggle="tooltip">
-																	<img src="images/resources/userlist-6.jpg" alt="">
-																</a>
-																<a href="#" title="Maria" data-toggle="tooltip">
-																	<img src="images/resources/userlist-7.jpg" alt="">
-																</a>
-															</div>
-														</div>
-														<div class="tab-pane fade" id="link2">
-															<span><i class="fa fa-eye"></i>440</span>
-															<a href="#" title="weekly-likes">440 new views this week</a>
-															<div class="users-thumb-list">
-																<a href="#" title="Anderw" data-toggle="tooltip">
-																	<img src="images/resources/userlist-1.jpg" alt="">
-																</a>
-																<a href="#" title="frank" data-toggle="tooltip">
-																	<img src="images/resources/userlist-2.jpg" alt="">
-																</a>
-																<a href="#" title="Sara" data-toggle="tooltip">
-																	<img src="images/resources/userlist-3.jpg" alt="">
-																</a>
-																<a href="#" title="Amy" data-toggle="tooltip">
-																	<img src="images/resources/userlist-4.jpg" alt="">
-																</a>
-																<a href="#" title="Ema" data-toggle="tooltip">
-																	<img src="images/resources/userlist-5.jpg" alt="">
-																</a>
-																<a href="#" title="Sophie" data-toggle="tooltip">
-																	<img src="images/resources/userlist-6.jpg" alt="">
-																</a>
-																<a href="#" title="Maria" data-toggle="tooltip">
-																	<img src="images/resources/userlist-7.jpg" alt="">
-																</a>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div><!-- page like widget -->
-										<div class="widget">
-											<h4 class="widget-title">Profile intro</h4>
-											<ul class="short-profile">
-												<li>
-													<span>about</span>
-													<p>Hi, i am jhon kates, i am 32 years old and worked as a web
-														developer in microsoft </p>
-												</li>
-												<li>
-													<span>fav tv show</span>
-													<p>Sacred Games, Spartcus Blood, Games of Theron </p>
-												</li>
-												<li>
-													<span>favourit music</span>
-													<p>Justin Biber, Shakira, Nati Natasah</p>
-												</li>
-											</ul>
-										</div>
-										<div class="widget">
-											<div class="banner medium-opacity purple">
-												<div class="bg-image"
-													style="background-image: url(images/resources/baner-widgetbg.jpg)">
-												</div>
-												<div class="baner-top">
-													<span><img alt="" src="images/book-icon.png"></span>
-													<i class="fa fa-ellipsis-h"></i>
-												</div>
-												<div class="banermeta">
-													<p>
-														create your own favourit page.
-													</p>
-													<span>like them all</span>
-													<a data-ripple="" title="" href="#">start now!</a>
-												</div>
-											</div>
-										</div>
-										<div class="widget pitnik-links stick-widget">
-											<ul>
-												<li><a href="#" title="">about</a></li>
-												<li><a href="#" title="">career</a></li>
-												<li><a href="#" title="">advertise</a></li>
-												<li><a href="#" title="">Pitnik Apps</a></li>
-												<li><a href="#" title="">Pitnik Blog</a></li>
-												<li><a href="#" title="">Help</a></li>
-												<li><a href="#" title="">Pitnik Gifts</a></li>
-												<li><a href="#" title="">contetn policy</a></li>
-												<li><a href="#" title="">User Policy</a></li>
-											</ul>
-											<p>© Pitnik 2020. All Rights Reserved.</p>
-										</div><!-- little links -->
-									</aside>
-								</div><!-- sidebar -->
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</section><!-- content -->
-
-		<a title="Your Cart Items" href="shop-cart.html" class="shopping-cart" data-toggle="tooltip">Cart <i
-				class="fa fa-shopping-bag"></i><span>02</span></a>
-
-		<div class="bottombar">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<span class="copyright">© Pitnik 2020. All rights reserved.</span>
-						<i><img src="images/credit-cards.png" alt=""></i>
-					</div>
-				</div>
-			</div>
-		</div><!-- bottom bar -->
 	</div>
 	<div class="side-panel">
 		<h4 class="panel-title">General Setting</h4>
@@ -2238,9 +2024,104 @@
 			</div>
 		</div>
 	</div><!-- report popup -->
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="widget">
+						<div class="foot-logo">
+							<a href="index.html" title=""><img src="images/logo_utc.jpg" style="width: 250px;" alt=""></a>
+							<ul class="location">
+								<li>
+									<h1>
+										TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI
+									</h1>
+								</li>
+								<li>
+									<i class="fa fa-map-marker"></i>
+									<p>Địa chỉ: Số 3 phố Cầu Giấy, P.Láng Thượng, Q.Đống Đa, Hà Nội.</p>
+								</li>
+								<li>
+									<i class="fa fa-phone"></i>
+									<p>Điện thoại: (84.24) 37663311 - Fax: (84.24)37669613</p>
+								</li>
+								<li>
+									<i class="fa fa-envelope"></i>
+									<p>Email: dhgtvt@utc.edu.vn</p>
+								</li>
+							</ul>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<div class="row mt-5">
+				<section class="intro">
+					<div class=" row align-items-center justify-content-center">
+						<h1>NHÓM 1</h1>
+					</div>
+					<div class="gradient-custom-1 h-100">
+					  <div class="mask d-flex align-items-center h-100">
+						<div class="container">
+						  <div class="row justify-content-center">
+							<div class="col-12">
+							  <div class="table-responsive bg-white">
+								<table class="table mb-0">
+								  <thead>
+									<tr>
+									  <th scope="col">STT</th>
+									  <th scope="col">SINH VIÊN</th>
+									  <th scope="col">MÃ SINH VIÊN</th>
+									  <th scope="col">LỚP</th>
+									  <th scope="col">GMAIL</th>
+									  
+									</tr>
+								  </thead>
+								  <tbody>
+									<tr>
+									  <th >1</th>
+									  <td scope="row" style="color: #666666;">Trần Huy Hiệp</td>
+									  <td>201210252</td>
+									  <td>CNTT1_K61</td>
+									  <td>hiep@gamil.com</td>
+									</tr>
+									<tr>
+									  <th>2</th>
+									  <td >Nguyễn Việt Anh</td>
+									  <td>201200016</td>
+									  <td>CNTT1_K61</td>
+									  <td>anh@gmail.com</td>
+									</tr>
+									<tr>
+									  <th >3</th>
+									  <td  scope="row" style="color: #666666;">Phạm Công Định </td>
+									  <td>201200084</td>
+									  <td>CNTT1_K61</td>
+									  <td>dinh@gmail.com</td>
+									</tr>
+									<tr>
+									  <th >4</th>
+									  <td  scope="row" style="color: #666666;">Nguyễn Thế Hào</td>
+									  <td>201200111</td>
+									  <td>CNTT1_K61</td>
+									  <td>hao@gmail.com</td>
+									</tr>
+									
+								  </tbody>
+								</table>
+							  </div>
+							</div>
+						  </div>
+						</div>
+					  </div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</footer>
 	<script src="js/main.min.js"></script>
 	<script src="./script/api.js"></script>
-
+    <script src="js/toast-notificatons.js"></script>
 
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8c55_YHLvDHGACkQscgbGLtLRdxBDCfI"></script>
 	<script src="js/locationpicker.jquery.js"></script>
@@ -2273,7 +2154,6 @@
 
 	<script src="./script/timeline.js"></script>
 	<script src="./script/timeline-post.js"></script>
-
 </body>
 
 </html>

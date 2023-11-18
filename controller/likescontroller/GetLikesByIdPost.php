@@ -10,7 +10,8 @@
     $likes = new Likes($connect);
     $data = json_decode(file_get_contents("php://input"));
     $ID = isset($_GET["id"]) ? ($_GET["id"]) :die();
-    $read = $likes->getLikesByIdPost($ID);
+    $likes->setId($ID);
+    $read = $likes->getLikesByIdPost();
 
     $num = $read->rowCount();
     $list = [];

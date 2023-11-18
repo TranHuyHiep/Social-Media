@@ -27,7 +27,8 @@
                 "status" => "success",
                 "user_id" => $row["id"],
                 "full_name" => $row["full_name"],
-                "avatar_url" => $row["avatar_url"]
+                "avatar_url" => $row["avatar_url"],
+                "role" => $row["role"]
                 //"getID"=>$getid
             );
             echo json_encode($response);

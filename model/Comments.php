@@ -166,37 +166,37 @@
         return $stmt;
     }
     //danh sach comment theo bai id post
-    public function getCommentsByIdPost($id){
-        $query = "SELECT comments.id, comments.user_id, full_name, comments.content, comments.post_id,comments.like_count, users.avatar_url
+    public function getCommentsByIdPost(){
+        $query = "SELECT comments.id, comments.user_id, full_name, comments.content, comments.post_id,comments.like_count, users.avatar_url,comments.created_at
         FROM users JOIN comments ON users.id = comments.user_id
         JOIN posts ON comments.post_id = posts.id
-        WHERE comments.post_id = ? AND comments.is_active = 1" ;
+        WHERE comments.post_id = :id AND comments.is_active = 1 AND comments.parent_comment_id IS NULL"  ;
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1,$id, PDO::PARAM_INT); // Assuming id is an integer
+        $stmt->bindParam(':id', $this->post_id); // Assuming id is an integer
         $stmt->execute();
         return $stmt;
     }
 
-	public function checkCommentsByIdUser($id, $user_id){
+	public function checkCommentsByIdUser(){
         $query = "SELECT comments.id
         FROM users JOIN comments ON users.id = comments.user_id
         JOIN posts ON comments.post_id = posts.id
         WHERE comments.id = :id AND comments.user_id = :user_id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id',$id, PDO::PARAM_INT); // Assuming id is an integer
-		$stmt->bindParam(':user_id',$user_id, PDO::PARAM_INT); // Assuming id is an integer
+        $stmt->bindParam(':id',$this->id); // Assuming id is an integer
+		$stmt->bindParam(':user_id',$this->user_id); // Assuming id is an integer
         $stmt->execute();
         return $stmt;
     }
 
     //add new comments post
-    public function addNewComments($id_users,$id_post, $content){
+    public function addNewComments(){
         $query = "INSERT INTO comments(user_id, post_id, content, created_at,like_count,is_active ) VALUES (:id_users,:id_post,:content, now(),0,1)";
         //$query = "INSERT INTO likes(user_id, post_id) VALUES (:id_users, :id_post)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id_users", $id_users, PDO::PARAM_INT); // Assuming id is an integer
-        $stmt->bindParam(":id_post", $id_post, PDO::PARAM_INT); // Assuming id is an integer
-        $stmt->bindParam(":content", $content, PDO::PARAM_STR); // Assuming id is an integer
+        $stmt->bindParam(":id_users",$this->user_id); // Assuming id is an integer
+        $stmt->bindParam(":id_post", $this->post_id); // Assuming id is an integer
+        $stmt->bindParam(":content", $this->content); 
         if($stmt->execute()) {
             return true;
         }
@@ -215,10 +215,10 @@
         return false;
 	}
     //Delete comments post.
-    public function removeCommentsPost($id){
-        $query = "UPDATE comments SET is_active = 0 WHERE id = ?";
+    public function removeCommentsPost(){
+        $query = "UPDATE comments SET is_active = 0 WHERE id = :id OR parent_comment_id = :id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->bindParam(':id', $this->id);
         if($stmt->execute()) {
             return true;
         }
@@ -237,8 +237,16 @@
         }
         return false;
 	}
-	// Update Comments.
-
+	public function GetCommentByIdComment(){
+		$query = "SELECT comments.id,comments.parent_comment_id, comments.user_id, full_name, comments.content, comments.post_id,comments.like_count, users.avatar_url,comments.created_at
+        FROM users JOIN comments ON users.id = comments.user_id
+        -- JOIN posts ON comments.post_id = posts.id
+        WHERE comments.parent_comment_id = :id AND comments.is_active = 1" ;
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $this->parent_comment_id); // Assuming id is an integer
+        $stmt->execute();
+        return $stmt;
+	}
 
 }
 

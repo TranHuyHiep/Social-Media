@@ -6,24 +6,26 @@
 
     include_once('../../config/DataBase.php');
     include_once('../../model/Comments.php');
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $db = new DataBase();
+        $connect = $db->connect();
 
-    $db = new DataBase();
-    $connect = $db->connect();
+        $comments = new Comments($connect);
 
-    $comments = new Comments($connect);
+        $data = json_decode(file_get_contents("php://input"));
+        $comments->setUser_id($data->user_id);
+        $comments->setPost_id($data->post_id);
+        $comments->setParent_comment_id($data->parent_comment_id);
+        $comments->setContent($data->content);
+        $read = $comments->AddNewCommentsInCommnets();
 
-    $data = json_decode(file_get_contents("php://input"));
-    $comments->setUser_id($data->user_id);
-    $comments->setPost_id($data->post_id);
-    $comments->setParent_comment_id($data->parent_comment_id);
-    $comments->setContent($data->content);
-    $read = $comments->AddNewCommentsInCommnets();
-
-    $list = [];
-    if($read) {
-        $list['message'] = "New Comment comments";
-    } else {
-        $list['message'] = "Failed ";
+        $list = [];
+        if($read) {
+            $list['message'] = "New Comment comments";
+        } else {
+            $list['message'] = "Failed ";
+        }
+        echo json_encode($list);
     }
-    echo json_encode($list);
+    
 ?>

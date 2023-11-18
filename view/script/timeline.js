@@ -1,5 +1,5 @@
-window.onload = loadData()
-function loadData() {
+window.onload = loadDataFriend()
+function loadDataFriend() {
     listFriendRequest()
     getRecommenFriend()
 }
@@ -95,7 +95,15 @@ function addFriend(follower, following) {
 
     $.ajax(settings)
         .done(function (response) {
-            alert("Sent friend request");
+            $.toast({
+                heading: 'Sent friend request',
+                text: '',
+                showHideTransition: 'slide',
+                icon: 'success',
+                loaderBg: '#fa6342',
+                position: 'bottom-right',
+                hideAfter: 3000,
+            });
             getRecommenFriend();
         })
         .fail(function (errorThrown) {
@@ -114,6 +122,7 @@ function listFriendRequest() {
 
     $.ajax(settings)
         .done(function (response) {
+            console.log(response);
             if (response.data == null) {
                 targetDiv.innerHTML = "No Friend request";
             } else {
@@ -156,12 +165,20 @@ function acceptFriend(follower, following) {
 
     $.ajax(settings)
         .done(function (response) {
-            alert("Accept Friend");
-            loadData();
+            $.toast({
+                heading: 'Accepted friend',
+                text: '',
+                showHideTransition: 'slide',
+                icon: 'success',
+                loaderBg: '#fa6342',
+                position: 'bottom-right',
+                hideAfter: 3000,
+            });
+            loadDataFriend();
         })
         .fail(function (errorThrown) {
             console.error("Lỗi: ", errorThrown);
-            loadData();
+            loadDataFriend();
         });
 }
 
@@ -182,12 +199,20 @@ function rejectFriend(follower, following) {
 
     $.ajax(settings)
         .done(function (response) {
-            alert("Reject friend request");
-            loadData();
+            $.toast({
+                heading: 'Reject friend request',
+                text: '',
+                showHideTransition: 'slide',
+                icon: 'success',
+                loaderBg: '#fa6342',
+                position: 'bottom-right',
+                hideAfter: 3000,
+            });
+            loadDataFriend();
         })
         .fail(function (errorThrown) {
             console.error("Lỗi: rejectFriend", errorThrown);
-            loadData();
+            loadDataFriend();
         });
-    loadData();
+    loadDataFriend();
 }

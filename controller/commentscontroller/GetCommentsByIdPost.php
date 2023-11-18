@@ -11,7 +11,8 @@
     $comments = new Comments($connect);
     $data = json_decode(file_get_contents("php://input"));
     $ID = isset($_GET["id"]) ? ($_GET["id"]) :die();
-    $read = $comments->getCommentsByIdPost($ID);
+    $comments->setPost_id($ID);
+    $read = $comments->getCommentsByIdPost();
 
     $num = $read->rowCount();
     $list = [];
@@ -28,7 +29,8 @@
                 'content' => $content,
                 'post_id' => $post_id,
                 'like_count' =>$like_count,
-                'avatar_url' =>$avatar_url
+                'avatar_url' =>$avatar_url,
+                'created_at' => $created_at,
             );
             array_push($list['data'], $mess);
         }

@@ -57,8 +57,6 @@ function getlike(id){
 
 function newLikeComment(user_id,post_id, comment_id){
     var check1 = 1;
-    //var checked = false;
-    //alert(post_id)
     $.ajax({
         type: "POST",
         url: "http://localhost/socical-media/controller/likescontroller/GetLikeCommentById.php",
@@ -88,10 +86,15 @@ function newLikeComment(user_id,post_id, comment_id){
                     })
                 }
                 $.ajax(requests).done(function (response) {
-                    console.log("Them like thanh cong");
-                    
-                    //$("#list-comments").load(location.href + " #list-comments"); 
-                    
+                    $.toast({
+                        heading: 'You liked comment',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
                 })
                 .fail(function (errorThrown) {
                     console.error("Lỗi: ", errorThrown);
@@ -111,11 +114,18 @@ function newLikeComment(user_id,post_id, comment_id){
                 })
             }
             $.ajax(requests).done(function (response) {
-                console.log("Xoa thanh cong");
+                $.toast({
+                    heading: 'You unliked comment',
+                    text: '',
+                    showHideTransition: 'slide',
+                    icon: 'success',
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                    hideAfter: 3000,
+                });
                 getlike(post_id);
             })
             .fail(function (errorThrown) {
-                //console.log("Lỗi");
                 console.error("Lỗi: ", errorThrown);
             });
             }
@@ -147,16 +157,29 @@ function deleteLikeComment(comment_id){
                     "method": "POST", 
                 }
                 $.ajax(requests).done(function (response) {
-                    //alert("Sent friend request");
-                    console.log("Xoa comment thanh cong");
-                    //getRecommenFriend();
+                    $.toast({
+                        heading: 'Comment has been deleted',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
                 })
                 .fail(function (errorThrown) {
-                    //console.log("Lỗi");
                     console.error("Lỗi: ", errorThrown);
                 });
             } else {
-                alert("Ban khong the xoa comment cua nguoi khac");
+                $.toast({
+                    heading: "You cannot delete other people's comments",
+                    text: "Fail",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
             }
         },
         error: function (error) {
@@ -301,40 +324,6 @@ function loadData1() {
     });
 }
 function showcomment(id){
-    //console.log(id);
     getlike(id);
-
 }
-
-// $(document).on('submit', "#save_comment",function(e){
-
-//     e.preventDefault();
-//     var s= $(this).value();
-//     console.log(s);
-//     var content = document.getElementById("myInput").value;
-//     console.log(content);
-//     var requests = {
-//     "url":'http://localhost/socical-media/controller/commentscontroller/NewCommentsPost.php',
-//     "method": "POST",
-//     "headers": {
-//         "Content-Type": "application/json"
-//     },
-//     "data": JSON.stringify({
-//         "user_id": 1,
-//         "post_id": 1,
-//         "content" : content
-//     })
-// }
-// $.ajax(requests).done(function (response) {
-//     //alert()
-//     console.log('ok');
-//     $("#list-comments").load(location.href + " #list-comments");
-//     //getRecommenFriend();
-// })
-// .fail(function (errorThrown) {
-//     //console.log("Lỗi");
-//     console.error("Lỗi: ", errorThrown);
-// });
-
-// });
 

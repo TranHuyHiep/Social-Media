@@ -1,28 +1,70 @@
+var numComment = 0;
+$(document).ready(function () {
+    $("#post").click(function () {
+        // Lấy dữ liệu từ form
+        var postContent = $("#postContent").val();
+        var userId = localStorage.getItem("user_id");
+        var url = $("#url")[0].files[0];
 
-function submitPost() {
-    var userId = localStorage.getItem("user_id")
-    var postContent = document.getElementById("postContent").value;
-    //alert(postContent);
-    var settings = {
-        "url": API + "/postscontroller/CreatePost.php",
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
-        },
-        "data": JSON.stringify({
-            "content": postContent,
-            "id": userId
-        }),
-    };
+        // Tạo FormData để chứa dữ liệu
+        var formData = new FormData();
+        formData.append("content", postContent);
+        formData.append("user_id", userId);
+        formData.append("url", url);
 
-    $.ajax(settings).done(function (response) {
-        console.log("submitPost: ", response);
-        loadData();
-    }).fail(function (errorThrown) {
-        console.error("Lỗi submitPost: ", errorThrown);
-        getRecommenFriend();
+        // Gửi Ajax request
+        $.ajax({
+            type: "POST",
+            url: API + "/postscontroller/CreatePost.php",  // Thay thế URL_TO_YOUR_PHP_FILE.php bằng đường dẫn đến tệp PHP xử lý API của bạn
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                $.toast({
+                    heading: 'Create a post successfuly',
+                    text: '',
+                    showHideTransition: 'slide',
+                    icon: 'success',
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                    hideAfter: 3000,
+                });
+                console.log(response);
+                // Xử lý phản hồi từ server tại đây
+            },
+            error: function (error) {
+                console.error(error);
+                // Xử lý lỗi tại đây
+            }
+        });
     });
-}
+});
+
+// function submitPost() {
+//     var userId = localStorage.getItem("user_id")
+//     var postContent = document.getElementById("postContent").value;
+//     //alert(postContent);
+//     var settings = {
+//         "url": API + "/postscontroller/CreatePost.php",
+//         "method": "POST",
+//         "timeout": 0,
+//         "headers": {
+//         },
+//         "data": JSON.stringify({
+//             "content": postContent,
+//             "id": userId
+
+//         }),
+//     };
+
+//     $.ajax(settings).done(function (response) {
+//         console.log("submitPost: ", response);
+//         loadData();
+//     }).fail(function (errorThrown) {
+//         console.error("Lỗi submitPost: ", errorThrown);
+//         getRecommenFriend();
+//     });
+// }
 
 loadData();
 loadInforUser();
@@ -43,22 +85,31 @@ function loadInforUser() {
                 localStorage.setItem("user_avatar", userInfo.avatar_url)
 
             } else {
-                alert("Không tìm thấy thông tin người dùng");
+                $.toast({
+                    heading: 'User not found',
+                    text: "User not found",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
+                
             }
         },
         error: function (error) {
             console.log("Lỗi: " + JSON.stringify(error));
-            // alert("Đã xảy ra lỗi khi gọi API");
         }
     });
 }
-
+//vanh code :))
+//Ham them Moi/Huy like comment
+//Kiểm tra xem người dùng hiện tại đã like comment chưa
+//Nếu chưa thì thực hiện thêm mới
+//Nếu rồi thì thực hiện xóa
 function newLikeComment(post_id, comment_id) {
-    //var check1 = 1;
     var user_id = localStorage.getItem("user_id");
     console.log(user_id);
-    //var checked = false;
-    //alert(post_id)
     $.ajax({
         type: "POST",
         url: API + "/likescontroller/GetLikeCommentById.php",
@@ -71,10 +122,8 @@ function newLikeComment(post_id, comment_id) {
             comments_id: comment_id
         }),
         success: function (response) {
-            //console.log(response);
             // Kiểm tra xem dữ liệu phản hồi có phải là null không
             if (response.data == null) {
-                //var s = ""+comment_id;
                 var requests = {
                     "url": API + '/likescontroller/NewLikesComment.php',
                     "method": "POST",
@@ -83,19 +132,25 @@ function newLikeComment(post_id, comment_id) {
                     },
                     "data": JSON.stringify({
                         "user_id": user_id,
-                        "post_id": post_id,
+
                         "comments_id": comment_id
                     })
                 }
-                $.ajax(requests).done(function (response) {
-                    console.log("Them like thanh cong");
-
-                    //$("#list-comments").load(location.href + " #list-comments"); 
-                    getlike(post_id);
+                $.ajax(requests).done(function (response1) {
+                    $.toast({
+                        heading: 'You just liked the comment',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
+                    getComment(post_id);
 
                 }).fail(function (errorThrown) {
                     console.error("Lỗi: ", errorThrown);
-                    getlike(post_id);
+                    getComment(post_id);
                 });
             } else {
                 var requests = {
@@ -109,13 +164,20 @@ function newLikeComment(post_id, comment_id) {
                         "comments_id": comment_id
                     })
                 }
-                $.ajax(requests).done(function (response) {
-                    console.log("Xoa thanh cong");
-                    getlike(post_id);
+                $.ajax(requests).done(function (response1) {
+                    $.toast({
+                        heading: 'You just unliked the comment',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
+                    getComment(post_id);
                 }).fail(function (errorThrown) {
-                    //console.log("Lỗi");
                     console.error("Lỗi: ", errorThrown);
-                    getlike(post_id);
+                    getComment(post_id);
                 });
             }
         },
@@ -125,9 +187,12 @@ function newLikeComment(post_id, comment_id) {
 
     });
 }
-function deleteComment(comment_id) {
+//Hàm xóa comment bài post
+//Kiểm tra xem đây có phải comment của người dùng hiện tại hay không
+//Nếu phải thì thực hiện xóa
+//Không thì không cho phép xóa comment
+function deleteComment(comment_id, post_id) {
     var userId = localStorage.getItem("user_id")
-    //console.log(window.globalVar);
     console.log(userId);
     $.ajax({
         type: "POST",
@@ -147,19 +212,35 @@ function deleteComment(comment_id) {
                     "url": API + '/commentscontroller/DeleteCommentPost.php?id=' + comment_id,
                     "method": "POST",
                 }
-                $.ajax(requests).done(function (response) {
-                    //alert("Sent friend request");
-                    console.log("Xoa comment thanh cong");
-                    loadData();
-                    //getRecommenFriend();
+                $.ajax(requests).done(function (response1) {
+                    $.toast({
+                        heading: 'Delete comments  successfull',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
+                    //loadData();
+                    getComment(post_id);
                 })
                     .fail(function (errorThrown) {
-                        //console.log("Lỗi");
                         console.error("Lỗi: ", errorThrown);
-                        loadData();
+                        //loadData();
+                        getComment(post_id);
                     });
             } else {
-                alert("Ban khong the xoa comment cua nguoi khac");
+                $.toast({
+                    heading: 'Delete invalid',
+                    text: "You cannot delete other people's comments",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
+                
             }
         },
         error: function (error) {
@@ -168,9 +249,19 @@ function deleteComment(comment_id) {
 
     });
 }
-var numComment = 0;
-function getlike(id) {
+//Hàm lấy danh sách comment của 1 bài post
+function getComment(id) {
+    //var comment_id = id;
+
+    const user_avatar = localStorage.getItem("user_avatar")
     var id_post = id;
+    // const replyForm = document.getElementById(`coment-area${id_post}`);
+
+    // if (replyForm.style.display === 'none' || replyForm.style.display === '') {
+    //     replyForm.style.display = 'block';
+    // } else {
+    //     replyForm.style.display = 'none';
+    // }
     let user_id = localStorage.getItem("user_id")
     $.ajax({
         type: "GET",
@@ -192,22 +283,33 @@ function getlike(id) {
                     </div>
                     <div class="we-comment">
                         <h5><a href="time-line.html" title="">${comment.full_name}</a></h5>
+                        <div style="padding: 5px;">
                         <p id ="currentcontentComment${comment.id}">${comment.content}</p>
+                        </div>
                         <div id="editComment${comment.id}" style="display: none;">
                             <textarea id="editedContentComment${comment.id}"></textarea>
-                            <button class="saveButton" id="saveButton" onclick="saveEditComment(${comment.id})" >Lưu</button>
+                            <button class=" post-btn" id="saveButton" onclick="saveEditComment(${comment.id},${comment.post_id})" >SAVE</button>
                             </div>
                         <div class="inline-itms">
-                            <span>1 year ago</span>
-                            <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                            <span>${countTime(comment.created_at)}</span>
+                            
                             <a id ="${comment.id}" style="border: 0; "  onclick = "newLikeComment(${comment.post_id}, ${comment.id})">
                                 <i class="fa fa-heart " ></i><span> ${comment.like_count}</span>
                             </a>
+                            <a class="we-reply" title="Reply" onclick="showReplyForm(${comment.id})"><i class="fa fa-reply"></i></a>
+                            <ul id="nestedComments${comment.id}" class="nested-comments" style="display: none;">
+
+                            </ul>
+                            <div id="replyForm${comment.id}" style="display: none;">
+                                <textarea id="newReplyContent${comment.id}" placeholder="Type your reply here"></textarea>
+                                <button class="post-btn" onclick="addNewReply(${comment.id},${comment.post_id},${comment.id})">Post Reply</button>
+                            </div>
+                            
                             <div class="more">
                                 <div class="more-post-optns"><i class="ti-more-alt"></i>
                                     <ul>
                                         <li onclick = "UpdateComment(${comment.id})"><i class="fa fa-pencil-square-o"></i>Edit Comment</li>
-                                        <li onclick = "deleteComment(${comment.id})"><i class="fa fa-trash-o"></i>Delete Comment</li>
+                                        <li onclick = "deleteComment(${comment.id},${comment.post_id})"><i class="fa fa-trash-o"></i>Delete Comment</li>
                                         
                                     </ul>
                                 </div>
@@ -216,20 +318,438 @@ function getlike(id) {
                         </div>
                     </div>
                 </li>
+                
                 `;
                 });
                 var str1 = "" + numComment;
                 $("#list-comments" + "" + id_post).html($str);
-                $("#numCm").html(str1);
+                $("#numCm" + id_post).html(str1);
             }
+            var str2 = `
+                <li class="post-comment">
+                        <div class="comet-avatar">
+                            <img src="../../view/images/${user_avatar}" style="width: 30px; height: 30px;" alt="">
+                        </div>
+                        <div class="post-comt-box">
+                            <form method="post">
+                                <textarea id= "myInput${id_post}" placeholder="Post your comment"></textarea>
+                                <div class="add-smiles">
+                                    <div class="uploadimage">
+                                        <i class="fa fa-image"></i>
+                                        <label class="fileContainer">
+                                            <input type="file">
+                                        </label>
+                                    </div>
+                                    <span class="em em-expressionless" title="add icon"></span>
+                                    <div class="smiles-bunch">
+                                        <i class="em em---1"></i>
+                                        <i class="em em-smiley"></i>
+                                        <i class="em em-anguished"></i>
+                                        <i class="em em-laughing"></i>
+                                        <i class="em em-angry"></i>
+                                        <i class="em em-astonished"></i>
+                                        <i class="em em-blush"></i>
+                                        <i class="em em-disappointed"></i>
+                                        <i class="em em-worried"></i>
+                                        <i class="em em-kissing_heart"></i>
+                                        <i class="em em-rage"></i>
+                                        <i class="em em-stuck_out_tongue"></i>
+                                    </div>
+                                </div>  
+                            </form>
+                            <button class = "post-btn" type="submitComment"  onclick="submitComment(${user_id},${id_post})">ADD</button>
+                        </div>
+                    </li>
+                `;
+            $("#new-cm" + "" + id_post).html(str2);
         },
     });
 }
+
+//Hàm hiện list comment của 1 bài post 
 function showcomment(id) {
-    //console.log(id);
-    getlike(id);
+    getComment(id);
 
 }
+//Hàm Like/Unlike bài post
+function likePost(post_id) {
+    let user_id = localStorage.getItem("user_id")
+    // check xem nguoi dung da like bai post hay chua
+    // neu chua thi thuc hien them moi like post
+    // neu roi thi thuc hien xoa like post
+    $.ajax({
+        type: "POST",
+        url: API + "/likescontroller/CheckLikedPost.php",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify({
+            user_id: user_id,
+            post_id: post_id
+        }),
+        success: function (response) {
+            // Kiểm tra xem dữ liệu phản hồi có phải là null không
+            if (response.data == null) {
+                var requests = {
+                    "url": API + '/likescontroller/NewLikesPost.php',
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "user_id": user_id,
+                        "post_id": post_id,
+
+                    })
+                }
+                $.ajax(requests).done(function (response1) {
+                    if ($.isFunction($.fn.toast)) {
+                        $.toast({
+                            heading: 'You just liked the Post',
+                            text: '',
+                            showHideTransition: 'slide',
+                            icon: 'success',
+                            loaderBg: '#fa6342',
+                            position: 'bottom-right',
+                            hideAfter: 3000,
+                        });
+                    }
+                    loadData();
+
+                }).fail(function (errorThrown) {
+                    console.error("Lỗi: ", errorThrown);
+                    loadData();
+                });
+
+            } else {
+                var requests = {
+                    "url": API + '/likescontroller/DeleteLikesPost.php',
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "user_id": user_id,
+                        "post_id": post_id
+                    })
+                }
+                $.ajax(requests).done(function (response1) {
+                    if ($.isFunction($.fn.toast)) {
+                        $.toast({
+                            heading: 'You just unliked the post',
+                            text: '',
+                            showHideTransition: 'slide',
+                            icon: 'success',
+                            loaderBg: '#fa6342',
+                            position: 'bottom-right',
+                            hideAfter: 3000,
+                        });
+                    }
+                    loadData();
+                }).fail(function (errorThrown) {
+                    console.error("Lỗi: ", errorThrown);
+                    loadData();
+                });
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        },
+    });
+    loadData();
+
+}
+//Hàm thêm mới 1 comment vào bài post
+function submitComment(user_id, post_id) {
+    var content = document.getElementById("myInput" + post_id).value;
+    console.log(content);
+    var requests = {
+        "url": API + '/commentscontroller/NewCommentsPost.php',
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": JSON.stringify({
+            "user_id": user_id,
+            "post_id": post_id,
+            "content": content
+        })
+    }
+    $.ajax(requests).done(function (response) {
+        $.toast({
+            heading: 'You just commented',
+            text: '',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#fa6342',
+            position: 'bottom-right',
+            hideAfter: 3000,
+        });
+        getComment(post_id);
+    })
+        .fail(function (errorThrown) {
+            console.error("Lỗi: ", errorThrown);
+            getComment(post_id);
+        });
+}
+//Hàm kiểm tra trc khi người dùng muốn sửa comment
+//Kiểm tra xem đây có phải là comment của người dùng hiện tại hay không
+//Nếu phải thì hiện form sửa comment
+//Không thì không cho phép sửa comment
+function UpdateComment(comment_id) {
+    var userId = localStorage.getItem("user_id")
+    $.ajax({
+        type: "POST",
+        url: API + "/commentscontroller/CheckComment.php",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify({
+            id: comment_id,
+            user_id: userId
+        }),
+        success: function (response) {
+            // Kiểm tra xem dữ liệu phản hồi có phải là null không
+            if (response.data != null) {
+                document.getElementById('editComment' + comment_id).style.display = 'block';
+                const currentContent = document.getElementById('currentcontentComment' + comment_id).innerText;
+                document.getElementById('editedContentComment' + comment_id).value = currentContent;
+            } else {
+                $.toast({
+                    heading: 'Edit comment fail',
+                    text: "You cannot edit other people's comments",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        },
+    });
+}
+
+function showReplyForm(comment_id) {
+    const nestedComments = document.getElementById(`nestedComments${comment_id}`);
+
+    if (nestedComments.style.display === 'none' || nestedComments.style.display === '') {
+        nestedComments.style.display = 'block';
+    } else {
+        nestedComments.style.display = 'none';
+    }
+    var id_comment = comment_id;
+    let user_id = localStorage.getItem("user_id")
+    $.ajax({
+        type: "GET",
+        url: API + '/commentscontroller/GetCommentByIdComment.php?id=' + id_comment,
+        headers: {
+            // 'Authorization' : 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBWZXIiOiIwLjAuMCIsImV4cCI6NDcyNjM4OTEyMiwibG9jYWxlIjoiIiwibWFzdGVyVmVyIjoiIiwicGxhdGZvcm0iOiIiLCJwbGF0Zm9ybVZlciI6IiIsInVzZXJJZCI6IiJ9.QIZbmB5_9Xlap_gDhjETfMI6EAmR15yBtIQkWFWJkrg',
+        },
+        success: function (response) {
+
+            if (response.data == null) {
+                console.log("no");
+            } else {
+                //numComment = response.data.length;
+                let $str = response.data.map(function (comment) {
+                    return `
+                  <li>
+                    <div class="comet-avatar">
+                        <img src="../../view/images/${comment.avatar_url}" alt="">
+                    </div>
+                    <div class="we-comment">
+                        <h5><a href="time-line.html" title="">${comment.full_name}</a></h5>
+                        <p id ="currentcontentComment${comment.id}">${comment.content}</p>
+                        <div id="editComment${comment.id}" style="display: none;">
+                            <textarea id="editedContentComment${comment.id}"></textarea>
+                            <button class=" post-btn" id="saveButton" onclick="saveEditComment(${comment.id},${comment.post_id})" >SAVE</button>
+                            </div>
+                        <div class="inline-itms">
+                            <span>${countTime(comment.created_at)}</span>
+                            <a id ="${comment.id}" style="border: 0; "  onclick = "newLikeComment(${comment.post_id}, ${comment.id})">
+                                <i class="fa fa-heart " ></i><span> ${comment.like_count}</span>
+                            </a>
+                            <a class="we-reply" title="Reply" onclick="showReplyForm(${comment.id})"><i class="fa fa-reply"></i></a>
+                            <ul id="nestedComments${comment.id}" class="nested-comments" style="display: none;">
+                                
+                            </ul>
+                            <div id="replyForm${comment.id}" style="display: none;">
+                                <textarea id="newReplyContent${comment.id}" placeholder="Type your reply here"></textarea>
+                                <button class="post-btn" onclick="addNewReply(${comment.id},${comment.post_id},${comment.id})">Post Reply</button>
+                            </div>
+                            
+                            <div class="more">
+                                <div class="more-post-optns"><i class="ti-more-alt"></i>
+                                    <ul>
+                                        <li onclick = "UpdateComment(${comment.id})"><i class="fa fa-pencil-square-o"></i>Edit Comment</li>
+                                        <li onclick = "deleteComment(${comment.id}, ${comment.post_id})"><i class="fa fa-trash-o"></i>Delete Comment</li>
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </li>
+                
+                `;
+                });
+                //var str1 = "" + numComment;
+                $("#nestedComments" + "" + id_comment).html($str);
+                //$("#numCm" + id_post).html(str1);
+            }
+        },
+    });
+
+
+
+    const replyForm = document.getElementById(`replyForm${comment_id}`);
+
+    if (replyForm.style.display === 'none' || replyForm.style.display === '') {
+        replyForm.style.display = 'block';
+    } else {
+        replyForm.style.display = 'none';
+    }
+}
+function addNewReply(comment_id, post_id, parent_comment_id) {
+    var editedContent = document.getElementById('newReplyContent' + comment_id).value;
+    var userId = localStorage.getItem("user_id")
+    $.ajax({
+        type: "POST",
+        url: API + "/commentscontroller/NewCommentInComment.php",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify({
+            user_id: userId,
+            post_id: post_id,
+            parent_comment_id: parent_comment_id,
+            content: editedContent
+        }),
+        success: function (response) {
+            // Kiểm tra xem dữ liệu phản hồi có phải là null không
+            if (response.data != null) {
+                //loadData();
+                $.toast({
+                    heading: 'You responded successfully',
+                    text: '',
+                    showHideTransition: 'slide',
+                    icon: 'success',
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                    hideAfter: 3000,
+                });
+                getComment(post_id);
+                //showReplyForm(comment_id);
+            } else {
+                //loadData();
+                getComment(post_id);
+                //showReplyForm(comment_id);
+            }
+        },
+        error: function (error) {
+            console.log(error);
+            getComment(post_id);
+        },
+    });
+}
+//Hàm sửa comment
+function saveEditComment(comment_id, post_id) {
+    var userId = localStorage.getItem("user_id")
+    console.log(userId);
+    //check xem day co phai comment cua minh hay la ko
+    $.ajax({
+        type: "POST",
+        url: API + "/commentscontroller/CheckComment.php",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        data: JSON.stringify({
+            id: comment_id,
+            user_id: userId
+        }),
+        success: function (response) {
+            // Kiểm tra xem dữ liệu phản hồi có phải là null không
+            if (response.data != null) {
+                var UserId = localStorage.getItem("user_id")
+                var editedContent = document.getElementById('editedContentComment' + comment_id).value;
+                console.log(editedContent);
+                var requests = {
+                    "url": API + '/commentscontroller/UpdateComment.php?',
+                    "method": "POST",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "user_id": UserId,
+                        "id": comment_id,
+                        "content": editedContent
+                    })
+                }
+                $.ajax(requests).done(function (response1) {
+                    $.toast({
+                        heading: 'Updated comment successfully',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
+                    // loadData();
+                    getComment(post_id);
+                })
+                    .fail(function (errorThrown) {
+                        showcomment(postId);
+                        console.error("Lỗi: ", errorThrown);
+                        // loadData();
+                        getComment(post_id);
+                    });
+            } else {
+                $.toast({
+                    heading: "Delete failed",
+                    text: "You cannot delete other people's comments",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
+
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        },
+
+    });
+}
+function countTime(created_at_string) {
+    let created_at = new Date(created_at_string);
+    let now = new Date();
+
+    let timeDifference = now - created_at; // Khoảng thời gian ở dạng miligisecond
+
+    let minutesDifference = Math.floor(timeDifference / (1000 * 60)); // Chuyển đổi sang phút
+    let hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60)); // Chuyển đổi sang giờ
+    let daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // Chuyển đổi sang ngày
+
+    let result;
+
+    if (daysDifference > 0) {
+        result = daysDifference + (daysDifference === 1 ? " d" : " d");
+    } else if (hoursDifference > 0) {
+        result = hoursDifference + (hoursDifference === 1 ? " h" : " h");
+    } else {
+        result = minutesDifference + (minutesDifference === 1 ? " mn" : " mn");
+    }
+
+    return result;
+}
+//end
 function loadData() {
     let user_id = localStorage.getItem("user_id")
     console.log(user_id);
@@ -305,7 +825,7 @@ function loadData() {
                                     <li>
                                         <span id = "${posts.id}" class="comment" onclick = "showcomment(${posts.id})" title="Comments">
                                             <i class="fa fa-commenting"></i>
-                                            <ins id ="numCm"></ins>
+                                            <ins id ="numCm${posts.id}"></ins>
                                         </span>
                                     </li>
 
@@ -317,46 +837,11 @@ function loadData() {
                                 </ul>   
                             </div>
                         </div>
-                        <div class="coment-area" style="display: block;">
+                        <div class="coment-area" id = "coment-area${posts.id}" style="display: block;">
                             <ul class="we-comet" id="list-comments${posts.id}">
                             </ul>
-                            <ul class="we-comet">
-                                <li class="post-comment">
-                                    <div class="comet-avatar">
-                                        <img src="../../view/images/${user_avatar}" style="width: 30px; height: 30px;" alt="">
-                                    </div>
-                                    <div class="post-comt-box">
-                                        <form method="post">
-                                            <textarea id= "myInput" placeholder="Post your comment"></textarea>
-                                            <div class="add-smiles">
-                                                <div class="uploadimage">
-                                                    <i class="fa fa-image"></i>
-                                                    <label class="fileContainer">
-                                                        <input type="file">
-                                                    </label>
-                                                </div>
-                                                <span class="em em-expressionless" title="add icon"></span>
-                                                <div class="smiles-bunch">
-                                                    <i class="em em---1"></i>
-                                                    <i class="em em-smiley"></i>
-                                                    <i class="em em-anguished"></i>
-                                                    <i class="em em-laughing"></i>
-                                                    <i class="em em-angry"></i>
-                                                    <i class="em em-astonished"></i>
-                                                    <i class="em em-blush"></i>
-                                                    <i class="em em-disappointed"></i>
-                                                    <i class="em em-worried"></i>
-                                                    <i class="em em-kissing_heart"></i>
-                                                    <i class="em em-rage"></i>
-                                                    <i class="em em-stuck_out_tongue"></i>
-                                                </div>
-                                            </div>
-
-                                            
-                                        </form>
-                                        <button type="submitComment"  onclick="submitComment(${user_id},${posts.id})">Them</button>
-                                    </div>
-                                </li>
+                            <ul class="we-comet" style = "margin-top: 15px;" id="new-cm${posts.id}">
+                    
                             </ul>
                         </div>
                     </div>
@@ -455,108 +940,6 @@ function loadData() {
         targetDiv.innerHTML = str;
     });
 }
-
-//vanh code :))
-function likePost(post_id) {
-    let user_id = localStorage.getItem("user_id")
-    // check xem nguoi dung da like bai post hay chua
-    // neu chua thi thuc hien them moi like post
-    // neu roi thi thuc hien xoa like post
-    $.ajax({
-        type: "POST",
-        url: API + "/likescontroller/CheckLikedPost.php",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        data: JSON.stringify({
-            user_id: user_id,
-            post_id: post_id
-        }),
-        success: function (response) {
-            //console.log(response);
-            // Kiểm tra xem dữ liệu phản hồi có phải là null không
-            if (response.data == null) {
-                //var s = ""+comment_id;
-                var requests = {
-                    "url": API + '/likescontroller/NewLikesPost.php',
-                    "method": "POST",
-                    "headers": {
-                        "Content-Type": "application/json"
-                    },
-                    "data": JSON.stringify({
-                        "user_id": user_id,
-                        "post_id": post_id,
-
-                    })
-                }
-                $.ajax(requests).done(function (response) {
-                    console.log("Them like post thanh cong");
-
-                    //$("#list-comments").load(location.href + " #list-comments"); 
-                    //getlike(post_id);
-                    loadData();
-
-                }).fail(function (errorThrown) {
-                    console.error("Lỗi: ", errorThrown);
-                    loadData();
-                    //getlike(post_id);
-                });
-            } else {
-                var requests = {
-                    "url": API + '/likescontroller/DeleteLikesPost.php',
-                    "method": "POST",
-                    "headers": {
-                        "Content-Type": "application/json"
-                    },
-                    "data": JSON.stringify({
-                        "user_id": user_id,
-                        "post_id": post_id
-                    })
-                }
-                $.ajax(requests).done(function (response) {
-                    console.log("Xoa thanh cong");
-                    //getlike(post_id);
-                    loadData();
-                }).fail(function (errorThrown) {
-                    //console.log("Lỗi");
-                    console.error("Lỗi: ", errorThrown);
-                    loadData();
-                    //getlike(post_id);
-                });
-            }
-        },
-        error: function (error) {
-            console.log(error);
-        },
-
-    });
-}
-function submitComment(user_id, post_id) {
-    var content = document.getElementById("myInput").value;
-    console.log(content);
-    var requests = {
-        "url": API + '/commentscontroller/NewCommentsPost.php',
-        "method": "POST",
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "data": JSON.stringify({
-            "user_id": user_id,
-            "post_id": post_id,
-            "content": content
-        })
-    }
-    $.ajax(requests).done(function (response) {
-        //alert()
-        console.log('ok');
-        loadData();
-    })
-        .fail(function (errorThrown) {
-            //console.log("Lỗi");
-            console.error("Lỗi: ", errorThrown);
-            loadData();
-        });
-}
 function sharePost(id) {
     var modal = document.getElementById("modal-sharepost" + id);
     var span = document.getElementById("closetab");
@@ -651,115 +1034,18 @@ function share(post_id, user_id) {
     };
 
     $.ajax(settings).done(function (response) {
+        $.toast({
+            heading: 'Share post successful',
+            text: '',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#fa6342',
+            position: 'bottom-right',
+            hideAfter: 3000,
+        });
         console.log("sharePost: ", response);
         loadData();
     }).fail(function (errorThrown) {
         console.error("Lỗi sharePost: ", errorThrown);
     });
-}
-function UpdateComment(comment_id) {
-    var userId = localStorage.getItem("user_id")
-    $.ajax({
-        type: "POST",
-        url: API + "/commentscontroller/CheckComment.php",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        data: JSON.stringify({
-            id: comment_id,
-            user_id: userId
-        }),
-        success: function (response) {
-            // Kiểm tra xem dữ liệu phản hồi có phải là null không
-            if (response.data != null) {
-                document.getElementById('editComment' + comment_id).style.display = 'block';
-                const currentContent = document.getElementById('currentcontentComment' + comment_id).innerText;
-                document.getElementById('editedContentComment' + comment_id).value = currentContent;
-            } else {
-                alert("Ban khong the sua comment cua nguoi khac");
-            }
-        },
-        error: function (error) {
-            console.log(error);
-        },
-    });
-}
-function saveEditComment(comment_id) {
-    var userId = localStorage.getItem("user_id")
-    console.log(userId);
-    //check xem day co phai comment cua minh hay la ko
-    $.ajax({
-        type: "POST",
-        url: API + "/commentscontroller/CheckComment.php",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        data: JSON.stringify({
-            id: comment_id,
-            user_id: userId
-        }),
-        success: function (response) {
-            // Kiểm tra xem dữ liệu phản hồi có phải là null không
-            if (response.data != null) {
-                var UserId = localStorage.getItem("user_id")
-                var editedContent = document.getElementById('editedContentComment' + comment_id).value;
-                console.log(editedContent);
-                var requests = {
-                    "url": API + '/commentscontroller/UpdateComment.php?',
-                    "method": "POST",
-                    "headers": {
-                        "Content-Type": "application/json"
-                    },
-                    "data": JSON.stringify({
-                        "user_id": UserId,
-                        "id": comment_id,
-                        "content": editedContent
-                    })
-                }
-                $.ajax(requests).done(function (response) {
-                    //alert("Sent friend request");
-                    console.log("Cap Nhat comment thanh cong");
-                    loadData();
-                    //getRecommenFriend();
-                })
-                    .fail(function (errorThrown) {
-                        //console.log("Lỗi");
-                        console.error("Lỗi: ", errorThrown);
-                        loadData();
-                    });
-            } else {
-                alert("Ban khong the xoa comment cua nguoi khac");
-            }
-        },
-        error: function (error) {
-            console.log(error);
-        },
-
-    });
-}
-function submitComment(user_id, post_id) {
-    var content = document.getElementById("myInput").value;
-    console.log(content);
-    var requests = {
-        "url": API + '/commentscontroller/NewCommentsPost.php',
-        "method": "POST",
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "data": JSON.stringify({
-            "user_id": user_id,
-            "post_id": post_id,
-            "content": content
-        })
-    }
-    $.ajax(requests).done(function (response) {
-        //alert()
-        console.log('ok');
-        loadData();
-    })
-        .fail(function (errorThrown) {
-            //console.log("Lỗi");
-            console.error("Lỗi: ", errorThrown);
-            loadData();
-        });
 }

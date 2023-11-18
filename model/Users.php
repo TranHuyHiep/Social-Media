@@ -1,12 +1,12 @@
 <?php
 class users{
-    private $conn;
+    public $conn;
 
-    private $id;
-    private $full_name;
-    private $email;
-    private $avatar_url;
-    private $password;
+    public $id;
+    public $full_name;
+    public $email;
+    public $avatar_url;
+    public $password;
 
     /**
      * @return mixed
@@ -95,7 +95,7 @@ class users{
 
     public function read()
     {
-        $query = "SELECT * FROM users";
+        $query = "SELECT * FROM users where is_active = 1 and users.role = 0";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -127,7 +127,7 @@ class users{
     }
 
     public function login($email,$password){
-        $query = "SELECT * FROM users WHERE email = ? AND password = ? LIMIT 1";
+        $query = "SELECT * FROM users WHERE email = ? AND password = ? AND is_active = 1 LIMIT 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $email, PDO::PARAM_STR);
         $stmt->bindParam(2, $password, PDO::PARAM_STR);
@@ -136,7 +136,15 @@ class users{
         
         
     }
-
+    public function forgotpass($email){
+        $query = "SELECT * FROM users WHERE email = ? LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $email, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt;
+        
+        
+    }
     public function register($full_name, $email, $password, $avatar_url, $date_of_birth)
     {
     // Check if the email already exists
@@ -152,7 +160,7 @@ class users{
     } else {
         // Email doesn't exist; proceed with registration
 
-        $query = "INSERT INTO Users (full_name, email, password, avatar_url) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO Users (full_name, email, password, avatar_url,role,is_active) VALUES (?, ?, ?, ?,0,1)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $full_name, PDO::PARAM_STR);
         $stmt->bindParam(2, $email, PDO::PARAM_STR);
@@ -163,7 +171,7 @@ class users{
         $user_id = $this->conn->lastInsertId();
 
         // Insert additional user information into the UserInfo table
-        $insert_userinfo_query = "INSERT INTO UserInfo (id, is_active, study_at, working_at, favorites, other_info, date_of_birth, created_at) VALUES (?, 1, NULL, NULL, NULL, NULL, ?, NOW())";
+        $insert_userinfo_query = "INSERT INTO UserInfo (id, study_at, working_at, favorites, other_info, date_of_birth, created_at) VALUES (?, NULL, NULL, NULL, NULL, ?, NOW())";
         $stmt = $this->conn->prepare($insert_userinfo_query);
         $stmt->bindParam(1, $user_id, PDO::PARAM_INT);
         $stmt->bindParam(2, $date_of_birth, PDO::PARAM_STR);
@@ -187,7 +195,7 @@ public function getUserByUserId($user_id) {
     // }
 }
 public function find_user($name){
-    $query = "SELECT * FROM users WHERE LOWER(full_name) LIKE LOWER(?) LIMIT 10;";      
+    $query = "SELECT * FROM users WHERE full_name LIKE ? LIMIT 10;";      
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(1, $name, PDO::PARAM_STR);
     $stmt->execute();
@@ -206,7 +214,7 @@ public function find_user($name){
                         SELECT follower
                         FROM userrelas
                         WHERE follwing = :id
-                        UNION SELECT :id)
+                        UNION SELECT :id) and role = 0
                         LIMIT 10;";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $id, PDO::PARAM_INT); // Assuming id is an integer
@@ -226,4 +234,34 @@ public function find_user($name){
 
         return $stmt;
     }
+    public function updateavatar($user_id, $avatar_url) {
+        $query = "UPDATE users SET avatar_url = :avatar_url WHERE id = :user_id"; // Sửa thành `id` thay vì `user.id`
+    
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmt->bindParam(':avatar_url', $avatar_url, PDO::PARAM_STR);
+    
+        if ($stmt->execute()) {
+            return true; // Trả về `true` nếu cập nhật thành công
+        } else {
+            return false; // Trả về `false` nếu cập nhật thất bại
+        }
+    }
+    public function delete(){
+        $query = "UPDATE users
+                    SET is_active = 0
+                    WHERE id = :id;";
+        $stmt = $this->conn->prepare($query);
+        
+        //bind data
+        $stmt->bindParam(':id', $this->id);
+
+        if($stmt->execute()){
+            return true;
+        }
+        printf("Error %s.\n" ,$stmt->Error);
+        return false; 
+        
+    }
+    
 }

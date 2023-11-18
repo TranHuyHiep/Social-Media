@@ -18,12 +18,28 @@ function loadInforUser() {
                 $("#user_avatar").attr("src", "../../view/images/" + userInfo.avatar_url);
 
             } else {
-                alert("Không tìm thấy thông tin người dùng");
+                $.toast({
+					heading: 'User not found',
+					text: "User not found",
+					showHideTransition: 'fade',
+					icon: 'error',
+					hideAfter: 7000,
+					loaderBg: '#fa6342',
+					position: 'bottom-right',
+				});
             }
         },
         error: function (error) {
             console.log("Lỗi: " + JSON.stringify(error));
-            // alert("Đã xảy ra lỗi khi gọi API");
+            $.toast({
+                heading: 'User not found',
+                text: "User not found",
+                showHideTransition: 'fade',
+                icon: 'error',
+                hideAfter: 7000,
+                loaderBg: '#fa6342',
+                position: 'bottom-right',
+            });
         }
     });
 }
@@ -51,7 +67,7 @@ function loadData() {
                         </figure>
                         <div class="user-name">
                             <h6 class="">${mess.full_name}</h6>
-                            <span>${mess.content} - ${countTime(mess.created_at)}</span>
+                            <span>Chat with ${mess.full_name}</span>
                         </div>
                         <div class="more">
                             <div class="more-post-optns"><i class="ti-more-alt"></i>
@@ -147,7 +163,7 @@ function loadUserDetail(user_id) {
         </div>
         <ul class="live-calls">
             <li><span class="fa fa-phone"></span></li>
-            <li><span class="fa fa-video"></span></li>
+            <li><span class="fa fa-video" onclick="videocall()"></span></li>
             <li><span class="fa fa-info-circle"></span></li>
             <li>
                 <div class="dropdown">
@@ -183,7 +199,7 @@ function characterInfor(user_id) {
     $.ajax(settings).done(function (response) {
         let str =
             `
-        <figure><img src="../../view/images/${response.avatar_url}" alt=""></figure>
+        <figure><img src="../../view/images/${response.avatar_url}" style="width: 100px; height: 100px;" alt=""></figure>
         <h6>${response.full_name}</h6>
         <span>Online</span>
         <div class="userabout">
@@ -195,25 +211,14 @@ function characterInfor(user_id) {
                 <li><span>Email:</span> <a href="http://wpkixx.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a0d3c1cdd0ccc5e0c7cdc1c9cc8ec3cfcd">[email&#160;protected]</a></li>
                 <li><span>Phone:</span> Ontario, Canada</li>
             </ul>
-            <div class="media">
-                <span>Media</span>
-                <ul>
-                    <li><img src="images/resources/audio-user1.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user2.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user3.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user4.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user5.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user6.jpg" alt=""></li>
-                    <li><img src="images/resources/admin2.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user1.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user4.jpg" alt=""></li>
-                    <li><img src="images/resources/audio-user3.jpg" alt=""></li>
-                </ul>
-            </div>
         </div>
         `
         targetDiv.innerHTML = str;
     });
+}
+
+function videocall() {
+    window.location.href = "videocall.html"
 }
 
 function messageBox(user_id) {
