@@ -1,7 +1,7 @@
 //khởi tạo echarts
 var myChart = echarts.init(document.getElementById('lineChart'));
 $.ajax({
-    url: 'http://localhost:81/Social-Media/controller/chartscontroller/ChartUser.php',
+    url: API + '/chartscontroller/ChartUser.php',
     method: 'GET',
     dataType: 'json',
     success: function(jsonData) {
