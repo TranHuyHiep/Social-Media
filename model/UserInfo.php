@@ -108,7 +108,40 @@
                 return false;
             }
         }
-        
+
+public function chartUserAndPostsWeekly() {
+    // Lấy ngày đầu tiên và cuối cùng của tuần hiện tại
+    $startOfWeek = date('Y-m-d', strtotime('monday this week'));
+    $endOfWeek = date('Y-m-d', strtotime('sunday this week'));
+
+    $query = "SELECT 
+                DATE(u.created_at) as date,
+                COUNT(DISTINCT u.id) as user_count,
+                COUNT(p.id) as post_count
+              FROM UserInfo u
+              LEFT JOIN Posts p ON u.id = p.user_id
+              WHERE u.created_at BETWEEN :startOfWeek AND :endOfWeek
+              GROUP BY DATE(u.created_at)";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':startOfWeek', $startOfWeek);
+    $stmt->bindParam(':endOfWeek', $endOfWeek);
+    $stmt->execute();
+
+    // Lấy dữ liệu từ kết quả truy vấn
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Kiểm tra xem có dữ liệu trả về hay không
+    if ($result) {
+        // Chuyển định dạng dữ liệu và trả về cho API
+        return array('success' => true, 'data' => $result);
+    } else {
+        // Không có dữ liệu trả về
+        return array('success' => false, 'message' => 'No data found.');
+    }
+}
+
+    
+    
         
     }
 ?>
