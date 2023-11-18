@@ -20,7 +20,15 @@ $(document).ready(function () {
             contentType: false,
             processData: false,
             success: function (response) {
-                alert("create a successful post");
+                $.toast({
+                    heading: 'Create a post successfuly',
+                    text: '',
+                    showHideTransition: 'slide',
+                    icon: 'success',
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                    hideAfter: 3000,
+                });
                 console.log(response);
                 // Xử lý phản hồi từ server tại đây
             },
@@ -45,7 +53,7 @@ $(document).ready(function () {
 //         "data": JSON.stringify({
 //             "content": postContent,
 //             "id": userId
-            
+
 //         }),
 //     };
 
@@ -77,12 +85,20 @@ function loadInforUser() {
                 localStorage.setItem("user_avatar", userInfo.avatar_url)
 
             } else {
-                alert("Không tìm thấy thông tin người dùng");
+                $.toast({
+                    heading: 'User not found',
+                    text: "User not found",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
+                
             }
         },
         error: function (error) {
             console.log("Lỗi: " + JSON.stringify(error));
-            // alert("Đã xảy ra lỗi khi gọi API");
         }
     });
 }
@@ -120,9 +136,16 @@ function newLikeComment(post_id, comment_id) {
                         "comments_id": comment_id
                     })
                 }
-                $.ajax(requests).done(function (response) {
-                    alert("you liked comments");
-                    // console.log("Them like thanh cong");
+                $.ajax(requests).done(function (response1) {
+                    $.toast({
+                        heading: 'You just liked the comment',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
                     getComment(post_id);
 
                 }).fail(function (errorThrown) {
@@ -141,9 +164,16 @@ function newLikeComment(post_id, comment_id) {
                         "comments_id": comment_id
                     })
                 }
-                $.ajax(requests).done(function (response) {
-                    alert("you have unliked comments");
-                    console.log("Xoa thanh cong");
+                $.ajax(requests).done(function (response1) {
+                    $.toast({
+                        heading: 'You just unliked the comment',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
                     getComment(post_id);
                 }).fail(function (errorThrown) {
                     console.error("Lỗi: ", errorThrown);
@@ -182,9 +212,16 @@ function deleteComment(comment_id, post_id) {
                     "url": API + '/commentscontroller/DeleteCommentPost.php?id=' + comment_id,
                     "method": "POST",
                 }
-                $.ajax(requests).done(function (response) {
-                    alert("Delete comments  successfull");
-                    // console.log("Xoa comment thanh cong");
+                $.ajax(requests).done(function (response1) {
+                    $.toast({
+                        heading: 'Delete comments  successfull',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
                     //loadData();
                     getComment(post_id);
                 })
@@ -194,7 +231,16 @@ function deleteComment(comment_id, post_id) {
                         getComment(post_id);
                     });
             } else {
-                alert("Ban khong the xoa comment cua nguoi khac");
+                $.toast({
+                    heading: 'Delete invalid',
+                    text: "You cannot delete other people's comments",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
+                
             }
         },
         error: function (error) {
@@ -357,8 +403,17 @@ function likePost(post_id) {
                     })
                 }
                 $.ajax(requests).done(function (response1) {
-                    alert("you liked post");
-                    console.log("Them like post thanh cong");
+                    if ($.isFunction($.fn.toast)) {
+                        $.toast({
+                            heading: 'You just liked the Post',
+                            text: '',
+                            showHideTransition: 'slide',
+                            icon: 'success',
+                            loaderBg: '#fa6342',
+                            position: 'bottom-right',
+                            hideAfter: 3000,
+                        });
+                    }
                     loadData();
 
                 }).fail(function (errorThrown) {
@@ -379,8 +434,17 @@ function likePost(post_id) {
                     })
                 }
                 $.ajax(requests).done(function (response1) {
-                    alert("you unliked post");
-                    console.log("Xoa thanh cong");
+                    if ($.isFunction($.fn.toast)) {
+                        $.toast({
+                            heading: 'You just unliked the post',
+                            text: '',
+                            showHideTransition: 'slide',
+                            icon: 'success',
+                            loaderBg: '#fa6342',
+                            position: 'bottom-right',
+                            hideAfter: 3000,
+                        });
+                    }
                     loadData();
                 }).fail(function (errorThrown) {
                     console.error("Lỗi: ", errorThrown);
@@ -412,8 +476,15 @@ function submitComment(user_id, post_id) {
         })
     }
     $.ajax(requests).done(function (response) {
-        alert("You had comment")
-        console.log('ok');
+        $.toast({
+            heading: 'You just commented',
+            text: '',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#fa6342',
+            position: 'bottom-right',
+            hideAfter: 3000,
+        });
         getComment(post_id);
     })
         .fail(function (errorThrown) {
@@ -444,7 +515,15 @@ function UpdateComment(comment_id) {
                 const currentContent = document.getElementById('currentcontentComment' + comment_id).innerText;
                 document.getElementById('editedContentComment' + comment_id).value = currentContent;
             } else {
-                alert("Ban khong the sua comment cua nguoi khac");
+                $.toast({
+                    heading: 'Edit comment fail',
+                    text: "You cannot edit other people's comments",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
             }
         },
         error: function (error) {
@@ -554,7 +633,15 @@ function addNewReply(comment_id, post_id, parent_comment_id) {
             // Kiểm tra xem dữ liệu phản hồi có phải là null không
             if (response.data != null) {
                 //loadData();
-                alert("You responded successfully")
+                $.toast({
+                    heading: 'You responded successfully',
+                    text: '',
+                    showHideTransition: 'slide',
+                    icon: 'success',
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                    hideAfter: 3000,
+                });
                 getComment(post_id);
                 //showReplyForm(comment_id);
             } else {
@@ -603,19 +690,35 @@ function saveEditComment(comment_id, post_id) {
                     })
                 }
                 $.ajax(requests).done(function (response1) {
-                    alert("")
-                    console.log("Updated comment successfully");
-                    //loadData();
+                    $.toast({
+                        heading: 'Updated comment successfully',
+                        text: '',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        loaderBg: '#fa6342',
+                        position: 'bottom-right',
+                        hideAfter: 3000,
+                    });
+                    // loadData();
                     getComment(post_id);
                 })
                     .fail(function (errorThrown) {
                         showcomment(postId);
                         console.error("Lỗi: ", errorThrown);
-                        //loadData();
+                        // loadData();
                         getComment(post_id);
                     });
             } else {
-                alert("Ban khong the xoa comment cua nguoi khac");
+                $.toast({
+                    heading: "Delete failed",
+                    text: "You cannot delete other people's comments",
+                    showHideTransition: 'fade',
+                    icon: 'error',
+                    hideAfter: 7000,
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                });
+
             }
         },
         error: function (error) {
@@ -931,7 +1034,15 @@ function share(post_id, user_id) {
     };
 
     $.ajax(settings).done(function (response) {
-        alert("Share post successful")
+        $.toast({
+            heading: 'Share post successful',
+            text: '',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#fa6342',
+            position: 'bottom-right',
+            hideAfter: 3000,
+        });
         console.log("sharePost: ", response);
         loadData();
     }).fail(function (errorThrown) {

@@ -16,7 +16,15 @@ $(document).ready(function () {
                 $("#avatar3").attr("src", "images/" + userInfo.avatar_url);
                 //$("#avatar1").attr("src", "images/" + userInfo.avatar_url);
             } else {
-                alert("Không tìm thấy thông tin người dùng");
+                $.toast({
+                    heading: 'User not found',
+                    text: 'User not found',
+                    showHideTransition: 'slide',
+                    icon: 'success',
+                    loaderBg: '#fa6342',
+                    position: 'bottom-right',
+                    hideAfter: 3000,
+                });
             }
         },
         error: function (error) {

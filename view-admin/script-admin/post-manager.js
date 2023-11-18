@@ -7,7 +7,6 @@ function loadData() {
     };
 
     $.ajax(settings).done(function (response) {
-        console.log(response);
         const targetDiv = document.querySelector('#postData');
         var str = `<table class="table align-items-center mb-0">
         <thead>
@@ -84,7 +83,15 @@ function deletePost(id) {
     };
 
     $.ajax(settings).done(function (response) {
-        console.log(response);
+        $.toast({
+            heading: 'Delete completed',
+            text: '',
+            showHideTransition: 'slide',
+            icon: 'success',
+            loaderBg: '#fa6342',
+            position: 'bottom-right',
+            hideAfter: 3000,
+        });
         loadData();
     });
 

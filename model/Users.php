@@ -127,7 +127,7 @@ class users{
     }
 
     public function login($email,$password){
-        $query = "SELECT * FROM users WHERE email = ? AND password = ? LIMIT 1";
+        $query = "SELECT * FROM users WHERE email = ? AND password = ? AND is_active = 1 LIMIT 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $email, PDO::PARAM_STR);
         $stmt->bindParam(2, $password, PDO::PARAM_STR);
